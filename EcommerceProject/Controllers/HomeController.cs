@@ -21,27 +21,6 @@ namespace EcommerceProject.Controllers
                 };
                 
                 ctx.Users.Add(user);
-
-                UserType userTypeOne = new UserType();
-                userTypeOne.Type = "User";
-                UserType userTypeTwo = new UserType();
-                userTypeTwo.Type = "Seller";
-
-                ctx.UserTypes.Add(userTypeOne);
-                ctx.UserTypes.Add(userTypeTwo);
-
-                ctx.SaveChanges();
-
-                //creo la relacion y modifico 
-
-                UserType firstUserType = ctx.UserTypes.Where(b => b.Type == "User").First();
-                user.UserTypes.Add(firstUserType);
-
-                User MyUser = ctx.Users.Where(u => u.FirstName == "Mario").First();
-
-                if (MyUser != null) {
-                    MyUser.LastName = "Pirulo";
-                }
                 ctx.SaveChanges();
             }
             return View();
