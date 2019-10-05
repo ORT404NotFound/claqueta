@@ -11,7 +11,7 @@ namespace EcommerceProject.Models
 
         public User()
         {
-            this.Services = new HashSet<Service>();
+            this.Services = new HashSet<Publication>();
         }
 
         [Key]
@@ -23,6 +23,6 @@ namespace EcommerceProject.Models
 
 
         // relacion 1 a muchos por posts (a confirmar talvez es muchos a muchos)
-        public ICollection<Service> Services { get; set; }
+        public ICollection<Publication> Publications { get; set; }
     }
 }
