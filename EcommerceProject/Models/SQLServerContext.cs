@@ -14,7 +14,5 @@ namespace EcommerceProject.Models
             Database.SetInitializer<SQLServerContext>(new DropCreateDatabaseIfModelChanges<SQLServerContext>());
         }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserType> UserTypes { get; set; }
-
     }
 }

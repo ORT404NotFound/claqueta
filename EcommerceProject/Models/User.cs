@@ -12,7 +12,6 @@ namespace EcommerceProject.Models
         public User()
         {
             this.Services = new HashSet<Service>();
-            this.UserTypes = new HashSet<UserType>();
         }
 
         [Key]
@@ -25,8 +24,5 @@ namespace EcommerceProject.Models
 
         // relacion 1 a muchos por posts (a confirmar talvez es muchos a muchos)
         public ICollection<Service> Services { get; set; }
-
-        // relacion tipos de usuario muchos a muchos 
-        public ICollection<UserType> UserTypes { get; set; }
     }
 }
