@@ -9,9 +9,14 @@ namespace EcommerceProject.Models
     public class User
     {
 
+        ///
+        /// RELACIONES 
+        /// 
         public User()
         {
             this.Publications = new HashSet<Publication>();
+            this.Califications = new HashSet<Calification>();
+            this.Questions = new HashSet<Question>();
         }
 
         [Key]
@@ -21,7 +26,18 @@ namespace EcommerceProject.Models
         public DateTime? DateOfBirth { get; set; }
         public int Active { get; set; }
 
-        // relacion 1 a muchos por posts (a confirmar talvez es muchos a muchos)
+
+        ///
+        /// RELACIONES 
+        /// 
+        // relacion 1 a muchos por Publications (a confirmar talvez es muchos a muchos)
         public ICollection<Publication> Publications { get; set; }
+
+        // relacion 1 a muchos por calificaciones 
+        public ICollection<Calification> Califications { get; set; }
+
+        // relacion 1 a muchos por consultas 
+        public ICollection<Question> Questions { get; set; }
+
     }
 }

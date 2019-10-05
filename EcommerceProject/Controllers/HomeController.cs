@@ -17,9 +17,9 @@ namespace EcommerceProject.Controllers
                 /// guardo los datos basicos 
                 var user = new User() {
                     FirstName = "Mario",
-                    LastName = "Sarasa"
+                    LastName = "Bergamota"
                 };
-                
+
                 ctx.Users.Add(user);
                 ctx.SaveChanges();
             }
