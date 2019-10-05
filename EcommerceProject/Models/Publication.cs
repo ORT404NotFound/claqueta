@@ -3,7 +3,7 @@ namespace EcommerceProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Service
+    public partial class Publication
     {
         public int Id { get; set; }
         public string Body { get; set; }
