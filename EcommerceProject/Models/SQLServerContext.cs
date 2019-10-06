@@ -2,17 +2,26 @@
 
 namespace EcommerceProject.Models
 {
-    public class SQLServerContext : DbContext
+    namespace EcommerceProject.Models
     {
-        //public SQLServerContext() : base("name=awsConn")
-        public SQLServerContext() : base("ecommerce")
+        public class SQLServerContext : DbContext
         {
+            //public SQLServerContext() : base("name=awsConn")
+            public SQLServerContext() : base("ecommerce")
+            {
+                Database.SetInitializer(new MigrateDatabaseToLatestVersion<SQLServerContext, Migrations.Configuration>());
+            }
 
-            //crea una db si no existe
-            Database.SetInitializer<SQLServerContext>(new CreateDatabaseIfNotExists<SQLServerContext>());
-            //si se modifica el modelo se borra y se recrea la db (solo para dev) 
-            Database.SetInitializer<SQLServerContext>(new DropCreateDatabaseIfModelChanges<SQLServerContext>());
+            protected override void OnModelCreating(DbModelBuilder modelBuilder)
+            {
+                base.OnModelCreating(modelBuilder);
+            }
+            public DbSet<User> Users { get; set; }
+            public DbSet<Calification> Califications { get; set; }
+            public DbSet<Contract> Contracts { get; set; }
+            public DbSet<Payment> Payments { get; set; }
+            public DbSet<Publication> Publications { get; set; }
+            public DbSet<Question> Questions { get; set; }
         }
-        public DbSet<User> Users { get; set; }
     }
 }

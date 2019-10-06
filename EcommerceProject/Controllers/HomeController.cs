@@ -12,17 +12,7 @@ namespace EcommerceProject.Controllers
         public ActionResult Index()
         {
 
-            using (var ctx = new SQLServerContext()) {
-
-                /// guardo los datos basicos 
-                var user = new User() {
-                    FirstName = "Mario",
-                    LastName = "Bergamota"
-                };
-
-                ctx.Users.Add(user);
-                ctx.SaveChanges();
-            }
+           
             return View();
         }
 

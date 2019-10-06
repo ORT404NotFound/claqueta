@@ -17,6 +17,7 @@ namespace EcommerceProject.Models
             this.Publications = new HashSet<Publication>();
             this.Califications = new HashSet<Calification>();
             this.Questions = new HashSet<Question>();
+            this.Contracts = new HashSet<Contract>();
         }
 
         [Key]
@@ -38,6 +39,12 @@ namespace EcommerceProject.Models
 
         // relacion 1 a muchos por consultas 
         public ICollection<Question> Questions { get; set; }
+
+
+        // relacion 1 a muchos por contrataciones 
+
+        public ICollection<Contract> Contracts { get; set; }
+
 
     }
 }
