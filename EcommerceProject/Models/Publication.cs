@@ -14,6 +14,8 @@ namespace EcommerceProject.Models
         public Publication()
         {
             this.Califications = new HashSet<Calification>();
+            this.Questions = new HashSet<Question>();
+
         }
 
 
@@ -43,6 +45,9 @@ namespace EcommerceProject.Models
 
         public ICollection<Calification> Califications { get; set; }
 
+
+        // relacion 1 a muchos por consultas 
+        public ICollection<Question> Questions { get; set; }
 
     }
 }
