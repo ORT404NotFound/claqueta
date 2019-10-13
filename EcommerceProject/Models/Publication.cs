@@ -13,11 +13,9 @@ namespace EcommerceProject.Models
         /// 
         public Publication()
         {
-            this.Califications = new HashSet<Calification>();
             this.Questions = new HashSet<Question>();
-
+            this.PublicationCalifications = new HashSet<PublicationCalification>();
         }
-
 
         [Key]
         public int Id { get; set; }
@@ -43,11 +41,11 @@ namespace EcommerceProject.Models
 
         public virtual User User { get; set; }
 
-        public ICollection<Calification> Califications { get; set; }
-
-
         // relacion 1 a muchos por consultas 
         public ICollection<Question> Questions { get; set; }
+
+        public ICollection<PublicationCalification> PublicationCalifications { get; set; }
+
 
     }
 }
