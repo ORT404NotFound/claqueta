@@ -125,6 +125,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Calification\PublicationCalification.cs" />
     <Compile Include="Models\Calification\UserCalification.cs" />
+    <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\Question.cs" />
