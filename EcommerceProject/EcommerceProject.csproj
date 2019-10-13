@@ -123,8 +123,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\PublicationCalification.cs" />
-    <Compile Include="Models\UserCalification.cs" />
+    <Compile Include="Models\Calification\PublicationCalification.cs" />
+    <Compile Include="Models\Calification\UserCalification.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Contract.cs" />
     <Compile Include="Models\Question.cs" />
