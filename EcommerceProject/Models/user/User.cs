@@ -17,10 +17,12 @@ namespace EcommerceProject.Models
             this.Publications = new HashSet<Publication>();
             this.UserCalifications = new HashSet<UserCalification>();
             this.Contracts = new HashSet<Contract>();
+            this.Roles = new HashSet<Role>();
         }
 
         [Key]
         public int Id { get; set; }
+        public String Email { get; set; }
         public String FirstName { get; set; }
         public String LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
@@ -39,6 +41,9 @@ namespace EcommerceProject.Models
         // relacion 1 a muchos por contrataciones 
 
         public ICollection<Contract> Contracts { get; set; }
+
+        public virtual ICollection<Role> Roles { get; set; }
+
 
 
     }

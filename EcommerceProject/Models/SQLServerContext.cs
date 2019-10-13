@@ -6,8 +6,8 @@ namespace EcommerceProject.Models
     {
         public class SQLServerContext : DbContext
         {
-            public SQLServerContext() : base("name=awsConn")
-            //public SQLServerContext() : base("ecommerce")
+            //public SQLServerContext() : base("name=awsConn")
+            public SQLServerContext() : base("ecommerce")
             {
                 Database.SetInitializer(new MigrateDatabaseToLatestVersion<SQLServerContext, Migrations.Configuration>());
             }
@@ -17,6 +17,7 @@ namespace EcommerceProject.Models
                 base.OnModelCreating(modelBuilder);
             }
             public DbSet<User> Users { get; set; }
+            public DbSet<Role> Roles { get; set; }
             public DbSet<UserCalification> Califications { get; set; }
             public DbSet<Contract> Contracts { get; set; }
             public DbSet<Payment> Payments { get; set; }
