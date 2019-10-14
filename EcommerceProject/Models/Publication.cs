@@ -31,6 +31,8 @@ namespace EcommerceProject.Models
         public double Warranty { get; set; }
         public bool Featured { get; set; }
         public bool Visible { get; set; }
+        public String State { get; set; }
+
 
 
 
