@@ -15,6 +15,7 @@ namespace EcommerceProject.Models
             protected override void OnModelCreating(DbModelBuilder modelBuilder)
             {
                 base.OnModelCreating(modelBuilder);
+
             }
             public DbSet<User> Users { get; set; }
             public DbSet<Role> Roles { get; set; }
