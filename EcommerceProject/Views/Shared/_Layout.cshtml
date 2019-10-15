@@ -19,6 +19,16 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Categorias
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">Categoria 1</a>
+                        <a class="dropdown-item" href="#">Categoria 2</a>
+                        <a class="dropdown-item" href="#">Categoria 3</a>
+                    </div>
+                </li>
                 @if (Session["UserId"] != null)
                 {
                     <li class="nav-item">
@@ -34,8 +44,6 @@
                         <a class="nav-link" href="@Url.Action("Login","Account")">Ya tienes una cuenta?</a>
                     </li>
                 }
-
-
             </ul>
             <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
@@ -49,15 +57,15 @@
         <div class="container body-content">
             @RenderBody()
             <hr />
-            <footer>
-                <p>&copy; @DateTime.Now.Year - Claqueta</p>
-            </footer>
         </div>
-
-
-
     </div>
-
+    <footer class="footer mt-auto py-3">
+        <div class="container">
+            <span class="text-muted">
+                &copy; @DateTime.Now.Year - Claqueta
+            </span>
+        </div>
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

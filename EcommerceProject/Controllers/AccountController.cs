@@ -67,7 +67,7 @@ namespace EcommerceProject.Controllers
 
                 if (userToFind != null)
                 {
-                    Session["UserId"] = user.Id.ToString();
+                    Session["UserId"] = userToFind.Id;
                     Session["Email"] = user.Email;
                     return RedirectToAction("LoggedIn");
                 }

@@ -121,6 +121,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PublicationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -128,6 +129,7 @@
     <Compile Include="Migrations\MockRoles.cs" />
     <Compile Include="Models\Calification\PublicationCalification.cs" />
     <Compile Include="Models\Calification\UserCalification.cs" />
+    <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Payment.cs" />
     <Compile Include="Models\Contract.cs" />
@@ -220,6 +222,9 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\NotAuthorized.cshtml" />
+    <Content Include="Views\Publication\List.cshtml" />
+    <Content Include="Views\Publication\SavePublication.cshtml" />
+    <Content Include="Views\Publication\HomePublication.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
