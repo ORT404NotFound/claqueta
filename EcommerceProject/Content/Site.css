@@ -7,6 +7,8 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -21,4 +23,17 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+a.list-group-item {
+    height: auto;
+    min-height: 220px;
+}
+
+    a.list-group-item.active small {
+        color: #fff;
+    }
+
+.stars {
+    margin: 20px auto 1px;
 }

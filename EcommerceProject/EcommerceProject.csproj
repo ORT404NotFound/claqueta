@@ -224,7 +224,8 @@
     <Content Include="Views\Shared\NotAuthorized.cshtml" />
     <Content Include="Views\Publication\List.cshtml" />
     <Content Include="Views\Publication\SavePublication.cshtml" />
-    <Content Include="Views\Publication\HomePublication.cshtml" />
+    <Content Include="Views\Account\UserInfo.cshtml" />
+    <Content Include="Views\Publication\EditPublication.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

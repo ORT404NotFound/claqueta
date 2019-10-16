@@ -1,0 +1,41 @@
+﻿@model EcommerceProject.Models.User
+
+@{
+    ViewBag.Title = "Mi cuenta";
+}
+<div class="row" style="margin-top: 20px">
+    <div class="col-md-2">
+        <ul class="list-group">
+            <li class="list-group-item"><a href="#">Publicaciones</a></li>
+            <li class="list-group-item"><a href="#">Contrataciones</a></li>
+            <li class="list-group-item"><a href="#">Preguntas</a></li>
+            <li class="list-group-item"><a href="#">Opiniones</a></li>
+        </ul>
+    </div>
+    <div class="col-md-10">
+        @if (Model.Publications.Count > 0)
+        {
+            <div class="well">
+                <div class="list-group">
+                    @foreach (var p in Model.Publications)
+                    {
+                    <div class="card" style="width: 100%">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Estado @p.Visible</h6>
+                            <h6>Precio ($) @p.Price</h6>
+                            <h6>Descripción</h6>
+                            <p class="card-text">
+                                @p.Description
+                            </p>
+                            <hr />
+                            <div class="float-right">
+                                <a href="@Url.Action("EditPublication","Account", new { publicationId = p.Id })" class="btn btn-primary">Ver detalle</a>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

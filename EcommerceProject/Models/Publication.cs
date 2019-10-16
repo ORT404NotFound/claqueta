@@ -3,6 +3,7 @@ namespace EcommerceProject.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Publication
     {
@@ -32,7 +33,7 @@ namespace EcommerceProject.Models
 
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo Descripción es requerido")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.MultilineText)]
         public String Description { get; set; }
 
         [Display(Name = "Foto")]
@@ -66,18 +67,15 @@ namespace EcommerceProject.Models
         public double Warranty { get; set; }
 
 
-        [Display(Name = "Destacado")]
-        [DataType(DataType.Currency)]
+        [Display(Name = "Promocionada")]
         public bool Featured { get; set; }
 
 
         [Display(Name = "Visible")]
-        [DataType(DataType.Currency)]
         public bool Visible { get; set; }
 
 
         [Display(Name = "Estado")]
-        [DataType(DataType.Currency)]
         public String State { get; set; }
 
 
@@ -87,6 +85,8 @@ namespace EcommerceProject.Models
         ///
         /// RELACIONES 
         /// 
+        [ForeignKey("User")]
+        public int UserId { get; set; }
 
         public virtual User User { get; set; }
 

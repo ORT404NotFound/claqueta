@@ -59,14 +59,17 @@ namespace EcommerceProject.Controllers
             {
 
                 var r = db.Roles.SingleOrDefault(role => role.Rolename == "USER");
-                var userToFind = db.Users.Single(u => u.Email == user.Email
+                var userToFind = db.Users.SingleOrDefault(u => u.Email == user.Email
                                                    && u.Password == user.Password);
-                if (!userToFind.Roles.Contains(r)) {
-                    return View("../Shared/NotAuthorized");
-                }
+               
 
                 if (userToFind != null)
                 {
+                    if (!userToFind.Roles.Contains(r))
+                    {
+                        return View("../Shared/NotAuthorized");
+                    }
+
                     Session["UserId"] = userToFind.Id;
                     Session["Email"] = user.Email;
                     return RedirectToAction("LoggedIn");
@@ -87,7 +90,88 @@ namespace EcommerceProject.Controllers
             else {
                 return RedirectToAction("Login");
             }
+        }
 
+        public ActionResult LogOut() {
+            Session["UserId"] = null;
+            Session["Email"] = null;
+            return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult UserInfo() {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userId = Int32.Parse(Session["UserId"].ToString());
+            using (var db = new SQLServerContext()) {
+                var user = db
+                    .Users
+                    .Include("Publications")
+                    .SingleOrDefault(u => u.Id == userId);
+                if (user != null)
+                {
+                    return View(user);
+                }
+                else {
+                    return View("Error");
+                }
+            }
+        }
+        // Obtiene la publicacion a buscar usuario logueado
+        public ActionResult EditPublication(int publicationId) {
+            if (publicationId == 0) {
+                return RedirectToAction("UserInfo");
+            }
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userId = Int32.Parse(Session["UserId"].ToString());
+            using (var db = new SQLServerContext())
+            {
+                var publi = db
+                    .Publications
+                    .Where(p => p.User.Id == userId && p.Id == publicationId)
+                    .FirstOrDefault();
+                if (publi != null)
+                {
+                    return View("../Publication/EditPublication",publi);
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult EditPublication(Publication publication) {
+            using (var db = new SQLServerContext())
+            {
+                var publi = db.Publications.SingleOrDefault(p => p.Id == publication.Id);
+                if (publi != null)
+                {
+                    publi.Featured = publication.Featured;
+                    publi.Description = publication.Description;
+                    publi.CV = publication.CV;
+                    publi.Category = publication.Category;
+                    publi.Location = publication.Location;
+                    publi.Price = publication.Price;
+                    publi.Reel = publication.Reel;
+
+                    publi.Warranty = publication.Warranty;
+                    publi.Visible = publication.Visible;
+                    publi.Photo = publication.Photo;
+                    publi.References = publication.References;
+
+                    db.SaveChanges();
+                    return RedirectToAction("UserInfo");
+                }
+                else {
+                    return View("Error");
+                }
+            }
         }
     }
 }
