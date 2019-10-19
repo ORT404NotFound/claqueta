@@ -100,6 +100,7 @@
             <a href="@Url.Action("UserInfo", "Account")" class="btn btn-secondary">Volver a atrás</a>
             @if (Model.Id != 0)
             {
+                <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = Model.Id })" class="btn btn-primary">Promocionar Publicacacion</a>
                 <a href="@Url.Action("DisablePublication", "Publication", new { idPublication = Model.Id })" class="btn btn-danger">Eliminar Publicacacion</a>
             }
         </div>

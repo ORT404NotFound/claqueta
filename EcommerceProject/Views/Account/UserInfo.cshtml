@@ -10,12 +10,15 @@
             <li class="list-group-item"><a href="#">Contrataciones</a></li>
             <li class="list-group-item"><a href="#">Preguntas</a></li>
             <li class="list-group-item"><a href="#">Opiniones</a></li>
+            <li class="list-group-item"><a href="@Url.Action("EditUser","Account")">Detalles de cuenta</a></li>
         </ul>
     </div>
     <div class="col-md-10">
-        <a href="@Url.Action("SavePublication", "Publication")" class="btn btn-outline-primary float-right" aria-pressed="false" autocomplete="off">
-            Crear publicación
-        </a>
+        <div>
+            <a href="@Url.Action("SavePublication", "Publication")" class="btn btn-outline-primary float-right" aria-pressed="false" autocomplete="off">
+                Crear publicación
+            </a>
+        </div>
         @if (Model.Count() > 0)
         {
             <div class="well">
@@ -33,7 +36,7 @@
                                     {
                                         <span>No Visible</span>
                                     },
-                                <span>@p.State</span>
+                                    <span>@p.State</span>
                                 </h6>
                                 <h6>Precio ($) @p.Price</h6>
                                 <h6>Descripción</h6>
@@ -42,6 +45,7 @@
                                 </p>
                                 <hr />
                                 <div class="float-right">
+                                    <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = p.Id })" class="btn btn-outline-primary">Promocionar</a>
                                     <a href="@Url.Action("EditPublication", "Account", new { publicationId = p.Id })" class="btn btn-primary">Ver detalle</a>
                                 </div>
                             </div>
@@ -52,7 +56,9 @@
         }
         else
         {
-            <p>No tiene publicaciones</p>
+            <div class="well">
+                <p>No tiene publicaciones</p>
+            </div>
         }
     </div>
 </div>

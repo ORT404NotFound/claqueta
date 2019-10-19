@@ -174,5 +174,47 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
+
+        public ActionResult EditUser()
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userId = Int32.Parse(Session["UserId"].ToString());
+            using (var db = new SQLServerContext())
+            {
+                var user = db
+                    .Users.Where(u => u.Id == userId)
+                    .FirstOrDefault();
+                if (user != null)
+                {
+                    return View(user);
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+        }
+        [HttpPost]
+        public ActionResult EditUser (User user)
+        {
+            using (var db = new SQLServerContext())
+            {
+                var userToUpdate = db.Users.SingleOrDefault(u => u.Id == user.Id);
+                if (userToUpdate != null)
+                {
+                    userToUpdate.FirstName = user.FirstName;
+                    userToUpdate.LastName = user.LastName;
+                    db.SaveChanges();
+                    return RedirectToAction("UserInfo");
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+        }
     }
 }
