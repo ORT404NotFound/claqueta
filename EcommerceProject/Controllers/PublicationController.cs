@@ -85,5 +85,21 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("UserInfo","Account");
             }
         }
+
+        public ActionResult PromocionarPublication(int idPublication)
+        {
+            if (Session["UserId"] == null)
+            {
+                return View("NotAuthorized");
+            }
+            using (var db = new SQLServerContext())
+            {
+                Publication p = db.Publications.Find(idPublication);
+                p.Featured = true;
+                db.SaveChanges();
+                return RedirectToAction("UserInfo", "Account");
+            }
+        }
+
     }
 }

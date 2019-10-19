@@ -105,13 +105,14 @@ namespace EcommerceProject.Controllers
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext()) {
-                var user = db
-                    .Users
-                    .Include("Publications")
-                    .SingleOrDefault(u => u.Id == userId);
-                if (user != null)
+                var publications = db.Publications.Where(
+                        p => p.State != "Desactivada" &&
+                        p.User.Id == userId
+                    ).ToList();
+                       
+                if (publications != null)
                 {
-                    return View(user);
+                    return View(publications);
                 }
                 else {
                     return View("Error");
