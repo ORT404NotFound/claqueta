@@ -1,11 +1,11 @@
 ﻿using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
+using EcommerceProject.MPApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-
 namespace EcommerceProject.Controllers
 {
 
@@ -92,13 +92,21 @@ namespace EcommerceProject.Controllers
             {
                 return View("NotAuthorized");
             }
+            
+
+
             using (var db = new SQLServerContext())
             {
                 Publication p = db.Publications.Find(idPublication);
                 p.Featured = true;
                 db.SaveChanges();
-                return RedirectToAction("UserInfo", "Account");
+                //return RedirectToAction("UserInfo", "Account");
+                int userId = Int32.Parse(Session["UserId"].ToString());
+                User u = db.Users.Find(userId);
+                return RedirectToAction("Pagar", "MercadoPago",  new { u, p } );
             }
+
+           
         }
 
     }
