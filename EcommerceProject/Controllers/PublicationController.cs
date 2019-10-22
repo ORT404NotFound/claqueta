@@ -104,8 +104,6 @@ namespace EcommerceProject.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Pagar", "MercadoPago", p);
             }
-
-           
         }
 
     }
