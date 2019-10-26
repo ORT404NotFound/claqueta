@@ -18,7 +18,6 @@ namespace EcommerceProject.Models
         public Publicacion Publicacion { get; set; }
 
         public virtual Pago Pago { get; set; }
-        public virtual ICollection<UsuarioContratacion> UsuarioContrataciones { get; set; }
 
     }
 }

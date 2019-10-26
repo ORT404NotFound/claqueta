@@ -89,6 +89,5 @@ namespace EcommerceProject.Models
 
         public virtual ICollection<Rol> Roles { get; set; }
 
-        public virtual ICollection<UsuarioContratacion> UsuarioContrataciones { get; set; }
     }
 }

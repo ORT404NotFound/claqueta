@@ -9,7 +9,7 @@ namespace EcommerceProject.Models
 {
     public class Pago
     {
-        [Key]
+        [Key, ForeignKey("Contratacion")]
         public int Id { get; set; }
         public bool Aprobado { get; set; }
         public int ContratacionId { get; set; }
