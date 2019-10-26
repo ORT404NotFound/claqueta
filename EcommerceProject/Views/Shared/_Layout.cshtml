@@ -18,35 +18,35 @@
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categorias
+                        Categorías
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Categoria 1</a>
-                        <a class="dropdown-item" href="#">Categoria 2</a>
-                        <a class="dropdown-item" href="#">Categoria 3</a>
+                        <a class="dropdown-item" href="#">Categoría 1</a>
+                        <a class="dropdown-item" href="#">Categoría 2</a>
+                        <a class="dropdown-item" href="#">Categoría 3</a>
                     </div>
                 </li>
                 @if (Session["UserId"] != null)
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("UserInfo","Account")">Mi cuenta</a>
+                        <a class="nav-link" href="@Url.Action("UserInfo","Account")">Mi Cuenta</a>
                     </li>
                     <li>
-                        <a class="nav-link" href="@Url.Action("LogOut","Account")">Cerrar sesión</a>
+                        <a class="nav-link" href="@Url.Action("LogOut","Account")">Cerrar Sesión</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Register","Account")">Crea tu cuenta</a>
+                        <a class="nav-link" href="@Url.Action("Register","Account")">Crear Cuenta</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Login","Account")">Ya tienes una cuenta?</a>
+                        <a class="nav-link" href="@Url.Action("Login","Account")">Ingresar</a>
                     </li>
                 }
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscá lo que necesitás..." aria-label="Buscar">
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
             </form>
         </div>
