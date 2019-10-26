@@ -15,15 +15,14 @@ namespace EcommerceProject.Models
             protected override void OnModelCreating(DbModelBuilder modelBuilder)
             {
                 base.OnModelCreating(modelBuilder);
-
             }
-            public DbSet<User> Users { get; set; }
-            public DbSet<Role> Roles { get; set; }
-            public DbSet<UserCalification> Califications { get; set; }
-            public DbSet<Contract> Contracts { get; set; }
-            public DbSet<Payment> Payments { get; set; }
-            public DbSet<Publication> Publications { get; set; }
-            public DbSet<Question> Questions { get; set; }
+            public DbSet<Usuario> Usuarios { get; set; }
+            public DbSet<Rol> Roles { get; set; }
+            public DbSet<UsuarioCalificacion> UsuarioCalificaciones { get; set; }
+            public DbSet<Contratacion> Contrataciones { get; set; }
+            public DbSet<Pago> Pagos { get; set; }
+            public DbSet<Publicacion> Publicaciones { get; set; }
+            public DbSet<Consulta> Consultas { get; set; }
         }
     }
 }

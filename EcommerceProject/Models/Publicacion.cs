@@ -5,17 +5,17 @@ namespace EcommerceProject.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public partial class Publication
+    public partial class Publicacion
     {
 
 
         ///
         /// RELACIONES 
         /// 
-        public Publication()
+        public Publicacion()
         {
-            this.Questions = new HashSet<Question>();
-            this.PublicationCalifications = new HashSet<PublicationCalification>();
+            this.Consultas = new HashSet<Consulta>();
+            this.PublicacionCalicicationes = new HashSet<PublicacionCalificacion>();
         }
 
         [Key]
@@ -23,33 +23,33 @@ namespace EcommerceProject.Models
 
         [Required(ErrorMessage = "El campo Categoria es requerido")]
         [Display(Name = "Categoría")]
-        public String Category { get; set; }
+        public String Categoria { get; set; }
 
         [Display(Name = "Ubicación")]
         [Required(ErrorMessage = "El campo Ubicación es requerido")]
         [DataType(DataType.Text)]
-        public String Location { get; set; }
+        public String Ubicacion { get; set; }
 
 
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo Descripción es requerido")]
         [DataType(DataType.MultilineText)]
-        public String Description { get; set; }
+        public String Descripcion { get; set; }
 
         [Display(Name = "Foto")]
         [Required(ErrorMessage = "El campo Foto es requerido")]
         [DataType(DataType.ImageUrl)]
-        public String Photo { get; set; }
+        public String Foto { get; set; }
 
         [Display(Name = "Precio")]
         [Required(ErrorMessage = "El campo Precio es requerido")]
         [DataType(DataType.Text)]
-        public double Price { get; set; }
+        public double Precio { get; set; }
 
         [Display(Name = "Referencias")]
         [Required(ErrorMessage = "El campo Referencias es requerido")]
         [DataType(DataType.Text)]
-        public String References { get; set; }
+        public String Referencias { get; set; }
 
         [Display(Name = "CV")]
         [Required(ErrorMessage = "El campo CV es requerido")]
@@ -64,11 +64,11 @@ namespace EcommerceProject.Models
         [Display(Name = "Garantía")]
         [Required(ErrorMessage = "El campo Garantía es requerido")]
         [DataType(DataType.Currency)]
-        public double Warranty { get; set; }
+        public double Garantia { get; set; }
 
 
         [Display(Name = "Promocionada")]
-        public bool Featured { get; set; }
+        public bool Promocicionada { get; set; }
 
 
         [Display(Name = "Visible")]
@@ -76,7 +76,7 @@ namespace EcommerceProject.Models
 
 
         [Display(Name = "Estado")]
-        public String State { get; set; }
+        public String Estado { get; set; }
 
 
 
@@ -85,15 +85,15 @@ namespace EcommerceProject.Models
         ///
         /// RELACIONES 
         /// 
-        [ForeignKey("User")]
-        public int UserId { get; set; }
+        [ForeignKey("Usuario")]
+        public int UsuarioId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual Usuario Usuario { get; set; }
 
         // relacion 1 a muchos por consultas 
-        public ICollection<Question> Questions { get; set; }
+        public ICollection<Consulta> Consultas { get; set; }
 
-        public ICollection<PublicationCalification> PublicationCalifications { get; set; }
+        public ICollection<PublicacionCalificacion> PublicacionCalicicationes { get; set; }
 
 
     }

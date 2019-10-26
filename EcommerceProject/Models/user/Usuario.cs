@@ -7,18 +7,18 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
-    public class User
+    public class Usuario
     {
 
         ///
         /// RELACIONES 
         /// 
-        public User()
+        public Usuario()
         {
-            this.Publications = new HashSet<Publication>();
-            this.UserCalifications = new HashSet<UserCalification>();
-            this.Contracts = new HashSet<Contract>();
-            this.Roles = new HashSet<Role>();
+            this.Publicationes = new HashSet<Publicacion>();
+            this.UsuarioCalificacion = new HashSet<UsuarioCalificacion>();
+            this.Contrataciones = new HashSet<Contratacion>();
+            this.Roles = new HashSet<Rol>();
         }
 
         [Key]
@@ -43,37 +43,37 @@ namespace EcommerceProject.Models
 
         [Required(ErrorMessage = "El campo nombre es requerido")]
         [Display(Name = "Nombre")]
-        public String FirstName { get; set; }
+        public String Nombre { get; set; }
 
 
         [Required(ErrorMessage = "El campo apellido es requerido")]
         [Display(Name = "Apellido")]
-        public String LastName { get; set; }
+        public String Apellido { get; set; }
 
 
         [Display(Name = "Fecha de nacimiento")]
         [Required(ErrorMessage = "El campo fecha de nacimiento es requerido")]
         [DataType(DataType.DateTime)]
-        public DateTime? DateOfBirth { get; set; }
+        public DateTime? FechaDeNacimiento { get; set; }
 
         [Display(Name = "Activo")]
-        public int Active { get; set; }
+        public int Activo { get; set; }
 
 
         ///
         /// RELACIONES 
         /// 
         // relacion 1 a muchos por Publications (a confirmar talvez es muchos a muchos)
-        public ICollection<Publication> Publications { get; set; }
+        public ICollection<Publicacion> Publicationes { get; set; }
 
         // relacion 1 a muchos por calificaciones 
-        public ICollection<UserCalification> UserCalifications { get; set; }
+        public ICollection<UsuarioCalificacion> UsuarioCalificacion { get; set; }
 
         // relacion 1 a muchos por contrataciones 
 
-        public ICollection<Contract> Contracts { get; set; }
+        public ICollection<Contratacion> Contrataciones { get; set; }
 
-        public virtual ICollection<Role> Roles { get; set; }
+        public virtual ICollection<Rol> Roles { get; set; }
 
 
 

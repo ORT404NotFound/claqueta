@@ -7,14 +7,12 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
-    public class Payment
+    public class Pago
     {
         [Key]
         public int Id { get; set; }
         public bool Aprobado { get; set; }
-
-        public int ContractId { get; set; }
-        public virtual Contract Contract { get; set; }
-
+        public int ContratacionId { get; set; }
+        public virtual Contratacion Contratacion { get; set; }
     }
 }

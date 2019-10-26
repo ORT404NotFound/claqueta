@@ -13,7 +13,7 @@ namespace EcommerceProject.Controllers
 {
     public class MercadoPagoController : Controller
     {
-        public ActionResult Pagar (Publication p)
+        public ActionResult Pagar (Publicacion p)
         {
             int userId;
             try
@@ -26,7 +26,7 @@ namespace EcommerceProject.Controllers
             }
             using (var db = new SQLServerContext())
             {
-                User u = db.Users.Find(userId);
+                Usuario u = db.Usuarios.Find(userId);
                 MP mp = new MP();
                 String url = mp.Pagar(u, p);
                 return Redirect(url);

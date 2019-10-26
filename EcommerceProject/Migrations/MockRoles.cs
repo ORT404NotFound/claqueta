@@ -15,12 +15,12 @@ namespace EcommerceProject.Migrations
             using (var db = new SQLServerContext())
             {
                 foreach (var role in roles) {
-                    Role ro = db.Roles.SingleOrDefault(r => r.Rolename == role);
+                    Rol ro = db.Roles.SingleOrDefault(r => r.Nombre == role);
                     if (ro == null) {
                         // si el rol no existe lo guarda en la db
-                        Role myRole = new Role()
+                        Rol myRole = new Rol()
                         {
-                            Rolename = role
+                            Nombre = role
                         };
                         db.Roles.Add(myRole);
                         db.SaveChanges();

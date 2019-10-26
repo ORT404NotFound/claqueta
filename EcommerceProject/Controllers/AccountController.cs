@@ -25,20 +25,20 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(User user) {
+        public ActionResult Register(Usuario user) {
             if (ModelState.IsValid)
             {
                 using (var db = new SQLServerContext())
                 {
-                    var userToFind = db.Users.SingleOrDefault(u => u.Email == user.Email);
+                    var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email);
 
                     if (userToFind != null) {
                         ViewBag.Message = "El email que se quiere registrar ya existe";
                         return View();
                     }
-                    user.Active = 1;
-                    db.Users.Add(user);
-                    Role r = db.Roles.SingleOrDefault(role => role.Rolename == "USER");
+                    user.Activo = 1;
+                    db.Usuarios.Add(user);
+                    Rol r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
                     user.Roles.Add(r);
                     db.SaveChanges();
                     ModelState.Clear();
@@ -54,12 +54,12 @@ namespace EcommerceProject.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(User user) {
+        public ActionResult Login(Usuario user) {
             using (var db = new SQLServerContext())
             {
 
-                var r = db.Roles.SingleOrDefault(role => role.Rolename == "USER");
-                var userToFind = db.Users.SingleOrDefault(u => u.Email == user.Email
+                var r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
+                var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email
                                                    && u.Password == user.Password);
                
 
@@ -105,9 +105,9 @@ namespace EcommerceProject.Controllers
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext()) {
-                var publications = db.Publications.Where(
-                        p => p.State != "Desactivada" &&
-                        p.User.Id == userId
+                var publications = db.Publicaciones.Where(
+                        p => p.Estado != "Desactivada" &&
+                        p.Usuario.Id == userId
                     ).ToList();
                        
                 if (publications != null)
@@ -132,8 +132,8 @@ namespace EcommerceProject.Controllers
             using (var db = new SQLServerContext())
             {
                 var publi = db
-                    .Publications
-                    .Where(p => p.User.Id == userId && p.Id == publicationId)
+                    .Publicaciones
+                    .Where(p => p.Usuario.Id == userId && p.Id == publicationId)
                     .FirstOrDefault();
                 if (publi != null)
                 {
@@ -147,24 +147,24 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPublication(Publication publication) {
+        public ActionResult EditPublication(Publicacion publication) {
             using (var db = new SQLServerContext())
             {
-                var publi = db.Publications.SingleOrDefault(p => p.Id == publication.Id);
+                var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publication.Id);
                 if (publi != null)
                 {
-                    publi.Featured = publication.Featured;
-                    publi.Description = publication.Description;
+                    publi.Promocicionada = publication.Promocicionada;
+                    publi.Descripcion = publication.Descripcion;
                     publi.CV = publication.CV;
-                    publi.Category = publication.Category;
-                    publi.Location = publication.Location;
-                    publi.Price = publication.Price;
+                    publi.Categoria = publication.Categoria;
+                    publi.Ubicacion = publication.Ubicacion;
+                    publi.Precio = publication.Precio;
                     publi.Reel = publication.Reel;
 
-                    publi.Warranty = publication.Warranty;
+                    publi.Garantia = publication.Garantia;
                     publi.Visible = publication.Visible;
-                    publi.Photo = publication.Photo;
-                    publi.References = publication.References;
+                    publi.Foto = publication.Foto;
+                    publi.Referencias = publication.Referencias;
 
                     db.SaveChanges();
                     return RedirectToAction("UserInfo");
@@ -185,7 +185,7 @@ namespace EcommerceProject.Controllers
             using (var db = new SQLServerContext())
             {
                 var user = db
-                    .Users.Where(u => u.Id == userId)
+                    .Usuarios.Where(u => u.Id == userId)
                     .FirstOrDefault();
                 if (user != null)
                 {
@@ -198,15 +198,15 @@ namespace EcommerceProject.Controllers
             }
         }
         [HttpPost]
-        public ActionResult EditUser (User user)
+        public ActionResult EditUser (Usuario user)
         {
             using (var db = new SQLServerContext())
             {
-                var userToUpdate = db.Users.SingleOrDefault(u => u.Id == user.Id);
+                var userToUpdate = db.Usuarios.SingleOrDefault(u => u.Id == user.Id);
                 if (userToUpdate != null)
                 {
-                    userToUpdate.FirstName = user.FirstName;
-                    userToUpdate.LastName = user.LastName;
+                    userToUpdate.Nombre = user.Nombre;
+                    userToUpdate.Apellido = user.Apellido;
                     db.SaveChanges();
                     return RedirectToAction("UserInfo");
                 }
