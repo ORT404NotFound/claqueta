@@ -6,13 +6,13 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
-    public class UserCalification
+    public class PublicacionCalificacion
     {
         [Key]
         public int Id { get; set; }
-        public int Score { get; set; }
-        public String Comment { get; set; }
+        public int Puntaje { get; set; }
+        public String Comentario { get; set; }
         public String Replica { get; set; }
-        public virtual User User { get; set; }
+        public virtual Publicacion Publicacion { get; set; }
     }
 }

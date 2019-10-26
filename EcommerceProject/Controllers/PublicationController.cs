@@ -17,7 +17,7 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var publis = db.Publications.Where(p => p.Visible == true && p.State != "Desactivada");
+                var publis = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada");
                 if (publis.Count() > 0)
                 {
                     return View(publis);
@@ -43,7 +43,7 @@ namespace EcommerceProject.Controllers
         
         // para guardar una publicacion, necesita auth de user
         [HttpPost]
-        public ActionResult SavePublication(Publication publication)
+        public ActionResult SavePublication(Publicacion publication)
         {
             if (Session["UserId"] == null) {
                 return View("NotAuthorized");
@@ -60,10 +60,10 @@ namespace EcommerceProject.Controllers
                 }
                 using (var db = new SQLServerContext())
                 {
-                    User u = db.Users.Find(userId);
-                    publication.User = u;
-                    publication.State = "Pendiente";
-                    db.Publications.Add(publication);
+                    Usuario u = db.Usuarios.Find(userId);
+                    publication.Usuario = u;
+                    publication.Estado = "Pendiente";
+                    db.Publicaciones.Add(publication);
                     db.SaveChanges();
                     ModelState.Clear();
                     ViewBag.Message = "La publicacion fue guardada exitosamente";
@@ -81,8 +81,8 @@ namespace EcommerceProject.Controllers
             }
             using (var db = new SQLServerContext())
             {
-                Publication p = db.Publications.Find(idPublication);
-                p.State = "Desactivada";
+                Publicacion p = db.Publicaciones.Find(idPublication);
+                p.Estado = "Desactivada";
                 db.SaveChanges();
                 return RedirectToAction("UserInfo","Account");
             }
@@ -99,8 +99,8 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-                Publication p = db.Publications.Find(idPublication);
-                p.Featured = true;
+                Publicacion p = db.Publicaciones.Find(idPublication);
+                p.Promocicionada = true;
                 db.SaveChanges();
                 return RedirectToAction("Pagar", "MercadoPago", p);
             }

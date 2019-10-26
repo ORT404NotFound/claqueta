@@ -5,7 +5,7 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
-    public class Prestatario : User
+    public class Prestatario : Usuario
     {
         
     }

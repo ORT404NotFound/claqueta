@@ -1,4 +1,4 @@
-﻿@model IEnumerable<EcommerceProject.Models.Publication>
+﻿@model IEnumerable<EcommerceProject.Models.Publicacion>
 
 @{
     ViewBag.Title = "Mi cuenta";
@@ -36,12 +36,12 @@
                                     {
                                         <span>No Visible</span>
                                     },
-                                    <span>@p.State</span>
+                                    <span>@p.Estado</span>
                                 </h6>
-                                <h6>Precio ($) @p.Price</h6>
+                                <h6>Precio ($) @p.Precio</h6>
                                 <h6>Descripción</h6>
                                 <p class="card-text">
-                                    @p.Description
+                                    @p.Descripcion
                                 </p>
                                 <hr />
                                 <div class="float-right">
