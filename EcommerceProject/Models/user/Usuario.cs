@@ -69,6 +69,11 @@ namespace EcommerceProject.Models
         public String Documento { get; set; }
 
 
+        [Display(Name = "Teléfono")]
+        [Required(ErrorMessage = "El campo Teléfono es requerido")]
+        [DataType(DataType.Text)]
+        public String Telefono { get; set; }
+
         ///
         /// RELACIONES 
         /// 
@@ -84,7 +89,6 @@ namespace EcommerceProject.Models
 
         public virtual ICollection<Rol> Roles { get; set; }
 
-
-
+        public virtual ICollection<UsuarioContratacion> UsuarioContrataciones { get; set; }
     }
 }

@@ -151,6 +151,7 @@
     <Compile Include="Models\User\Prestador.cs" />
     <Compile Include="Models\User\Prestatario.cs" />
     <Compile Include="Models\User\Usuario.cs" />
+    <Compile Include="Models\UsuarioContratacion.cs" />
     <Compile Include="MPApi\MP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

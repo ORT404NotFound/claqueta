@@ -61,15 +61,13 @@ namespace EcommerceProject.Controllers
                 var r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
                 var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email
                                                    && u.Password == user.Password);
-               
-
+              
                 if (userToFind != null)
                 {
                     if (!userToFind.Roles.Contains(r))
                     {
                         return View("../Shared/NotAuthorized");
                     }
-
                     Session["UserId"] = userToFind.Id;
                     Session["Email"] = user.Email;
                     return RedirectToAction("LoggedIn");

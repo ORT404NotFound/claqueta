@@ -8,8 +8,8 @@ using System.Web;
 namespace EcommerceProject.Models
 {
     public class Contratacion
-    {
-        [Key, ForeignKey("Pago")]
+    { 
+        [Key]
         public int Id { get; set; }
         public String Estado { get; set; }
 
@@ -18,5 +18,7 @@ namespace EcommerceProject.Models
         public Publicacion Publicacion { get; set; }
 
         public virtual Pago Pago { get; set; }
+        public virtual ICollection<UsuarioContratacion> UsuarioContrataciones { get; set; }
+
     }
 }
