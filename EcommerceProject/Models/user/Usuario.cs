@@ -59,6 +59,15 @@ namespace EcommerceProject.Models
         [Display(Name = "Activo")]
         public int Activo { get; set; }
 
+        [Display(Name = "Tipo de Documento")]
+        [Required(ErrorMessage = "El campo Tipo de Documento es requerido")]
+        public String TipoDocumento { get; set; }
+
+        [Display(Name = "Documento")]
+        [Required(ErrorMessage = "El campo Documento es requerido")]
+        [DataType(DataType.Text)]
+        public String Documento { get; set; }
+
 
         ///
         /// RELACIONES 
