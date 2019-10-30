@@ -79,7 +79,11 @@ namespace EcommerceProject.Models
         public String Estado { get; set; }
 
 
+        [Display(Name = "Fecha de Publicación")]
+        public DateTime FechaDePublicacion { get; set; }
 
+        [Display(Name = "Fecha de Modificación")]
+        public DateTime FechaDeModificacion { get; set; }
 
 
         ///
