@@ -80,9 +80,11 @@ namespace EcommerceProject.Models
 
 
         [Display(Name = "Fecha de Publicación")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaDePublicacion { get; set; }
 
         [Display(Name = "Fecha de Modificación")]
+        [DataType(DataType.DateTime)]
         public DateTime FechaDeModificacion { get; set; }
 
 
