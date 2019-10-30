@@ -7,6 +7,7 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
+    [Table("Pagos")]
     public class Pago
     {
         [Key, ForeignKey("Contratacion")]

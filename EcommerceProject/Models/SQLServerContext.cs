@@ -23,7 +23,6 @@ namespace EcommerceProject.Models
             public DbSet<Pago> Pagos { get; set; }
             public DbSet<Publicacion> Publicaciones { get; set; }
             public DbSet<Consulta> Consultas { get; set; }
-            public DbSet<UsuarioContratacion> UsuarioContrataciones { get; set; }
         }
     }
 }
