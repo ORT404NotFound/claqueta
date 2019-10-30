@@ -7,6 +7,7 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
+    [Table("Usuarios")]
     public class Usuario
     {
 

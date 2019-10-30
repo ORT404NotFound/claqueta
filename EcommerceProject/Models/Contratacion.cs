@@ -7,6 +7,7 @@ using System.Web;
 
 namespace EcommerceProject.Models
 {
+    [Table("Contrataciones")]
     public class Contratacion
     { 
         [Key]
@@ -18,6 +19,8 @@ namespace EcommerceProject.Models
         public Publicacion Publicacion { get; set; }
 
         public virtual Pago Pago { get; set; }
+        public DateTime FechaDesde { get; set; }
+        public DateTime FechaHasta { get; set; }
 
     }
 }

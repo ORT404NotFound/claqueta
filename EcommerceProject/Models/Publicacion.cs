@@ -4,8 +4,8 @@ namespace EcommerceProject.Models
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
-
-    public partial class Publicacion
+    [Table("Publicaciones")]
+    public class Publicacion
     {
 
 
@@ -94,7 +94,5 @@ namespace EcommerceProject.Models
         public ICollection<Consulta> Consultas { get; set; }
 
         public ICollection<PublicacionCalificacion> PublicacionCalicicationes { get; set; }
-
-
     }
 }
