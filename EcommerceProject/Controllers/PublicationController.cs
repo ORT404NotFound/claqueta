@@ -13,6 +13,8 @@ namespace EcommerceProject.Controllers
 
     public class PublicationController : Controller
     {
+
+        //muestra el listado de publicaciones (no requiere auth)
         public ActionResult List()
         {
             using (var db = new SQLServerContext())
@@ -63,6 +65,8 @@ namespace EcommerceProject.Controllers
                     Usuario u = db.Usuarios.Find(userId);
                     publication.Usuario = u;
                     publication.Estado = "Pendiente";
+                    publication.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
+                    publication.FechaDePublicacion = Convert.ToDateTime(DateTime.Now);
                     db.Publicaciones.Add(publication);
                     db.SaveChanges();
                     ModelState.Clear();
@@ -83,6 +87,7 @@ namespace EcommerceProject.Controllers
             {
                 Publicacion p = db.Publicaciones.Find(idPublication);
                 p.Estado = "Desactivada";
+                p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
                 db.SaveChanges();
                 return RedirectToAction("UserInfo","Account");
             }
@@ -100,7 +105,8 @@ namespace EcommerceProject.Controllers
             using (var db = new SQLServerContext())
             {
                 Publicacion p = db.Publicaciones.Find(idPublication);
-                p.Promocicionada = true;
+                p.Promocionada = true;
+                p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
                 db.SaveChanges();
                 return RedirectToAction("Pagar", "MercadoPago", p);
             }

@@ -36,7 +36,12 @@
                                     {
                                         <span>No Visible</span>
                                     },
+
                                     <span>@p.Estado</span>
+                                    @if (p.Promocionada)
+                                    {
+                                        <span>,Promocionada</span>
+                                    }
                                 </h6>
                                 <h6>Precio ($) @p.Precio</h6>
                                 <h6>Descripción</h6>
@@ -45,7 +50,10 @@
                                 </p>
                                 <hr />
                                 <div class="float-right">
-                                    <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = p.Id })" class="btn btn-outline-primary">Promocionar</a>
+                                    @if (!p.Promocionada)
+                                    {
+                                        <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = p.Id })" class="btn btn-outline-primary">Promocionar</a>
+                                    }
                                     <a href="@Url.Action("EditPublication", "Account", new { publicationId = p.Id })" class="btn btn-primary">Ver detalle</a>
                                 </div>
                             </div>

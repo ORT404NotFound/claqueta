@@ -68,7 +68,7 @@ namespace EcommerceProject.Models
 
 
         [Display(Name = "Promocionada")]
-        public bool Promocicionada { get; set; }
+        public bool Promocionada { get; set; }
 
 
         [Display(Name = "Visible")]

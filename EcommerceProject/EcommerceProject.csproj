@@ -239,10 +239,12 @@
     <Content Include="Views\Account\UserInfo.cshtml" />
     <Content Include="Views\Publication\EditPublication.cshtml" />
     <Content Include="Views\Account\EditUser.cshtml" />
+    <Content Include="Views\MercadoPago\PagoError.cshtml" />
+    <Content Include="Views\MercadoPago\PagoPendiente.cshtml" />
+    <Content Include="Views\MercadoPago\PagoExitoso.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\MercadoPago\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>

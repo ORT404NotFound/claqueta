@@ -31,7 +31,52 @@ namespace EcommerceProject.Controllers
                 String url = mp.Pagar(u, p);
                 return Redirect(url);
             }
-            //return RedirectToAction("GoToMercadoPago", url);
+        }
+        public ActionResult PagoError ()
+        {
+            return View();
+        }
+
+        public ActionResult PagoPendiente ()
+        {
+            return View();
+        }
+
+        public ActionResult PagoExitoso ()
+        {
+            String externalRef = Request.QueryString["external_reference"];
+            int userId;
+            try
+            {
+                userId = Int32.Parse(Session["UserId"].ToString());
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+
+
+            int publicationId;
+            try
+            {
+                publicationId = Int32.Parse(externalRef);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            using (var db = new SQLServerContext())
+            {
+                Usuario u = db.Usuarios.Find(userId);
+                Publicacion p = db.Publicaciones.Find(publicationId);
+                p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
+                p.Promocionada = true;
+                Pago pago = new Pago();
+                pago.Aprobado = true;
+                pago.Concepto = u.Email;
+                db.SaveChanges();
+                return RedirectToAction("UserInfo","Account");
+            }
         }
     }
 }

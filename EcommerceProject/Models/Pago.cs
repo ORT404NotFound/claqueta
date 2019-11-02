@@ -10,10 +10,9 @@ namespace EcommerceProject.Models
     [Table("Pagos")]
     public class Pago
     {
-        [Key, ForeignKey("Contratacion")]
+        [Key]
         public int Id { get; set; }
         public bool Aprobado { get; set; }
-        public int ContratacionId { get; set; }
-        public virtual Contratacion Contratacion { get; set; }
+        public String Concepto { get; set; }
     }
 }

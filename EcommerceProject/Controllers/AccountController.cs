@@ -151,7 +151,7 @@ namespace EcommerceProject.Controllers
                 var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publication.Id);
                 if (publi != null)
                 {
-                    publi.Promocicionada = publication.Promocicionada;
+                    publi.Promocionada = publication.Promocionada;
                     publi.Descripcion = publication.Descripcion;
                     publi.CV = publication.CV;
                     publi.Categoria = publication.Categoria;

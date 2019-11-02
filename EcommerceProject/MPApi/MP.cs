@@ -17,6 +17,10 @@ namespace EcommerceProject.MPApi
             MercadoPago.SDK.CleanConfiguration();
             MercadoPago.SDK.AccessToken = Environment.GetEnvironmentVariable("MP_ACCESS_TOKEN");
 
+            //cambiar este depende el ambiente
+            String siteURL = "http://localhost:55115";
+            //String siteURL = "ec2-100-26-100-77.compute-1.amazonaws.com";
+
             double valorDolar = 80;
             double valorTotal = 4 * valorDolar;
 
@@ -39,12 +43,19 @@ namespace EcommerceProject.MPApi
             {
                 Email = u.Email,
             };
-            
+            preference.ExternalReference = publication.Id.ToString();
+
+            preference.BackUrls = new BackUrls()
+            {
+                Success = siteURL+ "/MercadoPago/PagoExitoso",
+                Failure = siteURL + "/MercadoPago/PagoError",
+                Pending = siteURL + "MercadoPago/PagoPendiente"
+            };
+            preference.AutoReturn = AutoReturnType.approved;
+
             // Save and posting preference
             preference.Save();
-
             return preference.InitPoint;
-
         }
 
      
