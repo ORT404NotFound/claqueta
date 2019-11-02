@@ -19,7 +19,7 @@ namespace EcommerceProject.MPApi
 
             //cambiar este depende el ambiente
             String siteURL = "http://localhost:55115";
-            //String siteURL = "ec2-100-26-100-77.compute-1.amazonaws.com";
+            //String siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
 
             double valorDolar = 80;
             double valorTotal = 4 * valorDolar;
