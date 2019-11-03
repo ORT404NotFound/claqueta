@@ -39,6 +39,14 @@ namespace EcommerceProject.Controllers
                         return View();
                     }
 
+                    // VALIDA QUE EL USUARIO SEA MAYOR DE EDAD
+
+                    if (user.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
+                    {
+                        ViewBag.Message = "El usuario debe tener más de 18 años";
+                        return View();
+                    }
+
                     user.Activo = 1;
                     db.Usuarios.Add(user);
                     Rol r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
