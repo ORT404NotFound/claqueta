@@ -6,7 +6,6 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
@@ -36,6 +35,15 @@ namespace EcommerceProject.Controllers
                         ViewBag.Message = "El email que se quiere registrar ya existe";
                         return View();
                     }
+
+                    // VALIDA QUE EL USUARIO SEA MAYOR DE EDAD
+
+                    if (user.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
+                    {
+                        ViewBag.Message = "El usuario debe tener más de 18 años";
+                        return View();
+                    }
+
                     user.Activo = 1;
                     db.Usuarios.Add(user);
                     Rol r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
@@ -213,6 +221,18 @@ namespace EcommerceProject.Controllers
                     return View("Error");
                 }
             }
+        }
+
+        // 
+
+        [HttpPost]
+        public ActionResult ValidarMayorEdad(DateTime fechaNacimientoUsuario)
+        {
+            if (DateTime.Today < fechaNacimientoUsuario.AddYears(18))
+            {
+                return Json(true);
+            }
+            return Json(false);
         }
     }
 }
