@@ -234,7 +234,6 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Shared\NotAuthorized.cshtml" />
-    <Content Include="Views\Publication\List.cshtml" />
     <Content Include="Views\Publication\SavePublication.cshtml" />
     <Content Include="Views\Account\UserInfo.cshtml" />
     <Content Include="Views\Publication\EditPublication.cshtml" />

@@ -75,11 +75,12 @@ namespace EcommerceProject.Controllers
                 //creo un pago para una promocion
                 Pago pago = new Pago();
                 pago.Aprobado = true;
-                pago.Concepto = u.Email;
+                pago.Concepto = "PROMOCION";
                 pago.Usuario = u;
                 pago.Publicacion = p;
                 pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
-
+                
+                db.Pagos.Add(pago);
 
                 //guardo cambios en la db
                 db.SaveChanges();

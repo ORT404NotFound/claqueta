@@ -18,16 +18,10 @@ namespace EcommerceProject.Controllers
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
-
-                if (publicaciones.Count() > 0)
-                {
-                    return View(publicaciones);
-                }
-                else
-                {
-                    return View("Error");
-                }
+                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();                
+               
+                return View(publicaciones);
+                
             }
         }
 
