@@ -142,15 +142,15 @@
 
         <div class="form-group">
 
-            <a href="@Url.Action("UserInfo", "Account")" class="btn btn-secondary">Volver a atrás</a>
+            <a href="@Url.Action("UserInfo", "Account")" class="btn btn-secondary">Volver atrás</a>
             @if (Model.Id != 0)
             {
 
                 if (!Model.Promocionada)
                 {
-                    <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = Model.Id })" class="btn btn-primary">Promocionar Publicacacion</a>
+                    <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = Model.Id })" class="btn btn-primary">Promocionar Publicacion</a>
                 }
-                <a href="@Url.Action("DisablePublication", "Publication", new { idPublication = Model.Id })" class="btn btn-danger">Eliminar Publicacacion</a>
+                <a href="@Url.Action("DisablePublication", "Publication", new { idPublication = Model.Id })" class="btn btn-danger">Eliminar Publicacion</a>
             }
         </div>
 

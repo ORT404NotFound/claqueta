@@ -1,19 +1,21 @@
 ﻿@model EcommerceProject.Models.Usuario
 
 @{
-    ViewBag.Title = "Detalles de cuenta";
+    ViewBag.Title = "DetalleUsuario";
 }
 
-<h2>@ViewBag.Title</h2>
+<h2>DetalleUsuario</h2>
 
 <div>
+    <h4>Usuario</h4>
+    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
+            @Html.DisplayNameFor(model => model.Email)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Apellido)
+            @Html.DisplayFor(model => model.Email)
         </dd>
 
         <dt>
@@ -21,10 +23,52 @@
         </dt>
 
         <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Apellido)
+        </dt>
+
+        <dd>
             @Html.DisplayFor(model => model.Apellido)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDeNacimiento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeNacimiento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDocumento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDocumento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Documento)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Documento)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
     </dl>
 </div>
-<p>
-    <a href="@Url.Action("UserInfo", "Account")">Volver a atras</a>
-</p>
+
+<div>
+    <input type="button" class="btn btn-primary" value="Volver Atrás" onclick="location.href='@Url.Action("UserInfo", "Account")'" />
+</div>
