@@ -14,10 +14,15 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var publis = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada").ToList();
-                if (publis.Count() > 0)
+                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true)
+                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false)
+                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
+                if (publicaciones.Count() > 0)
                 {
-                    return View(publis);
+                    return View(publicaciones);
                 }
                 else
                 {

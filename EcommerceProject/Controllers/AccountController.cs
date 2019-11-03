@@ -45,7 +45,7 @@ namespace EcommerceProject.Controllers
                     user.Roles.Add(r);
                     db.SaveChanges();
                     ModelState.Clear();
-                    ViewBag.Message = user.Id + "registrado correctamente";
+                    ViewBag.Message = "Usted se ha registrado correctamente";
                     return View();
                 }
             }
