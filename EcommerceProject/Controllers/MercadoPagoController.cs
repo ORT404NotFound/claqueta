@@ -71,9 +71,17 @@ namespace EcommerceProject.Controllers
                 Publicacion p = db.Publicaciones.Find(publicationId);
                 p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
                 p.Promocionada = true;
+                
+                //creo un pago para una promocion
                 Pago pago = new Pago();
                 pago.Aprobado = true;
                 pago.Concepto = u.Email;
+                pago.Usuario = u;
+                pago.Publicacion = p;
+                pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
+
+
+                //guardo cambios en la db
                 db.SaveChanges();
                 return RedirectToAction("UserInfo","Account");
             }

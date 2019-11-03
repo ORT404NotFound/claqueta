@@ -14,5 +14,8 @@ namespace EcommerceProject.Models
         public int Id { get; set; }
         public bool Aprobado { get; set; }
         public String Concepto { get; set; }
+        public virtual Publicacion Publicacion { get; set; }
+        public virtual Usuario Usuario { get; set; }
+        public DateTime FechaDePago { get; set; }
     }
 }
