@@ -32,6 +32,14 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
@@ -100,9 +108,10 @@
             <a href="@Url.Action("UserInfo", "Account")" class="btn btn-secondary">Volver a atrás</a>
             @if (Model.Id != 0)
             {
-                
-                if (!Model.Promocionada) { 
-                        <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = Model.Id })" class="btn btn-primary">Promocionar Publicacacion</a>
+
+                if (!Model.Promocionada)
+                {
+                    <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = Model.Id })" class="btn btn-primary">Promocionar Publicacacion</a>
                 }
                 <a href="@Url.Action("DisablePublication", "Publication", new { idPublication = Model.Id })" class="btn btn-danger">Eliminar Publicacacion</a>
             }

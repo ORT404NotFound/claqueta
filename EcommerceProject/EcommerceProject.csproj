@@ -242,6 +242,7 @@
     <Content Include="Views\MercadoPago\PagoError.cshtml" />
     <Content Include="Views\MercadoPago\PagoPendiente.cshtml" />
     <Content Include="Views\MercadoPago\PagoExitoso.cshtml" />
+    <Content Include="Views\Home\VerDetalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

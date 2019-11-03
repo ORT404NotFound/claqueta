@@ -6,7 +6,6 @@ using System.Data.Entity.Validation;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
@@ -20,22 +19,26 @@ namespace EcommerceProject.Controllers
             return View();
         }
         /// register
-        public ActionResult Register() {
+        public ActionResult Register()
+        {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Register(Usuario user) {
+        public ActionResult Register(Usuario user)
+        {
             if (ModelState.IsValid)
             {
                 using (var db = new SQLServerContext())
                 {
                     var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email);
 
-                    if (userToFind != null) {
+                    if (userToFind != null)
+                    {
                         ViewBag.Message = "El email que se quiere registrar ya existe";
                         return View();
                     }
+
                     user.Activo = 1;
                     db.Usuarios.Add(user);
                     Rol r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
@@ -50,18 +53,20 @@ namespace EcommerceProject.Controllers
         }
 
         /// login
-        public ActionResult Login() {
+        public ActionResult Login()
+        {
             return View();
         }
         [HttpPost]
-        public ActionResult Login(Usuario user) {
+        public ActionResult Login(Usuario user)
+        {
             using (var db = new SQLServerContext())
             {
 
                 var r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
                 var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email
                                                    && u.Password == user.Password);
-              
+
                 if (userToFind != null)
                 {
                     if (!userToFind.Roles.Contains(r))
@@ -80,46 +85,54 @@ namespace EcommerceProject.Controllers
             return View();
         }
 
-        public ActionResult LoggedIn() {
+        public ActionResult LoggedIn()
+        {
             if (Session["UserId"] != null)
             {
                 return View();
             }
-            else {
+            else
+            {
                 return RedirectToAction("Login");
             }
         }
 
-        public ActionResult LogOut() {
+        public ActionResult LogOut()
+        {
             Session["UserId"] = null;
             Session["Email"] = null;
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult UserInfo() {
+        public ActionResult UserInfo()
+        {
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
-            using (var db = new SQLServerContext()) {
+            using (var db = new SQLServerContext())
+            {
                 var publications = db.Publicaciones.Where(
                         p => p.Estado != "Desactivada" &&
                         p.Usuario.Id == userId
                     ).ToList();
-                       
+
                 if (publications != null)
                 {
                     return View(publications);
                 }
-                else {
+                else
+                {
                     return View("Error");
                 }
             }
         }
         // Obtiene la publicacion a buscar usuario logueado
-        public ActionResult EditPublication(int publicationId) {
-            if (publicationId == 0) {
+        public ActionResult EditPublication(int publicationId)
+        {
+            if (publicationId == 0)
+            {
                 return RedirectToAction("UserInfo");
             }
             if (Session["UserId"] == null)
@@ -135,7 +148,7 @@ namespace EcommerceProject.Controllers
                     .FirstOrDefault();
                 if (publi != null)
                 {
-                    return View("../Publication/EditPublication",publi);
+                    return View("../Publication/EditPublication", publi);
                 }
                 else
                 {
@@ -145,13 +158,15 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPublication(Publicacion publication) {
+        public ActionResult EditPublication(Publicacion publication)
+        {
             using (var db = new SQLServerContext())
             {
                 var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publication.Id);
                 if (publi != null)
                 {
                     publi.Promocionada = publication.Promocionada;
+                    publi.Titulo = publication.Titulo;
                     publi.Descripcion = publication.Descripcion;
                     publi.CV = publication.CV;
                     publi.Categoria = publication.Categoria;
@@ -167,7 +182,8 @@ namespace EcommerceProject.Controllers
                     db.SaveChanges();
                     return RedirectToAction("UserInfo");
                 }
-                else {
+                else
+                {
                     return View("Error");
                 }
             }
@@ -196,7 +212,7 @@ namespace EcommerceProject.Controllers
             }
         }
         [HttpPost]
-        public ActionResult EditUser (Usuario user)
+        public ActionResult EditUser(Usuario user)
         {
             using (var db = new SQLServerContext())
             {
@@ -214,5 +230,6 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
+
     }
 }

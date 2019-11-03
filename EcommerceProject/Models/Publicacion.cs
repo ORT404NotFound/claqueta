@@ -30,6 +30,10 @@ namespace EcommerceProject.Models
         [DataType(DataType.Text)]
         public String Ubicacion { get; set; }
 
+        [Display(Name = "Título")]
+        [Required(ErrorMessage = "El campo Título es requerido")]
+        [DataType(DataType.Text)]
+        public String Titulo { get; set; }
 
         [Display(Name = "Descripción")]
         [Required(ErrorMessage = "El campo Descripción es requerido")]
