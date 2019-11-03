@@ -14,7 +14,7 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var publis = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada");
+                var publis = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada").ToList();
                 if (publis.Count() > 0)
                 {
                     return View(publis);
@@ -25,5 +25,22 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
+
+        public ActionResult VerDetalle(int id)
+        {
+            using (var db = new SQLServerContext())
+            {
+                var publicacion = db.Publicaciones.Where(p => p.Id == id).FirstOrDefault();
+                if (publicacion != null)
+                {
+                    return View(publicacion);
+                }
+                else
+                {
+                    return View("Error");
+                }
+            }
+        }
+
     }
 }

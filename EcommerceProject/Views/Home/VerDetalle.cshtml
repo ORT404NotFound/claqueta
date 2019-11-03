@@ -1,0 +1,146 @@
+﻿@model EcommerceProject.Models.Publicacion
+
+@{
+    ViewBag.Title = "VerDetalle";
+}
+
+<h2>VerDetalle</h2>
+
+<div>
+    <h4>Publicacion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Categoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categoria)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ubicacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ubicacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Foto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Foto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Precio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Precio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Referencias)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Referencias)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CV)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Reel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Reel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Garantia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Garantia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Promocionada)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Promocionada)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Visible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Visible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDePublicacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDePublicacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaDeModificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaDeModificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsuarioId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsuarioId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

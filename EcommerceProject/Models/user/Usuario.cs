@@ -55,7 +55,6 @@ namespace EcommerceProject.Models
         [Display(Name = "Fecha de nacimiento")]
         [Required(ErrorMessage = "El campo fecha de nacimiento es requerido")]
         [DataType(DataType.DateTime)]
-        [System.Web.Mvc.Remote("ValidarMayorEdad", HttpMethod = "Post", ErrorMessage = "El usuario debe ser mayor de edad")]
         public DateTime? FechaDeNacimiento { get; set; }
 
         [Display(Name = "Activo")]
