@@ -12,15 +12,17 @@
         @foreach (var item in Model)
         {
             <div class="col-md-4">
-                <div class="card">
+                <div class="card" style="margin-top:5px">
                     <center>
                         <img src="~/Content/imagen_claqueta.png" class="card-img-top" style="max-width: 50%; " />
                     </center>
                     <div class="card-body">
                         <h5 class="card-title">@item.Titulo</h5>
                         <h6 class="card-subtitle">$@item.Precio</h6>
-                        <p class="card-text">@item.Descripcion</p>
-                        <a href="@Url.Action("VerDetalle", "Home", new { id = item.Id })" class="btn btn-outline-primary">Ver detalle</a>
+                        <hr />
+                        <center>
+                            <a href="@Url.Action("VerDetalle", "Home", new { id = item.Id })" class="btn btn-outline-primary">Ver detalle</a>
+                        </center>
                     </div>
                 </div>
             </div>
