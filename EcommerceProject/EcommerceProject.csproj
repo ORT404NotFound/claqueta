@@ -138,7 +138,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Migrations\MockRoles.cs" />
+    <Compile Include="Migrations\MockData.cs" />
     <Compile Include="Models\Calification\PublicacionCalificacion.cs" />
     <Compile Include="Models\Calification\UsuarioCalificacion.cs" />
     <Compile Include="Models\Categories.cs" />

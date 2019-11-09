@@ -166,10 +166,11 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPublication(Publicacion publication)
+        public ActionResult EditPublication(Publicacion publication, FormCollection form)
         {
             using (var db = new SQLServerContext())
             {
+                var dis = form["Disponibilidad[]"];
                 var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publication.Id);
                 if (publi != null)
                 {
@@ -181,20 +182,25 @@ namespace EcommerceProject.Controllers
                     publi.Ubicacion = publication.Ubicacion;
                     publi.Precio = publication.Precio;
                     publi.Reel = publication.Reel;
-
                     publi.Garantia = publication.Garantia;
                     publi.Visible = publication.Visible;
                     publi.Foto = publication.Foto;
                     publi.Referencias = publication.Referencias;
 
+                    
+                    publi.Disponibilidad = dis;
+
                     db.SaveChanges();
                     return RedirectToAction("UserInfo");
                 }
-                else
-                {
-                    return View("Error");
+                else {
+                    if (dis == null) {
+                        ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia");
+                    }
+                    return View();
                 }
             }
+          
         }
 
         public ActionResult EditUser()
