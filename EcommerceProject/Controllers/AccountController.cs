@@ -183,12 +183,12 @@ namespace EcommerceProject.Controllers
                     publi.Precio = publication.Precio;
                     publi.Reel = publication.Reel;
                    // publi.Garantia = publication.Garantia;
-                    publi.Visible = publication.Visible;
                     publi.Foto = publication.Foto;
                     publi.Referencias = publication.Referencias;
                     publi.Estado = "Pendiente";
+                    publi.Visible = false;
 
-                    
+
                     publi.Disponibilidad = dis;
 
                     db.SaveChanges();
