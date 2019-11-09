@@ -7,7 +7,7 @@ using System.Web;
 
 namespace EcommerceProject.Migrations
 {
-    public class MockRoles
+    public class MockData
     {
         public static void Initialize()
         {
@@ -23,10 +23,14 @@ namespace EcommerceProject.Migrations
                             Nombre = role
                         };
                         db.Roles.Add(myRole);
-                        db.SaveChanges();
                     }
                 }
-            } 
+                db.SaveChanges();
+
+            }
+
+
+
         }
 
     }

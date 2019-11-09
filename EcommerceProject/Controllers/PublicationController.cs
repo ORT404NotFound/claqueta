@@ -45,12 +45,13 @@ namespace EcommerceProject.Controllers
         
         // para guardar una publicacion, necesita auth de user
         [HttpPost]
-        public ActionResult SavePublication(Publicacion publication)
+        public ActionResult SavePublication(Publicacion publication, FormCollection form)
         {
             if (Session["UserId"] == null) {
                 return View("NotAuthorized");
             }
-            if (ModelState.IsValid) {
+            if (ModelState.IsValid)
+            {
                 int userId;
                 try
                 {
@@ -67,15 +68,21 @@ namespace EcommerceProject.Controllers
                     publication.Estado = "Pendiente";
                     publication.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
                     publication.FechaDePublicacion = Convert.ToDateTime(DateTime.Now);
+                    var dis = form["Disponibilidad[]"];
+                    publication.Disponibilidad = dis;
                     db.Publicaciones.Add(publication);
                     db.SaveChanges();
                     ModelState.Clear();
                     ViewBag.Message = "La publicacion fue guardada exitosamente";
                     return View();
-
                 }
             }
-            return View();
+            else {
+                if (form["Disponibilidad[]"] == null) {
+                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia de la semana");
+                }
+                return View();
+            }
         }
         
         public ActionResult DisablePublication(int idPublication) {

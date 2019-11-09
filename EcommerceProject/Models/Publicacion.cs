@@ -82,6 +82,10 @@ namespace EcommerceProject.Models
         [Display(Name = "Estado")]
         public String Estado { get; set; }
 
+        [Display(Name = "Disponibilidad")]
+        [Required(ErrorMessage = "El campo Disponibilidad es requerido")]
+        public String Disponibilidad { get; set; }
+
 
         [Display(Name = "Fecha de Publicación")]
         [DataType(DataType.DateTime)]
