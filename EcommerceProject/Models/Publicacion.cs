@@ -65,10 +65,10 @@ namespace EcommerceProject.Models
         [DataType(DataType.Text)]
         public String Reel { get; set; }
 
-        [Display(Name = "Garantía")]
-        [Required(ErrorMessage = "El campo Garantía es requerido")]
-        [DataType(DataType.Currency)]
-        public double Garantia { get; set; }
+       // [Display(Name = "Garantía")]
+       // [Required(ErrorMessage = "El campo Garantía es requerido")]
+        //[DataType(DataType.Currency)]
+       // public double Garantia { get; set; }
 
 
         [Display(Name = "Promocionada")]

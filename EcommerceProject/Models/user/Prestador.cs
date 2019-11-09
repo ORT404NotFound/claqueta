@@ -9,7 +9,7 @@ namespace EcommerceProject.Models
 {
     public class Prestador : Usuario
     {
-        [Display(Name = "Poliza de Seguro")]
-        public String PolizaDeSeguro { get; set; }
+        //[Display(Name = "Poliza de Seguro")]
+        //public String PolizaDeSeguro { get; set; }
     }
 }

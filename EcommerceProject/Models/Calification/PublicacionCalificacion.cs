@@ -14,7 +14,7 @@ namespace EcommerceProject.Models
         public int Id { get; set; }
         public int Puntaje { get; set; }
         public String Comentario { get; set; }
-        public String Replica { get; set; }
+        //public String Replica { get; set; }
         public virtual Publicacion Publicacion { get; set; }
     }
 }

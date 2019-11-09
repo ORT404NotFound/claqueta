@@ -6,8 +6,8 @@ namespace EcommerceProject.Models
     {
         public class SQLServerContext : DbContext
         {
-            //public SQLServerContext() : base("name=awsConn")
-            public SQLServerContext() : base("ecommerce")
+            public SQLServerContext() : base("name=awsConn")
+            //public SQLServerContext() : base("ecommerce")
             {
                 Database.SetInitializer(new MigrateDatabaseToLatestVersion<SQLServerContext, Migrations.Configuration>());
             }
