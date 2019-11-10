@@ -44,9 +44,18 @@
                 </li>
                 @if (Session["UserId"] != null)
                 {
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("UserInfo","Account")">Mi Cuenta</a>
-                    </li>
+                    if (Session["isAdmin"] == "false")
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("UserInfo", "Account")">Mi Cuenta</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Index","Admin")">Panel de Administracion</a>
+                        </li>
+                    }
                     <li>
                         <a class="nav-link" href="@Url.Action("LogOut","Account")">Cerrar Sesión</a>
                     </li>

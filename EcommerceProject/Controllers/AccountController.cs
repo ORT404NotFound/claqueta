@@ -70,20 +70,28 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-
-                var r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
-                var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email
+                var rUser = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
+                var rAdmin = db.Roles.SingleOrDefault(role => role.Nombre == "ADMIN");
+                var userToFind = db.Usuarios.FirstOrDefault(u => u.Email == user.Email
                                                    && u.Password == user.Password);
-
                 if (userToFind != null)
                 {
-                    if (!userToFind.Roles.Contains(r))
+                    if (userToFind.Roles.Contains(rAdmin))
                     {
-                        return View("../Shared/NotAuthorized");
+                        Session["UserId"] = userToFind.Id;
+                        Session["Email"] = user.Email;
+                        Session["isAdmin"] = "true";
+                        return RedirectToAction("LoggedIn");
                     }
-                    Session["UserId"] = userToFind.Id;
-                    Session["Email"] = user.Email;
-                    return RedirectToAction("LoggedIn");
+                    else if (userToFind.Roles.Contains(rUser))
+                    {
+                        Session["UserId"] = userToFind.Id;
+                        Session["Email"] = user.Email;
+                        Session["isAdmin"] = "false";
+                        return RedirectToAction("LoggedIn");
+                    } else   {
+                        return View("../Shared/NotAuthorized");
+                   }
                 }
                 else
                 {
