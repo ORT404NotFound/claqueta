@@ -50,7 +50,7 @@
                                 </p>
                                 <hr />
                                 <div class="float-right">
-                                    @if (!p.Promocionada)
+                                    @if (!p.Promocionada && p.Visible == true && p.Estado != "Pendiente" && p.Estado != "Rechazada" )
                                     {
                                         <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = p.Id })" class="btn btn-outline-primary">Promocionar</a>
                                     }
