@@ -12,6 +12,7 @@ namespace EcommerceProject.Models
     { 
         [Key]
         public int Id { get; set; }
+        //Contratada O Cancelada 
         public String Estado { get; set; }
 
         [ForeignKey("Publicacion")]

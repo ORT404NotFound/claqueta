@@ -1,78 +1,148 @@
 ﻿@model EcommerceProject.Models.Publicacion
 
-<h4>Detalle</h4>
 <div>
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Categoria)
-        </dt>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
 
-        <dd>
-            @Html.DisplayFor(model => model.Categoria)
-        </dd>
+            <!-- Post Content Column -->
+            <div class="col-lg-12 col-md-12 col-xs-12">
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Ubicacion)
-        </dt>
+                <!-- Title -->
+                <h1 class="mt-4">@Model.Titulo</h1>
+                <!-- Author -->
+                <p class="lead">
+                    Por
+                   @Model.Usuario.Nombre @Model.Usuario.Apellido
+                </p>
+                <p class="lead">
+                    @Model.Categoria
+                </p>
+                <p class="lead">
+                    @Model.Ubicacion
+                </p>
+                <!-- Date/Time -->
+                <p>Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
+                <!-- Preview Image -->
+                <!--<img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">-->
+                <hr>
 
-        <dd>
-            @Html.DisplayFor(model => model.Ubicacion)
-        </dd>
+                <!-- Post Content -->
+                <p class="lead">
+                    ($)<b>@Model.Precio</b>
+                </p>
+                <p class="lead">
+                    @Model.Descripcion
+                </p>
+                <div class="contrataciones-box col-md-6 col-xs-12 col-lg-6">
+                    <div class="form-group">
+                        <label>
+                            Seleccione un rango de fechas para efectuar la contratacion
+                        </label>                   
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Titulo)
-        </dt>
+                        <!-- hacer esto el precio es la cantidad de fechas X el precio de la publi -->
 
-        <dd>
-            @Html.DisplayFor(model => model.Titulo)
-        </dd>
+                        <input type="text"
+                               class="picker datepicker-here form-control"
+                               data-language='en'
+                               data-multiple-dates="100"
+                               data-multiple-dates-separator=", "
+                               data-position='top left' />
+                    </div>
+                    <button class="btn btn-success" onclick="contratar()">
+                        Contratar
+                    </button>
+                </div>
+                <hr>
+                <!-- Comments Form -->
+                <div class="card my-4">
+                    <h5 class="card-header">Deja tu comentario:</h5>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Comentar</button>
+                        </form>
+                    </div>
+                </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
+                <!-- Single Comment -->
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
+                <!-- Comment with nested comments -->
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Foto)
-        </dt>
+                        <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0">Commenter Name</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Foto)
-        </dd>
+                        <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0">Commenter Name</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            </div>
+                        </div>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Precio)
-        </dt>
+                    </div>
+                </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Precio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Referencias)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Referencias)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CV)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CV)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Reel)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Reel)
-        </dd>
-    </dl>
+            </div>
+        </div>
+    </div>
 </div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var idPubli = @Model.Id;
+               $.ajax({
+                   data: {
+                       publicacionId: idPubli
+                },
+                type: "get",
+                url: "/Home/DameDiasNoDisponiblesPubli",
+                   success: function (arrayDeDias) {
+                       var disabledDays = arrayDeDias;
+                       console.log(disabledDays)
+                         $('.picker').datepicker({
+                          language: 'es',
+                            onRenderCell: function (date, cellType) {
+                                if (cellType == 'day') {
+                                    var day = date.getDay(),
+                                        isDisabled = disabledDays.indexOf(day) != -1;
+                                    return {
+                                        disabled: isDisabled
+                                    }
+                                }
+                            },
+                            minDate: new Date()
+                    });
+                },
+                error: function (result) {
+                    alert("Hubo un error");
+                }
+            });  
+        })
+
+        function contratar(desde, hasta) {
+            console.log(desde)
+            console.log(hasta)
+
+        }
+    </script>
+}

@@ -29,7 +29,9 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var publicacion = db.Publicaciones.Where(p => p.Id == id).FirstOrDefault();
+                var publicacion = db.Publicaciones
+                    .Include("Usuario")
+                    .Where(p => p.Id == id).FirstOrDefault();
                 if (publicacion != null)
                 {
                     return View(publicacion);
@@ -40,6 +42,42 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
+
+        public JsonResult DameDiasNoDisponiblesPubli(int publicacionId) {
+            using (var db = new SQLServerContext())
+            {
+                var publicacion = db.Publicaciones
+                    .Where(p => p.Id == publicacionId).FirstOrDefault();
+                if (publicacion != null)
+                {
+                    var disponibilidad = publicacion.Disponibilidad;
+                    var NoDisponibilidad = string.Join(",", DameDiasNoDisponibles(disponibilidad));
+                    return Json(NoDisponibilidad, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json("", JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
+        public string[] DameDiasNoDisponibles(string DiasDisponibles) {
+            string[] semana = new string[] {
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6"
+            };
+            var semanaList = new List<string>(semana);
+            List<String> diasParseados  = DiasDisponibles.Split(',').ToList();
+            foreach (var dia in diasParseados) {
+                semanaList.Remove(dia);
+            }
+            return semanaList.ToArray();
+        }
+
 
     }
 }

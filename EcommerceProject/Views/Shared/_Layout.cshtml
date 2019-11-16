@@ -1,11 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Claqueta</title>
     @Styles.Render("~/Content/bootstrap.css")
+    @Styles.Render("~/Content/datepicker.min.css")
+
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -93,6 +95,9 @@
     </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/datepicker.min.js")
+    @Scripts.Render("~/Content/datepicker.es.js")
+
     @RenderSection("scripts", required: false)
 </body>
 </html>
