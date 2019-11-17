@@ -154,7 +154,6 @@
         })
 
         function contratar(userId, publicacionId) {
-            console.log(diasSelec)
                 if (diasSelec.length == 0) {
                     alert("Debe seleccionar un rango de fechas para contratar este servicio");
                 }
@@ -165,8 +164,14 @@
                         publicacionId: publicacionId
                 },
                 type: "post",
-                url: "/Publication/CrearPublicacion",
+                url: "/Publication/CrearContratacion",
                     success: function (result) {
+                        if (result == "NOTOK") {
+                            alert("No se puede contratar a uno mismo");
+
+                        } else {
+
+                        }
 
                 },
                 error: function (result) {

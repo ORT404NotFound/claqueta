@@ -120,10 +120,32 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public JsonResult CrearPublicacion(String[] diasSeleccionados, int usuarioId, int publicacionId) 
+        public ActionResult CrearContratacion(String[] diasSeleccionados, int usuarioId, int publicacionId) 
         {
+            var result = string.Join(",", diasSeleccionados);
 
-            return null;
+            using (var db = new SQLServerContext())
+            {
+
+                var userToFind = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
+                var publicacion = db.Publicaciones.SingleOrDefault(p => p.Id == publicacionId);
+
+                if (publicacion.Usuario.Id == usuarioId) {
+                    return Json("NOTOK", JsonRequestBehavior.AllowGet);
+                }
+
+                Contratacion contratacion = new Contratacion();
+                contratacion.Estado = "Pendiente";
+                contratacion.Fechas = result;
+                contratacion.Publicacion = publicacion;
+                contratacion.Usuario = userToFind;
+                db.Contrataciones.Add(contratacion);
+                db.SaveChanges();
+
+                //return RedirectToAction("PagarContratacion", "MercadoPago", contratacion);
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+
         }
 
     }
