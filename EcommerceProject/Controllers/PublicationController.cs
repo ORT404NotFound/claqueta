@@ -119,5 +119,12 @@ namespace EcommerceProject.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult CrearPublicacion(String[] diasSeleccionados, int usuarioId, int publicacionId) 
+        {
+
+            return null;
+        }
+
     }
 }
