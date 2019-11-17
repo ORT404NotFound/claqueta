@@ -106,9 +106,7 @@ namespace EcommerceProject.Controllers
             {
                 return View("NotAuthorized");
             }
-            
-
-
+          
             using (var db = new SQLServerContext())
             {
                 Publicacion p = db.Publicaciones.Find(idPublication);
@@ -142,8 +140,7 @@ namespace EcommerceProject.Controllers
                 db.Contrataciones.Add(contratacion);
                 db.SaveChanges();
 
-                //return RedirectToAction("PagarContratacion", "MercadoPago", contratacion);
-                return Json("OK", JsonRequestBehavior.AllowGet);
+                return Json(contratacion.Id, JsonRequestBehavior.AllowGet);
             }
 
         }

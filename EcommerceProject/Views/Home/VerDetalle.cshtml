@@ -154,10 +154,10 @@
         })
 
         function contratar(userId, publicacionId) {
-                if (diasSelec.length == 0) {
-                    alert("Debe seleccionar un rango de fechas para contratar este servicio");
-                }
-                $.ajax({
+            if (diasSelec.length == 0) {
+                alert("Debe seleccionar un rango de fechas para contratar este servicio");
+            } else {
+                 $.ajax({
                     data: {
                         diasSeleccionados: diasSelec,
                         usuarioId: userId,
@@ -170,14 +170,16 @@
                             alert("No se puede contratar a uno mismo");
 
                         } else {
-
+                            window.location = "/MercadoPago/PagarContratacion?contratacionId="+result;
                         }
-
                 },
                 error: function (result) {
                     alert("Hubo un error");
                 }
             });
+
+            }
+               
         }
     </script>
 }

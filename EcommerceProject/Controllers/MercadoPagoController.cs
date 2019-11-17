@@ -33,8 +33,9 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult PagarContratacion(Contratacion c)
+        public ActionResult PagarContratacion(int contratacionId)
         {
+
             int userId;
             try
             {
@@ -46,6 +47,9 @@ namespace EcommerceProject.Controllers
             }
             using (var db = new SQLServerContext())
             {
+                Contratacion c = db.Contrataciones
+                    .Include("Publicacion")
+                    .FirstOrDefault(con => con.Id == contratacionId);
                 Usuario u = db.Usuarios.Find(userId);
                 MP mp = new MP();
                 String url = mp.PagarContratacion(u, c);
@@ -134,7 +138,9 @@ namespace EcommerceProject.Controllers
             using (var db = new SQLServerContext())
             {
                 Usuario u = db.Usuarios.Find(userId);
-                Contratacion c = db.Contrataciones.Find(contratacionId);
+                Contratacion c = db.Contrataciones
+                    .Include("Publicacion")
+                    .FirstOrDefault(cont=> cont.Id == contratacionId);
                 c.Estado = "Contratada";
                 //creo un pago para una contratacion
                 Pago pago = new Pago();
@@ -144,9 +150,10 @@ namespace EcommerceProject.Controllers
                 pago.Publicacion = c.Publicacion;
                 pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
                 db.Pagos.Add(pago);
+                c.Pago = pago;
                 //guardo cambios en la db
                 db.SaveChanges();
-                return RedirectToAction("Index", "Home");
+                return View(c.Publicacion.Usuario);
             }
         }
     }
