@@ -254,5 +254,23 @@ namespace EcommerceProject.Controllers
             }
         }
 
+        public ActionResult GetContratacionesRealizadas() {
+
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userId = Int32.Parse(Session["UserId"].ToString());
+            using (var db = new SQLServerContext())
+            {
+                var contataciones = db.Contrataciones
+                    .Include("Publicacion")
+                    .Where(c=> c.Usuario.Id == userId)
+                    .ToList();
+                             
+                return View(contataciones);
+            }
+        }
+
     }
 }

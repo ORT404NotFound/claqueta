@@ -7,7 +7,7 @@
     <div class="col-md-2">
         <ul class="list-group">
             <li class="list-group-item"><a href="@Url.Action("UserInfo","Account")">Publicaciones</a></li>
-            <li class="list-group-item"><a href="#">Contrataciones</a></li>
+            <li class="list-group-item"><a href="@Url.Action("GetContratacionesRealizadas","Account")">Contrataciones realizadas</a></li>
             <li class="list-group-item"><a href="#">Preguntas</a></li>
             <li class="list-group-item"><a href="#">Opiniones</a></li>
             <li class="list-group-item"><a href="@Url.Action("EditUser","Account")">Detalles de cuenta</a></li>
@@ -44,7 +44,6 @@
                                     }
                                 </h6>
                                 <h6>Precio ($) @p.Precio</h6>
-                                <h6>Título</h6>
                                 <p class="card-text">
                                     @p.Titulo
                                 </p>
