@@ -12,6 +12,7 @@ namespace EcommerceProject.Models
     { 
         [Key]
         public int Id { get; set; }
+        //Contratada O Cancelada 
         public String Estado { get; set; }
 
         [ForeignKey("Publicacion")]
@@ -19,8 +20,9 @@ namespace EcommerceProject.Models
         public Publicacion Publicacion { get; set; }
 
         public virtual Pago Pago { get; set; }
-        public DateTime FechaDesde { get; set; }
-        public DateTime FechaHasta { get; set; }
+        public String Fechas { get; set; }
+
+        public virtual Usuario Usuario { get; set; }
 
     }
 }

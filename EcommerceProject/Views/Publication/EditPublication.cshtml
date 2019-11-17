@@ -5,7 +5,7 @@
 }
 
 @{
-        string[] categorias = new string[] {
+    string[] categorias = new string[] {
                 "Asistentes de Producción",
                 "Camarógrafos",
                 "Castineras",
@@ -27,7 +27,7 @@
                 "Vestuaristas"
             };
 
-        string[] semana = new string[] {
+    string[] semana = new string[] {
                 "Lunes",
                 "Martes",
                 "Miércoles",
@@ -36,10 +36,22 @@
                 "Sábado",
                 "Domingo"
             };
-        ViewBag.categorias = categorias;
-        ViewBag.semana = semana;
 
-        List<String> diasParseados = Model.Disponibilidad.Split(',').ToList();
+    var semanaValores = new Dictionary<string, string> {
+                ["Lunes"] = "1",
+                ["Martes"] = "2",
+                ["Miércoles"] = "3" ,
+                ["Jueves"] = "4",
+                ["Viernes"] = "5",
+                ["Sábado"] = "6" ,
+                ["Domingo"] = "0"
+            };
+    ViewBag.categorias = categorias;
+    ViewBag.semana = semana;
+    ViewBag.semanaValores = semanaValores;
+
+
+    List<String> diasParseados = Model.Disponibilidad.Split(',').ToList();
 
 }
 
@@ -79,12 +91,12 @@
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
                 @foreach (var dia in ViewBag.semana)
                 {
-                    if (diasParseados.Contains(dia))
+                    if (diasParseados.Contains(semanaValores[dia]))
                     {
                         <!--cada item -->
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="@dia" id="Disponibilidad[]" name="Disponibilidad[]" checked="checked">
-                            <label class="form-check-label" for="@dia">
+                            <input class="form-check-input" type="checkbox" value="@semanaValores[dia]" id="Disponibilidad[]" name="Disponibilidad[]" checked="checked">
+                            <label class="form-check-label" for="@semanaValores[dia]">
                                 @dia
                             </label>
                         </div>
@@ -94,8 +106,8 @@
                     {
                         <!--cada item -->
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="@dia" id="Disponibilidad[]" name="Disponibilidad[]">
-                            <label class="form-check-label" for="@dia">
+                            <input class="form-check-input" type="checkbox" value="@semanaValores[dia]" id="Disponibilidad[]" name="Disponibilidad[]">
+                            <label class="form-check-label" for="@semanaValores[dia]">
                                 @dia
                             </label>
                         </div>

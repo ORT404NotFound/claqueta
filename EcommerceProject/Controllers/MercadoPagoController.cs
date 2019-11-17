@@ -32,6 +32,27 @@ namespace EcommerceProject.Controllers
                 return Redirect(url);
             }
         }
+
+        public ActionResult PagarContratacion(Contratacion c)
+        {
+            int userId;
+            try
+            {
+                userId = Int32.Parse(Session["UserId"].ToString());
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            using (var db = new SQLServerContext())
+            {
+                Usuario u = db.Usuarios.Find(userId);
+                MP mp = new MP();
+                String url = mp.PagarContratacion(u, c);
+                return Redirect(url);
+            }
+        }
+
         public ActionResult PagoError ()
         {
             return View();
@@ -85,6 +106,47 @@ namespace EcommerceProject.Controllers
                 //guardo cambios en la db
                 db.SaveChanges();
                 return RedirectToAction("UserInfo","Account");
+            }
+        }
+
+
+        public ActionResult PagoExitosoContratacion()
+        {
+            String externalRef = Request.QueryString["external_reference"];
+            int userId;
+            try
+            {
+                userId = Int32.Parse(Session["UserId"].ToString());
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            int contratacionId;
+            try
+            {
+                contratacionId = Int32.Parse(externalRef);
+            }
+            catch (FormatException e)
+            {
+                throw e;
+            }
+            using (var db = new SQLServerContext())
+            {
+                Usuario u = db.Usuarios.Find(userId);
+                Contratacion c = db.Contrataciones.Find(contratacionId);
+                c.Estado = "Contratada";
+                //creo un pago para una contratacion
+                Pago pago = new Pago();
+                pago.Aprobado = true;
+                pago.Concepto = "CONTRATACION";
+                pago.Usuario = u;
+                pago.Publicacion = c.Publicacion;
+                pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
+                db.Pagos.Add(pago);
+                //guardo cambios en la db
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
             }
         }
     }
