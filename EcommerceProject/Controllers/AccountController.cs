@@ -254,6 +254,7 @@ namespace EcommerceProject.Controllers
             }
         }
 
+        //contrataciones q hizo
         public ActionResult GetContratacionesRealizadas() {
 
             if (Session["UserId"] == null)
@@ -265,9 +266,26 @@ namespace EcommerceProject.Controllers
             {
                 var contataciones = db.Contrataciones
                     .Include("Publicacion")
-                    .Where(c=> c.Usuario.Id == userId)
+                    .Where(c=> c.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente"))
+                    .ToList();          
+                return View(contataciones);
+            }
+        }
+
+        // al que lo contratan
+        public ActionResult GetContratacionesDelUsuario()
+        { 
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userId = Int32.Parse(Session["UserId"].ToString());
+            using (var db = new SQLServerContext())
+            {
+                var contataciones = db.Contrataciones
+                    .Include("Publicacion")
+                    .Where(c => c.Publicacion.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente"))
                     .ToList();
-                             
                 return View(contataciones);
             }
         }
