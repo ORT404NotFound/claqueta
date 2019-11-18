@@ -70,6 +70,7 @@ namespace EcommerceProject.Controllers
         public ActionResult PagoExitoso ()
         {
             String externalRef = Request.QueryString["external_reference"];
+            String prefId  = Request.QueryString["preferenece_id"];
             int userId;
             try
             {
