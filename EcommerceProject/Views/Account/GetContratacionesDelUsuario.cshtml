@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<EcommerceProject.Models.Contratacion>
 
 @{
-    ViewBag.Title = "Contrataciones realizadas";
+    ViewBag.Title = "Contrataciones a realizar";
 }
 <div class="row" style="margin-top: 20px">
     <div class="col-md-2">
@@ -15,7 +15,7 @@
         </ul>
     </div>
     <div class="col-md-10">
-      
+
         @if (Model.Count() > 0)
         {
             <div class="well">
@@ -32,8 +32,7 @@
                                 </p>
                                 <hr />
                                 <div class="float-right">
-                                    <button> cancelar</button>
-                                   <!--aca poner botones-->
+                                    <!--aca poner botones-->
                                 </div>
                             </div>
                         </div>

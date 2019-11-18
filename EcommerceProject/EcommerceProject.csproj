@@ -250,6 +250,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\MercadoPago\PagoExitosoContratacion.cshtml" />
     <Content Include="Views\Account\GetContratacionesRealizadas.cshtml" />
+    <Content Include="Views\Account\GetContratacionesDelUsuario.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
