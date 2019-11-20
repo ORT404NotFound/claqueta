@@ -142,7 +142,7 @@
     <Compile Include="Migrations\MockData.cs" />
     <Compile Include="Models\Calification\PublicacionCalificacion.cs" />
     <Compile Include="Models\Calification\UsuarioCalificacion.cs" />
-    <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\Categorias.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Pago.cs" />
     <Compile Include="Models\Contratacion.cs" />
