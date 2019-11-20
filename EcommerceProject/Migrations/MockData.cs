@@ -1,9 +1,7 @@
 ﻿using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace EcommerceProject.Migrations
 {
@@ -12,44 +10,49 @@ namespace EcommerceProject.Migrations
         public static void Initialize()
         {
             string[] roles = new string[] { "USER", "ADMIN" };
+
             using (var db = new SQLServerContext())
             {
-                foreach (var role in roles) {
-                    Rol ro = db.Roles.SingleOrDefault(r => r.Nombre == role);
-                    if (ro == null) {
-                        // si el rol no existe lo guarda en la db
+                foreach (var rol in roles)
+                {
+                    Rol ro = db.Roles.SingleOrDefault(r => r.Nombre == rol);
+
+                    if (ro == null)
+                    {
+                        // SI EL ROL NO EXISTE LO GUARDA EN LA BASE DE DATOS
                         Rol myRole = new Rol()
                         {
-                            Nombre = role
+                            Nombre = rol
                         };
                         db.Roles.Add(myRole);
                     }
                 }
                 db.SaveChanges();
-                Usuario us = db.Usuarios.Where(u => u.Email == "admin@claqueta.com.ar").FirstOrDefault();
-                if (us == null) {
-                    Usuario user = new Usuario();
-                    user.Activo = 1;
-                    user.Apellido = "Claqueta";
-                    user.Nombre = "Administrador";
-                    user.Password = "123123";
-                    user.ConfirmPassword = "123123";
+
+                Usuario usuario = db.Usuarios.Where(u => u.Email == "admin@claqueta.com.ar").FirstOrDefault();
+
+                if (usuario == null)
+                {
+                    Usuario user = new Usuario
+                    {
+                        Nombre = "Administrador",
+                        Apellido = "Claqueta",
+                        Password = "123123",
+                        ConfirmPassword = "123123",
+                        Activo = true
+                    };
+
                     Rol rol = db.Roles.SingleOrDefault(r => r.Nombre == "ADMIN");
+
                     user.Roles.Add(rol);
-                    user.Telefono = "48612121";
-                    user.TipoDocumento = "DNI";
-                    user.Documento = "111222333";
                     user.Email = "admin@claqueta.com.ar";
-                    user.FechaDeNacimiento = Convert.ToDateTime(DateTime.Now);
+                    user.FechaDeNacimiento = Convert.ToDateTime("01/01/2000");
+                    user.Telefono = "-";
+
                     db.Usuarios.Add(user);
                     db.SaveChanges();
-
                 }
             }
-
-         
-
         }
-
     }
 }

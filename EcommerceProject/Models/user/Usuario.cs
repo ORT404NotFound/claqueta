@@ -2,93 +2,82 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Web;
 
 namespace EcommerceProject.Models
 {
     [Table("Usuarios")]
     public class Usuario
     {
-
-        ///
-        /// RELACIONES 
-        /// 
         public Usuario()
         {
-            this.Publicationes = new HashSet<Publicacion>();
-            this.UsuarioCalificacion = new HashSet<UsuarioCalificacion>();
-            this.Contrataciones = new HashSet<Contratacion>();
             this.Roles = new HashSet<Rol>();
+            this.Publicaciones = new HashSet<Publicacion>();
+            this.Contrataciones = new HashSet<Contratacion>();
+            this.UsuarioCalificacion = new HashSet<UsuarioCalificacion>();
         }
 
         [Key]
         public int Id { get; set; }
 
-        [Display(Name="Email")]
-        [Required(ErrorMessage = "El campo email es requerido")]
+        [Display(Name = "Nombre")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [DataType(DataType.Text)]
+        public String Nombre { get; set; }
+
+        [Display(Name = "Apellido")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [DataType(DataType.Text)]
+        public String Apellido { get; set; }
+
+        [Display(Name = "Tipo de Identificación")]
+        public String TipoDocumento { get; set; }
+
+        [Display(Name = "Número de Identificación")]
+        public String Documento { get; set; }
+
+        [Display(Name = "Fecha de Nacimiento")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [DataType(DataType.Date)]
+        public DateTime? FechaDeNacimiento { get; set; }
+
+        [Display(Name = "Teléfono")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [DataType(DataType.PhoneNumber)]
+        public String Telefono { get; set; }
+
+        [Display(Name = "E-Mail")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [DataType(DataType.EmailAddress)]
         public String Email { get; set; }
 
         [Display(Name = "Contraseña")]
-        [Required(ErrorMessage = "El campo contraseña es requerido")]
-        [DataType(DataType.Password)] 
-        [StringLength(255)]
+        [Required(ErrorMessage = "Este campo es requerido.")]
+        [DataType(DataType.Password)]
         public String Password { get; set; }
 
-        [Compare("Password", ErrorMessage = "Las contraseñas deben coincidir")]
         [Display(Name = "Confirmar Contraseña")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden.")]
         [NotMapped]
-        [StringLength(255)]
         public String ConfirmPassword { get; set; }
 
-        [Required(ErrorMessage = "El campo nombre es requerido")]
-        [Display(Name = "Nombre")]
-        public String Nombre { get; set; }
-
-
-        [Required(ErrorMessage = "El campo apellido es requerido")]
-        [Display(Name = "Apellido")]
-        public String Apellido { get; set; }
-
-
-        [Display(Name = "Fecha de nacimiento")]
-        [Required(ErrorMessage = "El campo fecha de nacimiento es requerido")]
-        [DataType(DataType.DateTime)]
-        public DateTime? FechaDeNacimiento { get; set; }
-
-        [Display(Name = "Activo")]
-        public int Activo { get; set; }
-
-        [Display(Name = "Tipo de Documento")]
-        [Required(ErrorMessage = "El campo Tipo de Documento es requerido")]
-        public String TipoDocumento { get; set; }
-
-        [Display(Name = "Documento")]
-        [Required(ErrorMessage = "El campo Documento es requerido")]
-        [DataType(DataType.Text)]
-        public String Documento { get; set; }
-
-
-        [Display(Name = "Teléfono")]
-        [Required(ErrorMessage = "El campo Teléfono es requerido")]
-        [DataType(DataType.Text)]
-        public String Telefono { get; set; }
+        public bool Activo { get; set; }
 
         ///
-        /// RELACIONES 
-        /// 
-        // relacion 1 a muchos por Publications (a confirmar talvez es muchos a muchos)
-        public ICollection<Publicacion> Publicationes { get; set; }
+        /// RELACIONES
+        ///
 
-        // relacion 1 a muchos por calificaciones 
-        public ICollection<UsuarioCalificacion> UsuarioCalificacion { get; set; }
-
-        // relacion 1 a muchos por contrataciones 
-
-        public ICollection<Contratacion> Contrataciones { get; set; }
-
+        // RELACIÓN DE 1 A 1 POR ROL
         public virtual ICollection<Rol> Roles { get; set; }
 
+        // RELACIÓN DE 1 A MUCHOS POR PUBLICACIONES
+        public ICollection<Publicacion> Publicaciones { get; set; }
+
+        // RELACIÓN DE 1 A MUCHOS POR CONTRATACIONES
+        public ICollection<Contratacion> Contrataciones { get; set; }
+
+        // RELACIÓN DE 1 A MUCHOS POR CALIFICACIONES
+        public ICollection<UsuarioCalificacion> UsuarioCalificacion { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace EcommerceProject.Controllers
                         return View();
                     }
 
-                    user.Activo = 1;
+                    user.Activo = true;
                     db.Usuarios.Add(user);
                     Rol r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
                     user.Roles.Add(r);

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace EcommerceProject.Models
+﻿namespace EcommerceProject.Models
 {
-    public static class Categories
+    public static class Categorias
     {
-        public static string[] getCategories() {
-            string[] categories = new string[] {
+        public static string[] GetCategorias()
+        {
+            string[] categorias = new string[] {
                 "Asistentes de Producción",
                 "Camarógrafos",
                 "Castineras",
@@ -29,7 +25,8 @@ namespace EcommerceProject.Models
                 "Utileros",
                 "Vestuaristas"
             };
-            return categories;
+
+            return categorias;
         }
     }
 }
