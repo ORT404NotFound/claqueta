@@ -1,112 +1,112 @@
 ﻿@model EcommerceProject.Models.Publicacion
 
-    <div>
-        <!-- Page Content -->
-        <div class="container">
-            <div class="row">
+<div>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
 
-                <!-- Post Content Column -->
-                <div class="col-lg-12 col-md-12 col-xs-12">
+            <!-- Post Content Column -->
+            <div class="col-lg-12 col-md-12 col-xs-12">
 
-                    <!-- Title -->
-                    <h1 class="mt-4">@Model.Titulo</h1>
-                    <!-- Author -->
-                    <p class="lead">
-                        Por
-                        @Model.Usuario.Nombre @Model.Usuario.Apellido
-                    </p>
-                    <p class="lead">
-                        @Model.Categoria
-                    </p>
-                    <p class="lead">
-                        @Model.Ubicacion
-                    </p>
-                    <!-- Date/Time -->
-                    <p>Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
-                    <!-- Preview Image -->
-                    <!--<img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">-->
-                    <hr>
+                <!-- Title -->
+                <h1 class="mt-4">@Model.Titulo</h1>
+                <!-- Author -->
+                <p class="lead">
+                    Por
+                    @Model.Usuario.Nombre @Model.Usuario.Apellido
+                </p>
+                <p class="lead">
+                    @Model.Categoria
+                </p>
+                <p class="lead">
+                    @Model.Ubicacion
+                </p>
+                <!-- Date/Time -->
+                <p>Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
+                <!-- Preview Image -->
+                <!--<img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">-->
+                <hr>
 
-                    <!-- Post Content -->
-                    <p class="lead">
-                        ($)<b>@Model.Precio</b>
-                    </p>
-                    <p class="lead">
-                        @Model.Descripcion
-                    </p>
-                    @if (Session["UserId"] != null)
-                    {
-                        <div class="contrataciones-box col-md-6 col-xs-12 col-lg-6">
+                <!-- Post Content -->
+                <p class="lead">
+                    ($)
+                    <b>@Model.Precio</b>
+                </p>
+                <p class="lead">
+                    @Model.Descripcion
+                </p>
+                @if (Session["UserId"] != null)
+                {
+                    <div class="contrataciones-box col-md-6 col-xs-12 col-lg-6">
+                        <div class="form-group">
+                            <label>
+                                Seleccione un rango de fechas para efectuar la contratacion
+                            </label>
+
+                            <!-- hacer esto el precio es la cantidad de fechas X el precio de la publi -->
+
+                            <input type="text"
+                                   class="picker datepicker-here form-control"
+                                   data-language='es'
+                                   data-multiple-dates="100"
+                                   data-multiple-dates-separator=", "
+                                   data-position='top left' />
+                        </div>
+                        <button class="btn btn-success" onclick="contratar(@Session["UserId"],@Model.Id)">
+                            Contratar
+                        </button>
+                    </div>
+                }
+
+                else
+                {
+                    <div class="col-md-6 col-xs-12">
+                        <label>Debe estar logueado contratar <a href="@Url.Action("Login", "Account")">aquí</a></label>
+                    </div>
+                }
+                <hr>
+                <!-- Comments Form -->
+                <div class="card my-4">
+                    <h5 class="card-header">Deja tu comentario:</h5>
+                    <div class="card-body">
+                        <form>
                             <div class="form-group">
-                                <label>
-                                    Seleccione un rango de fechas para efectuar la contratacion
-                                </label>
-
-                                <!-- hacer esto el precio es la cantidad de fechas X el precio de la publi -->
-
-                                <input type="text"
-                                       class="picker datepicker-here form-control"
-                                       data-language='es'
-                                       data-multiple-dates="100"
-                                       data-multiple-dates-separator=", "
-                                       data-position='top left' />
+                                <textarea class="form-control" rows="3"></textarea>
                             </div>
-                            <button class="btn btn-success" onclick="contratar(@Session["UserId"],@Model.Id)">
-                                Contratar
-                            </button>
-                        </div>
-                    }
-
-                    else
-                    {
-                        <div class="col-md-6 col-xs-12">
-                            <label>Debe estar logueado contratar <a href="@Url.Action("Login", "Account")">aquí</a></label>
-                        </div>
-                    }
-                    <hr>
-                    <!-- Comments Form -->
-                    <div class="card my-4">
-                        <h5 class="card-header">Deja tu comentario:</h5>
-                        <div class="card-body">
-                            <form>
-                                <div class="form-group">
-                                    <textarea class="form-control" rows="3"></textarea>
-                                </div>
-                                <button type="submit" class="btn btn-primary">Comentar</button>
-                            </form>
-                        </div>
+                            <button type="submit" class="btn btn-primary">Comentar</button>
+                        </form>
                     </div>
+                </div>
 
-                    <!-- Single Comment -->
-                    <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                        </div>
+                <!-- Single Comment -->
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                     </div>
+                </div>
 
-                    <!-- Comment with nested comments -->
-                    <div class="media mb-4">
-                        <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                        <div class="media-body">
-                            <h5 class="mt-0">Commenter Name</h5>
-                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                <!-- Comment with nested comments -->
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                    <div class="media-body">
+                        <h5 class="mt-0">Commenter Name</h5>
+                        Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
 
-                            <div class="media mt-4">
-                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Commenter Name</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                </div>
+                        <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0">Commenter Name</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                             </div>
+                        </div>
 
-                            <div class="media mt-4">
-                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Commenter Name</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                                </div>
+                        <div class="media mt-4">
+                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                            <div class="media-body">
+                                <h5 class="mt-0">Commenter Name</h5>
+                                Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
                             </div>
                         </div>
                     </div>
@@ -114,21 +114,23 @@
             </div>
         </div>
     </div>
+</div>
 @section Scripts{
     <script>
         var diasSelec = [];
         $(document).ready(function () {
             var idPubli = @Model.Id;
-               $.ajax({
-                   data: {
-                       publicacionId: idPubli
+                // otro ajax para obtener los dias no disponibles
+                $.ajax({
+                    data: {
+                        publicacionId: idPubli
                 },
                 type: "get",
                 url: "@Url.Action("DameDiasNoDisponiblesPubli","Home")",
-                   success: function (arrayDeDias) {
-                       var disabledDays = arrayDeDias;
-                         $('.picker').datepicker({
-                          language: 'es',
+                    success: function (arrayDeDias) {
+                        var disabledDays = arrayDeDias;
+                            $('.picker').datepicker({
+                            language: 'es',
                             onRenderCell: function (date, cellType) {
                                 if (cellType == 'day') {
                                     var day = date.getDay(),
@@ -139,19 +141,21 @@
                                 }
                             },
                             minDate: new Date(),
-                             onSelect: function onSelect(fd, date) {
-                                 diasSelec = [];
-                                 date.forEach(function (value) {
-                                     diasSelec.push(JSON.stringify(value))
+                                onSelect: function onSelect(fd, date) {
+                                    diasSelec = [];
+                                    date.forEach(function (value) {
+                                        diasSelec.push(JSON.stringify(value))
                                 })
                             },
                     });
                 },
-                   error: function (result) {
-                    alert("Hubo un error");
+                    error: function (result) {
+                        alert("Hubo un error ", result);
                 }
-            });
-        })
+                });//fin ajax no disponibles
+
+            dameContratacionesDeUnPrestador(); //ejecuta ajax de contrataciones de prestador
+        }) //fin document ready
 
         function contratar(userId, publicacionId) {
             if (diasSelec.length == 0) {
@@ -173,13 +177,49 @@
                             window.location = "/MercadoPago/PagarContratacion?contratacionId="+result;
                         }
                 },
-                error: function (result) {
-                    alert("Hubo un error");
+                     error: function (result) {
+                         alert("Hubo un error ", result);
                 }
             });
 
             }
-               
+
+        }
+
+
+        function dameContratacionesDeUnPrestador() {
+            var idPrestador = @Model.Usuario.Id;
+            $.ajax({
+                data: {
+                    prestadorId: idPrestador,
+                },
+                type: "get",
+                url: "@Url.Action("DameContratacionesDeUnPrestador","Home")",
+                success: function (result) {
+                    if (result == "NOTOK") {
+                        console.log("no hay contrataciones");
+                    } else {
+                        if (result != null) {
+                            $('.picker').datepicker({
+                            language: 'es',
+                            onRenderCell: function (date, cellType) {
+                                if (cellType == 'day') {
+                                    var day = date.getDay(),
+                                        isDisabled = result.indexOf(day) != -1;
+
+                                    return {
+                                        disabled: isDisabled
+                                    }
+                                }
+                            }
+                        })
+                        }
+                    }
+                },
+                error: function (result) {
+                    alert("Hubo un error", result);
+                }
+            })
         }
     </script>
 }

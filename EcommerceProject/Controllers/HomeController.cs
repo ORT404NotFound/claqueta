@@ -78,6 +78,30 @@ namespace EcommerceProject.Controllers
             return semanaList.ToArray();
         }
 
+        public ActionResult DameContratacionesDeUnPrestador(int prestadorId)
+        {
+            using (var db = new SQLServerContext())
+            {
+                var userToFind = db.Usuarios.SingleOrDefault(u => u.Id == prestadorId);
+
+                if (userToFind == null)
+                {
+                    return Json("NOTOK", JsonRequestBehavior.AllowGet);
+                }
+
+                var contrataciones = db.Contrataciones.Where(c => c.Publicacion.Usuario.Id == userToFind.Id && c.Estado != "Pendiente" && c.Pago != null).ToArray();
+
+                if (contrataciones == null)
+                {
+                    return Json("NOTOK", JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    var result = string.Join(",", contrataciones.Select(w => w.Fechas));
+                    return Json(result, JsonRequestBehavior.AllowGet);
+                }
+            }
+        }
 
     }
 }

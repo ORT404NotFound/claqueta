@@ -122,7 +122,6 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-
                 var userToFind = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
                 var publicacion = db.Publicaciones.SingleOrDefault(p => p.Id == publicacionId);
 
@@ -140,8 +139,6 @@ namespace EcommerceProject.Controllers
 
                 return Json(contratacion.Id, JsonRequestBehavior.AllowGet);
             }
-
         }
-
     }
 }
