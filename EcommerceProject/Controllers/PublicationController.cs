@@ -1,4 +1,4 @@
-﻿using EcommerceProject.Models;
+using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using EcommerceProject.MPApi;
 using System;
@@ -36,7 +36,6 @@ namespace EcommerceProject.Controllers
             if (Session["UserId"] != null)
             {
                 return View();
-
             }
             else {
                 return View("NotAuthorized");
@@ -106,7 +105,6 @@ namespace EcommerceProject.Controllers
             {
                 return View("NotAuthorized");
             }
-          
             using (var db = new SQLServerContext())
             {
                 Publicacion p = db.Publicaciones.Find(idPublication);

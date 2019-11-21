@@ -46,7 +46,7 @@
                 </li>
                 @if (Session["UserId"] != null)
                 {
-                    if (Session["isAdmin"] == "false")
+                    if (Session["isAdmin"] == null)
                     {
                         <li class="nav-item">
                             <a class="nav-link" href="@Url.Action("UserInfo", "Account")">Mi Cuenta</a>

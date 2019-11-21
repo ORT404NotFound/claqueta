@@ -1,4 +1,4 @@
-﻿using EcommerceProject.Models;
+using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,11 @@ namespace EcommerceProject.Controllers
         {
             if (Session["UserId"] == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login","Account");
+            }
+            if (Session["isAdmin"] == null)
+            {
+                return View("../Shared/NotAuthorized");
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())
@@ -45,7 +49,11 @@ namespace EcommerceProject.Controllers
             }
             if (Session["UserId"] == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Account");
+            }
+            if (Session["isAdmin"] == null)
+            {
+                return View("../Shared/NotAuthorized");
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())
@@ -77,7 +85,11 @@ namespace EcommerceProject.Controllers
             }
             if (Session["UserId"] == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Account");
+            }
+            if (Session["isAdmin"] == null)
+            {
+                return View("../Shared/NotAuthorized");
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())

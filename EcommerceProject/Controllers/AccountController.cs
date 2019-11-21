@@ -1,4 +1,4 @@
-﻿using EcommerceProject.Models;
+using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
 using System.Collections.Generic;
@@ -81,13 +81,12 @@ namespace EcommerceProject.Controllers
                         Session["UserId"] = userToFind.Id;
                         Session["Email"] = user.Email;
                         Session["isAdmin"] = "true";
-                        return RedirectToAction("LoggedIn");
+                        return RedirectToAction("Index", "Admin");
                     }
                     else if (userToFind.Roles.Contains(rUser))
                     {
                         Session["UserId"] = userToFind.Id;
                         Session["Email"] = user.Email;
-                        Session["isAdmin"] = "false";
                         return RedirectToAction("LoggedIn");
                     } else   {
                         return View("../Shared/NotAuthorized");
@@ -126,6 +125,10 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Login");
             }
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())
             {
@@ -154,6 +157,10 @@ namespace EcommerceProject.Controllers
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
+            }
+            if (Session["isAdmin"] == null)
+            {
+                return View("../Shared/NotAuthorized");
             }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())
@@ -190,7 +197,6 @@ namespace EcommerceProject.Controllers
                     publi.Ubicacion = publication.Ubicacion;
                     publi.Precio = publication.Precio;
                     publi.Reel = publication.Reel;
-                   // publi.Garantia = publication.Garantia;
                     publi.Foto = publication.Foto;
                     publi.Referencias = publication.Referencias;
                     publi.Estado = "Pendiente";
