@@ -11,7 +11,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="@Url.Action("Index","Home")">Claqueta</a>
+        <a class="navbar-brand" href="@Url.Action("Index", "Home")">Claqueta</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -23,25 +23,10 @@
                         Categorías
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Asistentes de Producción</a>
-                        <a class="dropdown-item" href="#">Camarógrafos</a>
-                        <a class="dropdown-item" href="#">Castineras</a>
-                        <a class="dropdown-item" href="#">Drones</a>
-                        <a class="dropdown-item" href="#">Editores</a>
-                        <a class="dropdown-item" href="#">Efectos FX</a>
-                        <a class="dropdown-item" href="#">Equipos de Audio</a>
-                        <a class="dropdown-item" href="#">Equipos de Video</a>
-                        <a class="dropdown-item" href="#">Escenógrafos</a>
-                        <a class="dropdown-item" href="#">Extras</a>
-                        <a class="dropdown-item" href="#">Fotógrafos</a>
-                        <a class="dropdown-item" href="#">Iluminadores</a>
-                        <a class="dropdown-item" href="#">Locaciones Privadas</a>
-                        <a class="dropdown-item" href="#">Maquilladores</a>
-                        <a class="dropdown-item" href="#">Postproducción</a>
-                        <a class="dropdown-item" href="#">Productores</a>
-                        <a class="dropdown-item" href="#">Sonidistas</a>
-                        <a class="dropdown-item" href="#">Utileros</a>
-                        <a class="dropdown-item" href="#">Vestuaristas</a>
+                        @foreach (var categoria in PageData["categorias"])
+                        {
+                            <a class="dropdown-item" href="@Url.Action("BuscarPublicacionesPorCategoria","Home", new { categoria = categoria })">@categoria</a>
+                        }
                     </div>
                 </li>
                 @if (Session["UserId"] != null)
@@ -72,8 +57,8 @@
                     </li>
                 }
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Buscá lo que necesitás..." aria-label="Buscar">
+            <form class="form-inline my-2 my-lg-0" action="@Url.Action("BuscarPublicaciones","Home")" >
+                <input class="form-control mr-sm-2" type="search" placeholder="Buscá lo que necesitás..." aria-label="Buscar" name="termino" id="termino" />
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
             </form>
         </div>
