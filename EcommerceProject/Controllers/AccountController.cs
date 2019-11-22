@@ -314,14 +314,14 @@ namespace EcommerceProject.Controllers
                 var consultas = db.Consultas
                     .Include("Publicacion")
                     .Include("Usuario")
-                    .Where(c => c.Publicacion.Usuario.Id == userId)
+                    .Where(c => c.Publicacion.Usuario.Id == userId && c.Respuesta == null && c.Visible == true)
                     .OrderBy(c => c.Id)
                     .ToList();
                 return View(consultas);
             }
         }
 
-        public ActionResult CrearConulta(Consulta consulta, FormCollection form)
+        public ActionResult CrearConsulta(Consulta consulta, FormCollection form)
         {
             if (Session["UserId"] == null)
             {
@@ -341,6 +341,50 @@ namespace EcommerceProject.Controllers
                     db.Consultas.Add(consulta);
                     db.SaveChanges();
                     return Json("guardado", JsonRequestBehavior.AllowGet);
+                }
+
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ResponderConsulta(FormCollection form)
+        {
+            if (Session["UserId"] == null)
+            {
+                return Json("NotAllowed", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                int consId = Int32.Parse(form["id"].ToString());
+                var respuesta = form["texto"];
+                using (var db = new SQLServerContext())
+                {
+                    var consulta = db.Consultas.SingleOrDefault(c => c.Id == consId);
+                    consulta.Respuesta = respuesta;
+                    db.SaveChanges();
+                    return Json("guardado", JsonRequestBehavior.AllowGet);
+                }
+
+            }
+        }
+
+
+        [HttpPost]
+        public ActionResult EliminarConsulta(FormCollection form)
+        {
+            if (Session["UserId"] == null)
+            {
+                return Json("NotAllowed", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                int consId = Int32.Parse(form["id"].ToString());
+                using (var db = new SQLServerContext())
+                {
+                    var consulta = db.Consultas.SingleOrDefault(c => c.Id == consId);
+                    consulta.Visible = false;
+                    db.SaveChanges();
+                    return Json("eliminada", JsonRequestBehavior.AllowGet);
                 }
 
             }

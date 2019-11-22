@@ -31,14 +31,13 @@
                                 <p class="card-text">
                                     @c.Descripcion
                                 </p>
-                                <p class="card-text">
-                                    <textarea class="form-control" id="@c.Id">
-
-                                    </textarea>
-                                </p>
+                                <div style="margin-bottom:20px;">
+                                    <textarea class="card-text form-control textoAResponder"></textarea>
+                                </div>
                                 <div class="float-right">
-                                    <button class="btn btn-danger">Borrar</button>
-                                    <button class="btn btn-primary">Responder</button>
+                                    <input type="hidden" value="@c.Id" class="idABuscar"/>
+                                    <button class="btn btn-danger" onclick="borrarConsulta(@c.Id)">Borrar</button>
+                                    <button class="btn btn-primary responder_comentario">Responder</button>
                                 </div>
                             </div>
                         </div>
@@ -55,3 +54,56 @@
         }
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        $(".responder_comentario").on("click", function () {
+
+            var id = $(this).parent().find('.idABuscar').val();
+            var texto = $(this).parent().parent().find('.textoAResponder').val();
+            var data = {
+                id: id,
+                texto: texto
+            };
+
+             $.ajax({
+                data: data,
+                type: "post",
+                url: "@Url.Action("ResponderConsulta","Account")",
+                success: function (result) {
+                    if (result == "NotAllowed") {
+                        alert("Debe estar logueado para comentar")
+                    } else if (result == "guardado") {
+                        location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert("Hubo un error", result);
+                }
+            })
+
+        })
+
+        function borrarConsulta(id) {
+            $.ajax({
+                data: {
+                    id: id
+                },
+                type: "post",
+                url: "@Url.Action("EliminarConsulta","Account")",
+                success: function (result) {
+                    if (result == "NotAllowed") {
+                        alert("Debe estar logueado para comentar")
+                    } else if (result == "eliminada") {
+                        location.reload();
+                    }
+                },
+                error: function (result) {
+                    alert("Hubo un error", result);
+                }
+            })
+
+
+        }
+    </script>
+}
