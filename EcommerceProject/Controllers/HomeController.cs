@@ -27,6 +27,9 @@ namespace EcommerceProject.Controllers
 
         public ActionResult VerDetalle(int id)
         {
+            if (id == 0) {
+                return View("Index");
+            }
             using (var db = new SQLServerContext())
             {
                 var publicacion = db.Publicaciones
@@ -35,6 +38,7 @@ namespace EcommerceProject.Controllers
                     .Include("Consultas.Usuario")
                     .Include("Consultas.Publicacion")
                     .Where(p => p.Id == id).FirstOrDefault();
+
                 if (publicacion != null)
                 {
                     return View(publicacion);

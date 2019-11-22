@@ -16,7 +16,7 @@ namespace EcommerceProject.Controllers
         // GET: Account
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("UserInfo", "Account");
         }
         /// register
         public ActionResult Register()
