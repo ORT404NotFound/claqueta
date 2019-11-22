@@ -88,9 +88,11 @@ namespace EcommerceProject.Controllers
                         Session["UserId"] = userToFind.Id;
                         Session["Email"] = user.Email;
                         return RedirectToAction("LoggedIn");
-                    } else   {
+                    }
+                    else
+                    {
                         return View("../Shared/NotAuthorized");
-                   }
+                    }
                 }
                 else
                 {
@@ -208,14 +210,16 @@ namespace EcommerceProject.Controllers
                     db.SaveChanges();
                     return RedirectToAction("UserInfo");
                 }
-                else {
-                    if (dis == null) {
+                else
+                {
+                    if (dis == null)
+                    {
                         ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia");
                     }
                     return View();
                 }
             }
-          
+
         }
 
         public ActionResult EditUser()
@@ -261,7 +265,8 @@ namespace EcommerceProject.Controllers
         }
 
         //contrataciones q hizo
-        public ActionResult GetContratacionesRealizadas() {
+        public ActionResult GetContratacionesRealizadas()
+        {
 
             if (Session["UserId"] == null)
             {
@@ -272,15 +277,15 @@ namespace EcommerceProject.Controllers
             {
                 var contataciones = db.Contrataciones
                     .Include("Publicacion")
-                    .Where(c=> c.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente"))
-                    .ToList();          
+                    .Where(c => c.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente"))
+                    .ToList();
                 return View(contataciones);
             }
         }
 
         // al que lo contratan
         public ActionResult GetContratacionesDelUsuario()
-        { 
+        {
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
@@ -295,6 +300,52 @@ namespace EcommerceProject.Controllers
                 return View(contataciones);
             }
         }
+
+
+        public ActionResult GetConsultasDelUsuario()
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            int userId = Int32.Parse(Session["UserId"].ToString());
+            using (var db = new SQLServerContext())
+            {
+                var consultas = db.Consultas
+                    .Include("Publicacion")
+                    .Include("Usuario")
+                    .Where(c => c.Publicacion.Usuario.Id == userId)
+                    .OrderBy(c => c.Id)
+                    .ToList();
+                return View(consultas);
+            }
+        }
+
+        public ActionResult CrearConulta(Consulta consulta, FormCollection form)
+        {
+            if (Session["UserId"] == null)
+            {
+                return Json("NotAllowed", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                int userId = Int32.Parse(Session["UserId"].ToString());
+                var publiId = Int32.Parse(form["publiId"]);
+                using (var db = new SQLServerContext())
+                {
+                    var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publiId);
+                    var user = db.Usuarios.SingleOrDefault(u => u.Id == userId);
+                    consulta.Usuario = user;
+                    consulta.Publicacion = publi;
+                    consulta.Visible = true;
+                    db.Consultas.Add(consulta);
+                    db.SaveChanges();
+                    return Json("guardado", JsonRequestBehavior.AllowGet);
+                }
+
+            }
+        }
+
 
     }
 }

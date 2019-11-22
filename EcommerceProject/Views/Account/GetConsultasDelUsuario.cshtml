@@ -1,7 +1,7 @@
-﻿@model IEnumerable<EcommerceProject.Models.Contratacion>
+﻿@model IEnumerable<EcommerceProject.Models.Consulta>
 
 @{
-    ViewBag.Title = "Contrataciones a realizar";
+    ViewBag.Title = "Consultas a responder";
 }
 <div class="row" style="margin-top: 20px">
     <div class="col-md-2">
@@ -24,15 +24,21 @@
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    <span>@c.Estado</span>
-                                </h6>
+                                <h6>@c.Usuario.Nombre @c.Usuario.Apellido </h6>
+
+                                <h6>@c.Publicacion.Titulo</h6>
+
                                 <p class="card-text">
-                                    @c.Publicacion.Titulo
+                                    @c.Descripcion
                                 </p>
-                                <hr />
+                                <p class="card-text">
+                                    <textarea class="form-control" id="@c.Id">
+
+                                    </textarea>
+                                </p>
                                 <div class="float-right">
-                                    <!--aca poner botones-->
+                                    <button class="btn btn-danger">Borrar</button>
+                                    <button class="btn btn-primary">Responder</button>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +50,7 @@
         else
         {
             <div class="well">
-                <p>No tiene contrataciones realizadas</p>
+                <p>No tiene consultas a responder</p>
             </div>
         }
     </div>

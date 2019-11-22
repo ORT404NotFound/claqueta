@@ -31,6 +31,9 @@ namespace EcommerceProject.Controllers
             {
                 var publicacion = db.Publicaciones
                     .Include("Usuario")
+                    .Include("Consultas")
+                    .Include("Consultas.Usuario")
+                    .Include("Consultas.Publicacion")
                     .Where(p => p.Id == id).FirstOrDefault();
                 if (publicacion != null)
                 {
@@ -102,6 +105,5 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
-
     }
 }
