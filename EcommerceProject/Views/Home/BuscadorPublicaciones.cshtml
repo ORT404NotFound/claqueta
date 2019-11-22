@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EcommerceProject.Models.Publicacion>
+
+@{
+    ViewBag.Title = "BuscadorPublicaciones";
+}
+@if (Model.Count() > 0)
+{
+    <h3>Buscando... <span>@Request.QueryString["categoria"]</span></h3>
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card" style="margin-top:5px">
+                    <center>
+                        <img src="~/Content/imagen_claqueta.png" class="card-img-top" style="max-width: 50%; " />
+                    </center>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Titulo</h5>
+                        <h6 class="card-subtitle">$@item.Precio</h6>
+                        <hr />
+                        <center>
+                            <a href="@Url.Action("VerDetalle", "Home", new { id = item.Id })" class="btn btn-outline-primary">Ver detalle</a>
+                        </center>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <h3>No se encontraron resultados para lo que estas buscando, <a href="@Url.Action("Index","Home")"> Volver al inicio</a></h3>
+}

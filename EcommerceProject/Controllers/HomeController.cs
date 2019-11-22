@@ -18,16 +18,17 @@ namespace EcommerceProject.Controllers
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();                
-               
+                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
                 return View(publicaciones);
-                
+
             }
         }
 
         public ActionResult VerDetalle(int id)
         {
-            if (id == 0) {
+            if (id == 0)
+            {
                 return View("Index");
             }
 
@@ -35,7 +36,7 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-               
+
                 var publicacion = db.Publicaciones
                     .Include("Usuario")
                     .Include("Consultas")
@@ -54,7 +55,8 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public JsonResult DameDiasNoDisponiblesPubli(int publicacionId) {
+        public JsonResult DameDiasNoDisponiblesPubli(int publicacionId)
+        {
             using (var db = new SQLServerContext())
             {
                 var publicacion = db.Publicaciones
@@ -71,7 +73,8 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
-        public string[] DameDiasNoDisponibles(string DiasDisponibles) {
+        public string[] DameDiasNoDisponibles(string DiasDisponibles)
+        {
             string[] semana = new string[] {
                 "0",
                 "1",
@@ -82,8 +85,9 @@ namespace EcommerceProject.Controllers
                 "6"
             };
             var semanaList = new List<string>(semana);
-            List<String> diasParseados  = DiasDisponibles.Split(',').ToList();
-            foreach (var dia in diasParseados) {
+            List<String> diasParseados = DiasDisponibles.Split(',').ToList();
+            foreach (var dia in diasParseados)
+            {
                 semanaList.Remove(dia);
             }
             return semanaList.ToArray();
@@ -111,6 +115,32 @@ namespace EcommerceProject.Controllers
                     var result = string.Join(",", contrataciones.Select(w => w.Fechas));
                     return Json(result, JsonRequestBehavior.AllowGet);
                 }
+            }
+        }
+
+        public ActionResult BuscarPublicacionesPorCategoria(String categoria)
+        {
+            using (var db = new SQLServerContext())
+            {
+                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true && p.Categoria.ToLower().Contains(categoria.ToLower()))
+                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.ToLower().Contains(categoria.ToLower()))
+                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+                return View("BuscadorPublicaciones",publicaciones);
+            }
+        }
+
+        public ActionResult BuscarPublicaciones(String termino)
+        {
+            using (var db = new SQLServerContext())
+            {
+                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()))
+                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
+                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+                return View("BuscadorPublicaciones", publicaciones);
             }
         }
     }
