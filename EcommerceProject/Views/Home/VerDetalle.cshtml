@@ -87,7 +87,7 @@
                     @if (Model.Consultas != null)
                     {
                         // si tiene consultas
-                        foreach (var consulta in Model.Consultas)
+                        foreach (var consulta in Model.Consultas.Where(c=> c.Visible == true))
                         {
                             <!-- Comment with nested comments -->
                             <div class="media mb-4">

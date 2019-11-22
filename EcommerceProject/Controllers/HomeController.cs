@@ -35,6 +35,7 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
+               
                 var publicacion = db.Publicaciones
                     .Include("Usuario")
                     .Include("Consultas")
