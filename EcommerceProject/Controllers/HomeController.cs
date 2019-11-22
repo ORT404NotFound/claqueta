@@ -30,6 +30,9 @@ namespace EcommerceProject.Controllers
             if (id == 0) {
                 return View("Index");
             }
+
+
+
             using (var db = new SQLServerContext())
             {
                 var publicacion = db.Publicaciones
