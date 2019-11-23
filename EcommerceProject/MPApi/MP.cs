@@ -11,6 +11,7 @@ namespace EcommerceProject.MPApi
 {
     public class MP
     {
+        public String env = "dev";
         public String Pagar(Usuario u, Publicacion publication)
         {
             Environment.SetEnvironmentVariable("MP_ACCESS_TOKEN", "TEST-7861638524601067-100603-29811dd016706b7463468ecffe4a41ac-158446926");
@@ -18,8 +19,15 @@ namespace EcommerceProject.MPApi
             MercadoPago.SDK.AccessToken = Environment.GetEnvironmentVariable("MP_ACCESS_TOKEN");
 
             //cambiar este depende el ambiente
-            String siteURL = "http://localhost:55115";
-            //String siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
+            String siteURL;
+            if (env == "dev")
+            {
+                siteURL = "http://localhost:55115";
+            }
+            else
+            {
+                siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
+            }
 
             double valorDolar = 80;
             double valorTotal = 4 * valorDolar;
@@ -38,7 +46,7 @@ namespace EcommerceProject.MPApi
                   CurrencyId = CurrencyId.ARS,
                   UnitPrice = (decimal)valorTotal
               }
-            ) ;
+            );
             preference.Payer = new Payer()
             {
                 Email = u.Email,
@@ -47,7 +55,7 @@ namespace EcommerceProject.MPApi
 
             preference.BackUrls = new BackUrls()
             {
-                Success = siteURL+ "/MercadoPago/PagoExitoso",
+                Success = siteURL + "/MercadoPago/PagoExitoso",
                 Failure = siteURL + "/MercadoPago/PagoError",
                 Pending = siteURL + "/MercadoPago/PagoPendiente"
             };
@@ -66,8 +74,15 @@ namespace EcommerceProject.MPApi
             MercadoPago.SDK.AccessToken = Environment.GetEnvironmentVariable("MP_ACCESS_TOKEN");
 
             //cambiar este depende el ambiente
-            String siteURL = "http://localhost:55115";
-            //String siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
+            String siteURL;
+            if (env == "dev")
+            {
+                siteURL = "http://localhost:55115";
+            }
+            else
+            {
+                siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
+            }
 
             double precioPubli = contratacion.Publicacion.Precio;
             List<String> diasParseados = contratacion.Fechas.Split(',').ToList();

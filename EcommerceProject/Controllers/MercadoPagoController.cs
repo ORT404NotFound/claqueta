@@ -13,7 +13,7 @@ namespace EcommerceProject.Controllers
 {
     public class MercadoPagoController : Controller
     {
-        public ActionResult Pagar (Publicacion p)
+        public ActionResult Pagar(Publicacion p)
         {
             int userId;
             try
@@ -57,7 +57,7 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult PagoError ()
+        public ActionResult PagoError()
         {
             if (Session["UserId"] != null)
             {
@@ -69,7 +69,7 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult PagoPendiente ()
+        public ActionResult PagoPendiente()
         {
             if (Session["UserId"] != null)
             {
@@ -81,10 +81,10 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult PagoExitoso ()
+        public ActionResult PagoExitoso()
         {
             String externalRef = Request.QueryString["external_reference"];
-            String prefId  = Request.QueryString["preferenece_id"];
+            String prefId = Request.QueryString["preferenece_id"];
             int userId;
             try
             {
@@ -111,7 +111,7 @@ namespace EcommerceProject.Controllers
                 Publicacion p = db.Publicaciones.Find(publicationId);
                 p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
                 p.Promocionada = true;
-                
+
                 //creo un pago para una promocion
                 Pago pago = new Pago();
                 pago.Aprobado = true;
@@ -119,12 +119,12 @@ namespace EcommerceProject.Controllers
                 pago.Usuario = u;
                 pago.Publicacion = p;
                 pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
-                
+
                 db.Pagos.Add(pago);
 
                 //guardo cambios en la db
                 db.SaveChanges();
-                return RedirectToAction("UserInfo","Account");
+                return RedirectToAction("UserInfo", "Account");
             }
         }
 
@@ -159,7 +159,7 @@ namespace EcommerceProject.Controllers
                 Usuario u = db.Usuarios.Find(userId);
                 Contratacion c = db.Contrataciones
                     .Include("Publicacion")
-                    .FirstOrDefault(cont=> cont.Id == contratacionId);
+                    .FirstOrDefault(cont => cont.Id == contratacionId);
                 c.Estado = "Contratada";
                 //creo un pago para una contratacion
                 Pago pago = new Pago();
