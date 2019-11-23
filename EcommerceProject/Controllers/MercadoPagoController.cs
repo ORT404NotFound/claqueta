@@ -59,12 +59,26 @@ namespace EcommerceProject.Controllers
 
         public ActionResult PagoError ()
         {
-            return View();
+            if (Session["UserId"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         public ActionResult PagoPendiente ()
         {
-            return View();
+            if (Session["UserId"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login");
+            }
         }
 
         public ActionResult PagoExitoso ()
@@ -117,6 +131,10 @@ namespace EcommerceProject.Controllers
 
         public ActionResult PagoExitosoContratacion()
         {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
             String externalRef = Request.QueryString["external_reference"];
             int userId;
             try
