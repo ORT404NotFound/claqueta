@@ -236,7 +236,7 @@
                     if (result == "NotAllowed") {
                         alert("Debe estar logueado para comentar")
                     } else if (result == "guardado") {
-                        location.reload();
+                        location.reload(true);
                     }
                 },
                 error: function (result) {

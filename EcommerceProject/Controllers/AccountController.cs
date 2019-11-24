@@ -160,10 +160,6 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Login");
             }
-            if (Session["isAdmin"] == null)
-            {
-                return View("../Shared/NotAuthorized");
-            }
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())
             {

@@ -35,7 +35,7 @@
                                     <textarea class="card-text form-control textoAResponder"></textarea>
                                 </div>
                                 <div class="float-right">
-                                    <input type="hidden" value="@c.Id" class="idABuscar"/>
+                                    <input type="hidden" value="@c.Id" class="idABuscar" />
                                     <button class="btn btn-danger" onclick="borrarConsulta(@c.Id)">Borrar</button>
                                     <button class="btn btn-primary responder_comentario">Responder</button>
                                 </div>
@@ -61,7 +61,10 @@
 
             var id = $(this).parent().find('.idABuscar').val();
             var texto = $(this).parent().parent().find('.textoAResponder').val();
-            var data = {
+            if (!texto) {
+                alert("Debe responder algo");
+            } else {
+                var data = {
                 id: id,
                 texto: texto
             };
@@ -74,13 +77,15 @@
                     if (result == "NotAllowed") {
                         alert("Debe estar logueado para comentar")
                     } else if (result == "guardado") {
-                        location.reload();
+                        location.reload(true);
                     }
                 },
                 error: function (result) {
                     alert("Hubo un error", result);
                 }
             })
+            }
+
 
         })
 
@@ -95,7 +100,7 @@
                     if (result == "NotAllowed") {
                         alert("Debe estar logueado para comentar")
                     } else if (result == "eliminada") {
-                        location.reload();
+                        location.reload(true);
                     }
                 },
                 error: function (result) {
