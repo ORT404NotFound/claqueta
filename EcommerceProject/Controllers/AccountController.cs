@@ -1,16 +1,11 @@
 using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
 {
-
     public class AccountController : Controller
     {
         // GET: Account
@@ -18,6 +13,7 @@ namespace EcommerceProject.Controllers
         {
             return RedirectToAction("UserInfo", "Account");
         }
+
         /// register
         public ActionResult Register()
         {
@@ -35,7 +31,13 @@ namespace EcommerceProject.Controllers
 
                     if (userToFind != null)
                     {
-                        ViewBag.Message = "El email que se quiere registrar ya existe";
+                        ViewBag.Message = "El E-Mail que quiere registrar ya existe.";
+                        return View();
+                    }
+
+                    if ((user.TipoDocumento == null && user.Documento != null) || (user.TipoDocumento != null && user.Documento == null))
+                    {
+                        ViewBag.Message = "Debe completar el tipo y número de identificación.";
                         return View();
                     }
 
@@ -43,7 +45,7 @@ namespace EcommerceProject.Controllers
 
                     if (user.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
                     {
-                        ViewBag.Message = "El usuario debe tener más de 18 años";
+                        ViewBag.Message = "Debe tener más de 18 años para poder registrarse en el sitio.";
                         return View();
                     }
 
@@ -53,7 +55,7 @@ namespace EcommerceProject.Controllers
                     user.Roles.Add(r);
                     db.SaveChanges();
                     ModelState.Clear();
-                    ViewBag.Message = "Usted se ha registrado correctamente";
+                    ViewBag.Message = "Usted se ha registrado correctamente.";
                     return View();
                 }
             }
@@ -65,6 +67,7 @@ namespace EcommerceProject.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult Login(Usuario user)
         {
@@ -72,8 +75,8 @@ namespace EcommerceProject.Controllers
             {
                 var rUser = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
                 var rAdmin = db.Roles.SingleOrDefault(role => role.Nombre == "ADMIN");
-                var userToFind = db.Usuarios.FirstOrDefault(u => u.Email == user.Email
-                                                   && u.Password == user.Password);
+                var userToFind = db.Usuarios.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+
                 if (userToFind != null)
                 {
                     if (userToFind.Roles.Contains(rAdmin))
@@ -87,7 +90,7 @@ namespace EcommerceProject.Controllers
                     {
                         Session["UserId"] = userToFind.Id;
                         Session["Email"] = user.Email;
-                        return RedirectToAction("LoggedIn");
+                        return RedirectToAction("UserInfo");
                     }
                     else
                     {
@@ -96,22 +99,10 @@ namespace EcommerceProject.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email o contraseña incorrecta");
+                    ModelState.AddModelError("", "Los datos ingresados son incorrectos.");
                 }
             }
             return View();
-        }
-
-        public ActionResult LoggedIn()
-        {
-            if (Session["UserId"] != null)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login");
-            }
         }
 
         public ActionResult LogOut()
@@ -185,9 +176,16 @@ namespace EcommerceProject.Controllers
             {
                 var dis = form["Disponibilidad[]"];
                 var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publication.Id);
+
+                if (dis == null)
+                {
+                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia");
+                    return View("../Publication/EditPublication", publi);
+                }
+
                 if (publi != null)
                 {
-                    publi.Promocionada = publication.Promocionada;
+                    // publi.Promocionada = publication.Promocionada;
                     publi.Titulo = publication.Titulo;
                     publi.Descripcion = publication.Descripcion;
                     publi.CV = publication.CV;
@@ -208,10 +206,6 @@ namespace EcommerceProject.Controllers
                 }
                 else
                 {
-                    if (dis == null)
-                    {
-                        ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia");
-                    }
                     return View();
                 }
             }
