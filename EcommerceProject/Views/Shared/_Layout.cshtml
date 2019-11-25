@@ -19,7 +19,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Categorías
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -40,7 +40,7 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index","Admin")">Panel de Administracion</a>
+                            <a class="nav-link" href="@Url.Action("Index","Admin")">Panel de Administración</a>
                         </li>
                     }
                     <li>
@@ -57,7 +57,7 @@
                     </li>
                 }
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="@Url.Action("BuscarPublicaciones","Home")" >
+            <form class="form-inline my-2 my-lg-0" action="@Url.Action("BuscarPublicaciones","Home")">
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscá lo que necesitás..." aria-label="Buscar" name="termino" id="termino" />
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
             </form>
@@ -71,10 +71,10 @@
             <hr />
         </div>
     </div>
-    <footer class="footer mt-auto py-3">
+    <footer>
         <div class="container">
             <span class="text-muted">
-                &copy; @DateTime.Now.Year - Claqueta
+                © 2019 - Claqueta
             </span>
         </div>
     </footer>

@@ -1,11 +1,9 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width" />
-    <title>Error</title>
-</head>
-<body>
-     <h2>Error al procesar la solicitud.</h2>
-</body>
-</html>
+﻿@{
+    ViewBag.Title = "Error";
+}
+
+<div style="margin-top: 10px">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <h4>Error al procesar la solicitud. Hace clic <a href="@Url.Action("Index","Home")">acá</a> para volver a la página principal.</h4>
+</div>
