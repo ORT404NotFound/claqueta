@@ -3,40 +3,60 @@
 @{
     ViewBag.Title = "Administrador de Publicaciones";
 }
+
 <div class="row" style="margin-top: 20px">
     <div class="col-md-10">
         @if (Model.Count() > 0)
         {
             <div class="well">
                 <div class="list-group">
-                    @foreach (var p in Model)
+                    @foreach (var publicacion in Model)
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
                                 <h6 class="card-subtitle mb-2 text-muted">
-                                    @if (p.Visible)
+                                    @if (publicacion.Estado.Equals("Pendiente"))
                                     {
-                                        <span>Visible</span>
+                                        <span>Pendiente de Aprobación</span>
                                     }
                                     else
                                     {
-                                        <span>No Visible</span>
-                                    },
-                                    <span>@p.Estado</span>
-                                    @if (p.Promocionada)
+                                        <span>@publicacion.Estado</span>
+                                    }
+
+                                    @if (publicacion.Visible)
                                     {
-                                        <span>,Promocionada</span>
+                                        <span>- Visible -</span>
+                                    }
+                                    else
+                                    {
+                                        <span>- No Visible -</span>
+                                    }
+
+                                    @if (publicacion.Promocionada)
+                                    {
+                                        <span>Promocionada</span>
+                                    }
+                                    else
+                                    {
+                                        <span>No Promocionada</span>
                                     }
                                 </h6>
-                                <h6>Precio ($) @p.Precio</h6>
-                                <h6>Título</h6>
-                                <p class="card-text">
-                                    @p.Titulo
-                                </p>
+
+                                <h6>Número de Publicación: @publicacion.Id</h6>
+                                <h6>ID de Usuario: @publicacion.Id</h6>
+                                <h6>Categoría: @publicacion.Categoria</h6>
+                                <h6>Ubicación: @publicacion.Ubicacion</h6>
+                                <h6>Título: @publicacion.Titulo</h6>
+                                <h6>Precio: $@publicacion.Precio</h6>
+                                <h6>Descripción: @publicacion.Descripcion</h6>
+                                <h6>Fecha de Publicación: @publicacion.FechaDePublicacion.ToString("dd/MM/yyyy")</h6>
+                                <h6>Fecha de Modificación: @publicacion.FechaDeModificacion.ToString("dd/MM/yyyy")</h6>
                                 <hr />
+
                                 <div class="float-right">
-                                    <a href="@Url.Action("AprobarPublicacion", "Admin", new { publicacionId = p.Id })" class="btn btn-primary">Aprobar</a>
-                                    <a href="@Url.Action("RechazarPublicacion", "Admin", new { publicacionId = p.Id })" class="btn btn-danger">Rechazar</a>
+                                    <a href="@Url.Action("AprobarPublicacion", "Admin", new { publicacionId = publicacion.Id })" class="btn btn-success">Aprobar</a>
+                                    <a href="@Url.Action("RechazarPublicacion", "Admin", new { publicacionId = publicacion.Id })" class="btn btn-danger">Rechazar</a>
                                 </div>
                             </div>
                         </div>
@@ -48,7 +68,9 @@
         else
         {
             <div class="well">
-                <p>No tiene publicaciones</p>
+                <h4>No hay publicaciones pendientes de aprobación.</h4>
+                <p></p>
+                <input type="button" class="btn btn-info" value="Recargar Página" onClick="location.reload(true)" />
             </div>
         }
     </div>
