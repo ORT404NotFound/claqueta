@@ -42,7 +42,7 @@ namespace EcommerceProject.Models
 
         [Display(Name = "Foto")]
         [Required(ErrorMessage = "Este campo es requerido.")]
-        [DataType(DataType.ImageUrl)]
+        [DataType(DataType.Upload)]
         public String Foto { get; set; }
 
         [Display(Name = "Precio")]
@@ -51,17 +51,15 @@ namespace EcommerceProject.Models
         public double Precio { get; set; }
 
         [Display(Name = "Referencias")]
-        [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Text)]
         public String Referencias { get; set; }
 
         [Display(Name = "Curriculum Vitae")]
         [Required(ErrorMessage = "Este campo es requerido.")]
-        [DataType(DataType.Url)]
+        [DataType(DataType.Upload)]
         public String CV { get; set; }
 
         [Display(Name = "Reel")]
-        [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Url)]
         public String Reel { get; set; }
 

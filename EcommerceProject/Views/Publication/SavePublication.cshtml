@@ -1,45 +1,25 @@
 ﻿@model EcommerceProject.Models.Publicacion
 
-
 @{
-    ViewBag.Title = "Crear una Publicacion";
+    ViewBag.Title = "Crear Publicación";
 
+    String[] semana = new String[] { "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo" };
 
-
-    string[] semana = new string[] {
-                "Lunes",
-                "Martes",
-                "Miércoles",
-                "Jueves",
-                "Viernes",
-                "Sábado",
-                "Domingo"
-            };
-
-    var semanaValores = new Dictionary<string, string> {
-                ["Lunes"] = "1",
-                ["Martes"] = "2",
-                ["Miércoles"] = "3" ,
-                ["Jueves"] = "4",
-                ["Viernes"] = "5",
-                ["Sábado"] = "6" ,
-                ["Domingo"] = "0"
-            };
+    var semanaValores = new Dictionary<String, String> { ["Lunes"] = "1", ["Martes"] = "2", ["Miércoles"] = "3", ["Jueves"] = "4", ["Viernes"] = "5", ["Sábado"] = "6", ["Domingo"] = "0" };
 
     ViewBag.semana = semana;
     ViewBag.semanaValores = semanaValores;
-
 }
 
-
-@using (Html.BeginForm())
+@using (Html.BeginForm("SavePublication", "Publication", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        <h2>Crear una publicacion</h2>
+    <div class="col-md-8 col-xs-12" style="margin-top: 10px">
+        <h4>@ViewBag.Title</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         @if (ViewBag.Message != null)
         {
             <div class="form-group">
@@ -50,47 +30,27 @@
         }
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Categoria, "Categoría", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Categoria, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
                 <select class="form-control" name="categoria" required="required">
                     <option value="" selected disabled>Seleccione una categoría...</option>
-                    <option value="Asistentes de Producción">Asistentes de Producción</option>
-                    <option value="Camarógrafos">Camarógrafos</option>
-                    <option value="Castineras">Castineras</option>
-                    <option value="Drones">Drones</option>
-                    <option value="Editores">Editores</option>
-                    <option value="Efectos FX">Efectos FX</option>
-                    <option value="Equipos de Audio">Equipos de Audio</option>
-                    <option value="Equipos de Video">Equipos de Video</option>
-                    <option value="Escenógrafos">Escenógrafos</option>
-                    <option value="Extras">Extras</option>
-                    <option value="Fotógrafos">Fotógrafos</option>
-                    <option value="Iluminadores">Iluminadores</option>
-                    <option value="Locaciones Privadas">Locaciones Privadas</option>
-                    <option value="Maquilladores">Maquilladores</option>
-                    <option value="Postproducción">Postproducción</option>
-                    <option value="Productores">Productores</option>
-                    <option value="Sonidistas">Sonidistas</option>
-                    <option value="Utileros">Utileros</option>
-                    <option value="Vestuaristas">Vestuaristas</option>
+                    @foreach (var categoria in PageData["categorias"])
+                    {
+                        <option value=@categoria>@categoria</option>
+                    }
                 </select>
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Disponibilidad, "Disponibilidad", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Disponibilidad, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
                 @foreach (var dia in ViewBag.semana)
                 {
-
-                    <!--cada item -->
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="@semanaValores[dia]" id="Disponibilidad[]" name="Disponibilidad[]">
-                        <label class="form-check-label" for="@semanaValores[dia]">
-                            @dia
-                        </label>
+                        <label class="form-check-label" for="@semanaValores[dia]">@dia</label>
                     </div>
-                    <!--fin cada item -->
                 }
             </div>
         </div>
@@ -98,7 +58,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Ubicacion, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Ubicacion, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Ubicacion, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -106,7 +66,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -114,7 +74,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control", type = "text", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -122,7 +82,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control", type = "file", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -130,7 +90,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Precio, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Precio, new { htmlAttributes = new { @class = "form-control", type = "number", min = "1", required = "required" } })
                 @Html.ValidationMessageFor(model => model.Precio, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -138,7 +98,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Referencias, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Referencias, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Referencias, new { htmlAttributes = new { @class = "form-control", type = "text" } })
                 @Html.ValidationMessageFor(model => model.Referencias, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -146,7 +106,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CV, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CV, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.CV, new { htmlAttributes = new { @class = "form-control", type = "file", required = "required" } })
                 @Html.ValidationMessageFor(model => model.CV, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -154,15 +114,14 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Reel, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Reel, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Reel, new { htmlAttributes = new { @class = "form-control", type = "url" } })
                 @Html.ValidationMessageFor(model => model.Reel, "", new { @class = "text-danger" })
             </div>
         </div>
 
-  
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear Publicación" class="btn btn-secondary" />
+                <input type="submit" value="Guardar" class="btn btn-primary" />
             </div>
         </div>
     </div>
