@@ -397,7 +397,23 @@ namespace EcommerceProject.Controllers
 
             }
         }
+        public ActionResult CancelarContratacion(FormCollection form) {
+            if (Session["UserId"] == null)
+            {
+                return Json("NotAllowed", JsonRequestBehavior.AllowGet);
+            }
+            {
+                int contratacionId = Int32.Parse(form["id"].ToString());
+                using (var db = new SQLServerContext())
+                {
+                    var contratacion = db.Contrataciones.SingleOrDefault(c => c.Id == contratacionId);
+                    contratacion.Estado = "Cancelada";
+                    db.SaveChanges();
+                    return Json("cancelada", JsonRequestBehavior.AllowGet);
+                }
 
+            }
+        }
 
     }
 }
