@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using EcommerceProject.Models;
 using MercadoPago.Common;
 using MercadoPago.DataStructures.Preference;
 using MercadoPago.Resources;
+
 namespace EcommerceProject.MPApi
 {
     public class MP
@@ -29,9 +28,8 @@ namespace EcommerceProject.MPApi
                 siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
             }
 
-            double valorDolar = 80;
+            double valorDolar = 65;
             double valorTotal = 4 * valorDolar;
-
 
             // Crea un objeto de preferencia
             Preference preference = new Preference();
@@ -65,7 +63,6 @@ namespace EcommerceProject.MPApi
             preference.Save();
             return preference.InitPoint;
         }
-
 
         public String PagarContratacion(Usuario u, Contratacion contratacion)
         {
@@ -120,7 +117,5 @@ namespace EcommerceProject.MPApi
             preference.Save();
             return preference.InitPoint;
         }
-
-
     }
 }

@@ -18,6 +18,14 @@ namespace EcommerceProject.Controllers
 
         public ActionResult Calificaciones()
         {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+            if (Session["isAdmin"] != null)
+            {
+                return View("Error");
+            }
             return View();
         }
 
@@ -52,7 +60,7 @@ namespace EcommerceProject.Controllers
 
                     if (user.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
                     {
-                        ViewBag.Message = "Debe tener más de 18 años para poder registrarse en el sitio.";
+                        ViewBag.Message = "Debe tener más de 18 años para poder registrarse en la plataforma.";
                         return View();
                     }
 
@@ -132,10 +140,7 @@ namespace EcommerceProject.Controllers
             int userId = Int32.Parse(Session["UserId"].ToString());
             using (var db = new SQLServerContext())
             {
-                var publications = db.Publicaciones.Where(
-                        p => p.Estado != "Desactivada" &&
-                        p.Usuario.Id == userId
-                    ).ToList();
+                var publications = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Usuario.Id == userId).ToList();
 
                 if (publications != null)
                 {
@@ -186,7 +191,7 @@ namespace EcommerceProject.Controllers
 
                 if (dis == null)
                 {
-                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día.");
+                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día de la semana.");
                     return View("../Publication/EditPublication", publi);
                 }
 

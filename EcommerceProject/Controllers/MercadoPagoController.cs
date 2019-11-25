@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using EcommerceProject.MPApi;
-using MercadoPago.Common;
-using MercadoPago.DataStructures.Preference;
-using MercadoPago.Resources;
+
 namespace EcommerceProject.Controllers
 {
     public class MercadoPagoController : Controller
@@ -95,7 +91,6 @@ namespace EcommerceProject.Controllers
                 throw e;
             }
 
-
             int publicationId;
             try
             {
@@ -113,13 +108,14 @@ namespace EcommerceProject.Controllers
                 p.Promocionada = true;
 
                 //creo un pago para una promocion
-                Pago pago = new Pago();
-                pago.Aprobado = true;
-                pago.Concepto = "PROMOCION";
-                pago.Usuario = u;
-                pago.Publicacion = p;
-                pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
-
+                Pago pago = new Pago
+                {
+                    Aprobado = true,
+                    Concepto = "PROMOCION",
+                    Usuario = u,
+                    Publicacion = p,
+                    FechaDePago = Convert.ToDateTime(DateTime.Now)
+                };
                 db.Pagos.Add(pago);
 
                 //guardo cambios en la db
@@ -127,7 +123,6 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("UserInfo", "Account");
             }
         }
-
 
         public ActionResult PagoExitosoContratacion()
         {
@@ -161,15 +156,19 @@ namespace EcommerceProject.Controllers
                     .Include("Publicacion")
                     .FirstOrDefault(cont => cont.Id == contratacionId);
                 c.Estado = "Contratada";
+
                 //creo un pago para una contratacion
-                Pago pago = new Pago();
-                pago.Aprobado = true;
-                pago.Concepto = "CONTRATACION";
-                pago.Usuario = u;
-                pago.Publicacion = c.Publicacion;
-                pago.FechaDePago = Convert.ToDateTime(DateTime.Now);
+                Pago pago = new Pago
+                {
+                    Aprobado = true,
+                    Concepto = "CONTRATACION",
+                    Usuario = u,
+                    Publicacion = c.Publicacion,
+                    FechaDePago = Convert.ToDateTime(DateTime.Now)
+                };
                 db.Pagos.Add(pago);
                 c.Pago = pago;
+
                 //guardo cambios en la db
                 db.SaveChanges();
                 return View(c.Publicacion.Usuario);

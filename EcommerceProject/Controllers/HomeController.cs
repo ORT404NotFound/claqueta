@@ -1,9 +1,7 @@
-﻿using EcommerceProject.Models;
-using EcommerceProject.Models.EcommerceProject.Models;
+﻿using EcommerceProject.Models.EcommerceProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
@@ -21,7 +19,6 @@ namespace EcommerceProject.Controllers
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
                 return View(publicaciones);
-
             }
         }
 
@@ -32,11 +29,8 @@ namespace EcommerceProject.Controllers
                 return View("Index");
             }
 
-
-
             using (var db = new SQLServerContext())
             {
-
                 var publicacion = db.Publicaciones
                     .Include("Usuario")
                     .Include("Consultas")
@@ -59,12 +53,12 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var publicacion = db.Publicaciones
-                    .Where(p => p.Id == publicacionId).FirstOrDefault();
+                var publicacion = db.Publicaciones.Where(p => p.Id == publicacionId).FirstOrDefault();
+
                 if (publicacion != null)
                 {
                     var disponibilidad = publicacion.Disponibilidad;
-                    var NoDisponibilidad = string.Join(",", DameDiasNoDisponibles(disponibilidad));
+                    var NoDisponibilidad = String.Join(",", DameDiasNoDisponibles(disponibilidad));
                     return Json(NoDisponibilidad, JsonRequestBehavior.AllowGet);
                 }
                 else
@@ -73,9 +67,10 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
-        public string[] DameDiasNoDisponibles(string DiasDisponibles)
+
+        public String[] DameDiasNoDisponibles(String DiasDisponibles)
         {
-            string[] semana = new string[] {
+            String[] semana = new String[] {
                 "0",
                 "1",
                 "2",
@@ -84,7 +79,7 @@ namespace EcommerceProject.Controllers
                 "5",
                 "6"
             };
-            var semanaList = new List<string>(semana);
+            var semanaList = new List<String>(semana);
             List<String> diasParseados = DiasDisponibles.Split(',').ToList();
             foreach (var dia in diasParseados)
             {
@@ -127,7 +122,7 @@ namespace EcommerceProject.Controllers
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.ToLower().Contains(categoria.ToLower()))
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
-                return View("BuscadorPublicaciones",publicaciones);
+                return View("BuscadorPublicaciones", publicaciones);
             }
         }
 

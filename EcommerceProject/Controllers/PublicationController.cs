@@ -78,7 +78,7 @@ namespace EcommerceProject.Controllers
                     db.Publicaciones.Add(publication);
                     db.SaveChanges();
                     ModelState.Clear();
-                    ViewBag.Message = "La publicacion fue guardada exitosamente";
+                    ViewBag.Message = "La publicacion fue guardada exitosamente.";
                     return View();
                 }
             }
@@ -86,7 +86,7 @@ namespace EcommerceProject.Controllers
             {
                 if (form["Disponibilidad[]"] == null)
                 {
-                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia de la semana");
+                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día de la semana.");
                 }
                 return View();
             }
@@ -139,11 +139,13 @@ namespace EcommerceProject.Controllers
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
 
-                Contratacion contratacion = new Contratacion();
-                contratacion.Estado = "Pendiente";
-                contratacion.Fechas = result;
-                contratacion.Publicacion = publicacion;
-                contratacion.Usuario = userToFind;
+                Contratacion contratacion = new Contratacion
+                {
+                    Estado = "Pendiente",
+                    Fechas = result,
+                    Publicacion = publicacion,
+                    Usuario = userToFind
+                };
                 db.Contrataciones.Add(contratacion);
                 db.SaveChanges();
 
