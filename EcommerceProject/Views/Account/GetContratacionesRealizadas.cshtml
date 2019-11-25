@@ -1,29 +1,32 @@
 ﻿@model IEnumerable<EcommerceProject.Models.Contratacion>
 
 @{
-    ViewBag.Title = "Contrataciones realizadas";
+    ViewBag.Title = "Mis Contrataciones";
 }
+
+<div style="margin-top: 10px">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+</div>
+
 <div class="row" style="margin-top: 20px">
     <div class="col-md-10">
-
         @if (Model.Count() > 0)
         {
             <div class="well">
                 <div class="list-group">
-                    @foreach (var c in Model)
+                    @foreach (var contratacion in Model)
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    <span>@c.Estado</span>
-                                </h6>
-                                <p class="card-text">
-                                    @c.Publicacion.Titulo
-                                </p>
+                                <h6 class="card-subtitle mb-2 text-muted"><span>@contratacion.Estado</span></h6>
+                                <p class="card-text">@contratacion.Publicacion.Titulo</p>
                                 <hr />
                                 <div class="float-right">
-                                    <button onclick="cancelarContratacion(@c.Id)">Cancelar</button>
-                                    <!--aca poner botones-->
+                                    @if (contratacion.Estado != "Cancelada")
+                                    {
+                                        <button onclick="cancelarContratacion(@contratacion.Id)" class="btn btn-danger">Cancelar</button>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -35,11 +38,12 @@
         else
         {
             <div class="well">
-                <p>No tiene contrataciones realizadas</p>
+                <h4>No cuenta con contrataciones.</h4>
             </div>
         }
     </div>
 </div>
+
 @section Scripts{
     <script>
            function cancelarContratacion(id) {
@@ -52,12 +56,12 @@
                 success: function (result) {
                     if (result == "NotAllowed") {
                         alert("sesion expirada")
-                    } else if (result == "cancelado") {
+                    } else if (result == "cancelada") {
                         location.reload(true);
                     }
                 },
                 error: function (result) {
-                    alert("Hubo un error", result);
+                    alert("Se presentó un error.", result);
                 }
             })
         }

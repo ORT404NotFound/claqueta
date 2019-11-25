@@ -1,39 +1,26 @@
 ﻿@model IEnumerable<EcommerceProject.Models.Contratacion>
 
 @{
-    ViewBag.Title = "Contrataciones a realizar";
+    ViewBag.Title = "Servicios Contratados";
 }
-<div class="row" style="margin-top: 20px">
-    <div class="col-md-2">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="@Url.Action("UserInfo","Account")">Publicaciones</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetContratacionesRealizadas","Account")">Contrataciones realizadas</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetContratacionesDelUsuario","Account")">Contrataciones a realizar</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetConsultasDelUsuario","Account")">Consultas</a></li>
-            <li class="list-group-item"><a href="#">Opiniones</a></li>
-            <li class="list-group-item"><a href="@Url.Action("EditUser","Account")">Detalles de cuenta</a></li>
-        </ul>
-    </div>
-    <div class="col-md-10">
 
+<div style="margin-top: 10px">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+</div>
+
+<div class="row" style="margin-top: 20px">
+    <div class="col-md-10">
         @if (Model.Count() > 0)
         {
             <div class="well">
                 <div class="list-group">
-                    @foreach (var c in Model)
+                    @foreach (var contratacion in Model)
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    <span>@c.Estado</span>
-                                </h6>
-                                <p class="card-text">
-                                    @c.Publicacion.Titulo
-                                </p>
-                                <hr />
-                                <div class="float-right">
-                                    <!--aca poner botones-->
-                                </div>
+                                <h6 class="card-subtitle mb-2 text-muted"><span>@contratacion.Estado</span></h6>
+                                <p class="card-text">@contratacion.Publicacion.Titulo</p>
                             </div>
                         </div>
                         <hr />
@@ -44,7 +31,7 @@
         else
         {
             <div class="well">
-                <p>No tiene contrataciones realizadas</p>
+                <h4>No cuenta con servicios para realizar.</h4>
             </div>
         }
     </div>

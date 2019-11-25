@@ -1,42 +1,35 @@
 ﻿@model IEnumerable<EcommerceProject.Models.Consulta>
 
 @{
-    ViewBag.Title = "Consultas a responder";
+    ViewBag.Title = "Consultas a Responder";
 }
-<div class="row" style="margin-top: 20px">
-    <div class="col-md-2">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="@Url.Action("UserInfo","Account")">Publicaciones</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetContratacionesRealizadas","Account")">Contrataciones realizadas</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetContratacionesDelUsuario","Account")">Contrataciones a realizar</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetConsultasDelUsuario","Account")">Consultas</a></li>
-            <li class="list-group-item"><a href="#">Opiniones</a></li>
-            <li class="list-group-item"><a href="@Url.Action("EditUser","Account")">Detalles de cuenta</a></li>
-        </ul>
-    </div>
-    <div class="col-md-10">
 
+<div style="margin-top: 10px">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+</div>
+
+<div class="row" style="margin-top: 20px">
+    <div class="col-md-10">
         @if (Model.Count() > 0)
         {
             <div class="well">
                 <div class="list-group">
-                    @foreach (var c in Model)
+                    @foreach (var consulta in Model)
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
-                                <h6>@c.Usuario.Nombre @c.Usuario.Apellido </h6>
+                                <h5 class="card-text">@consulta.Usuario.Nombre @consulta.Usuario.Apellido</h5>
+                                <h4 class="card-title">@consulta.Publicacion.Titulo</h4>
+                                <h5 class="card-title">@consulta.Descripcion</h5>
 
-                                <h6>@c.Publicacion.Titulo</h6>
-
-                                <p class="card-text">
-                                    @c.Descripcion
-                                </p>
                                 <div style="margin-bottom:20px;">
                                     <textarea class="card-text form-control textoAResponder"></textarea>
                                 </div>
+
                                 <div class="float-right">
-                                    <input type="hidden" value="@c.Id" class="idABuscar" />
-                                    <button class="btn btn-danger" onclick="borrarConsulta(@c.Id)">Borrar</button>
+                                    <input type="hidden" value="@consulta.Id" class="idABuscar" />
+                                    <button class="btn btn-danger" onclick="borrarConsulta(@consulta.Id)">Borrar</button>
                                     <button class="btn btn-primary responder_comentario">Responder</button>
                                 </div>
                             </div>
@@ -49,7 +42,9 @@
         else
         {
             <div class="well">
-                <p>No tiene consultas a responder</p>
+                <h4>No hay consultas pendientes de respuesta.</h4>
+                <p></p>
+                <input type="button" class="btn btn-info" value="Recargar Página" onClick="location.reload(true)" />
             </div>
         }
     </div>
@@ -58,11 +53,10 @@
 @section Scripts{
     <script>
         $(".responder_comentario").on("click", function () {
-
             var id = $(this).parent().find('.idABuscar').val();
             var texto = $(this).parent().parent().find('.textoAResponder').val();
             if (!texto) {
-                alert("Debe responder algo");
+                alert("La respuesta no puede estar vacía.");
             } else {
                 var data = {
                 id: id,
@@ -75,18 +69,16 @@
                 url: "@Url.Action("ResponderConsulta","Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("Debe estar logueado para comentar")
+                        alert("Debe estar logueado para responder una consulta.")
                     } else if (result == "guardado") {
                         location.reload(true);
                     }
                 },
                 error: function (result) {
-                    alert("Hubo un error", result);
+                    alert("Se presentó un error.", result);
                 }
             })
             }
-
-
         })
 
         function borrarConsulta(id) {
@@ -98,17 +90,15 @@
                 url: "@Url.Action("EliminarConsulta","Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("Debe estar logueado para comentar")
+                        alert("Debe estar logueado para eliminar una consulta.")
                     } else if (result == "eliminada") {
                         location.reload(true);
                     }
                 },
                 error: function (result) {
-                    alert("Hubo un error", result);
+                    alert("Se presentó un error.", result);
                 }
             })
-
-
         }
     </script>
 }
