@@ -397,6 +397,8 @@ namespace EcommerceProject.Controllers
 
             }
         }
+
+        [HttpPost]
         public ActionResult CancelarContratacion(FormCollection form) {
             if (Session["UserId"] == null)
             {
