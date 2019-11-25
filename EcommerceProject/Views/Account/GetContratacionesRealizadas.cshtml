@@ -4,16 +4,6 @@
     ViewBag.Title = "Contrataciones realizadas";
 }
 <div class="row" style="margin-top: 20px">
-    <div class="col-md-2">
-        <ul class="list-group">
-            <li class="list-group-item"><a href="@Url.Action("UserInfo","Account")">Publicaciones</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetContratacionesRealizadas","Account")">Contrataciones realizadas</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetContratacionesDelUsuario","Account")">Contrataciones a realizar</a></li>
-            <li class="list-group-item"><a href="@Url.Action("GetConsultasDelUsuario","Account")">Consultas</a></li>
-            <li class="list-group-item"><a href="#">Opiniones</a></li>
-            <li class="list-group-item"><a href="@Url.Action("EditUser","Account")">Detalles de cuenta</a></li>
-        </ul>
-    </div>
     <div class="col-md-10">
       
         @if (Model.Count() > 0)
