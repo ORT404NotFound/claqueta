@@ -1,7 +1,9 @@
 using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
+using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
@@ -12,6 +14,11 @@ namespace EcommerceProject.Controllers
         public ActionResult Index()
         {
             return RedirectToAction("UserInfo", "Account");
+        }
+
+        public ActionResult Calificaciones()
+        {
+            return View();
         }
 
         /// register
@@ -90,7 +97,7 @@ namespace EcommerceProject.Controllers
                     {
                         Session["UserId"] = userToFind.Id;
                         Session["Email"] = user.Email;
-                        return RedirectToAction("UserInfo");
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
@@ -170,7 +177,7 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPublication(Publicacion publication, FormCollection form)
+        public ActionResult EditPublication(Publicacion publication, FormCollection form, HttpPostedFileBase foto, HttpPostedFileBase cv)
         {
             using (var db = new SQLServerContext())
             {
@@ -179,7 +186,7 @@ namespace EcommerceProject.Controllers
 
                 if (dis == null)
                 {
-                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un dia");
+                    ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día.");
                     return View("../Publication/EditPublication", publi);
                 }
 
@@ -188,16 +195,27 @@ namespace EcommerceProject.Controllers
                     // publi.Promocionada = publication.Promocionada;
                     publi.Titulo = publication.Titulo;
                     publi.Descripcion = publication.Descripcion;
-                    publi.CV = publication.CV;
                     publi.Categoria = publication.Categoria;
                     publi.Ubicacion = publication.Ubicacion;
                     publi.Precio = publication.Precio;
                     publi.Reel = publication.Reel;
-                    publi.Foto = publication.Foto;
                     publi.Referencias = publication.Referencias;
                     publi.Estado = "Pendiente";
                     publi.Visible = false;
 
+                    if (foto != null)
+                    {
+                        string pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
+                        foto.SaveAs(pathFoto);
+                        publi.Foto = publication.Foto;
+                    }
+
+                    if (cv != null)
+                    {
+                        string pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
+                        cv.SaveAs(pathCv);
+                        publi.CV = publication.CV;
+                    }
 
                     publi.Disponibilidad = dis;
 
