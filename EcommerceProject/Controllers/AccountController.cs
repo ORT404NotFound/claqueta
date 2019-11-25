@@ -227,7 +227,6 @@ namespace EcommerceProject.Controllers
                     return View();
                 }
             }
-
         }
 
         public ActionResult EditUser()
@@ -285,7 +284,7 @@ namespace EcommerceProject.Controllers
             {
                 var contataciones = db.Contrataciones
                     .Include("Publicacion")
-                    .Where(c => c.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente"))
+                    .Where(c => c.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
                     .ToList();
                 return View(contataciones);
             }
@@ -303,12 +302,11 @@ namespace EcommerceProject.Controllers
             {
                 var contataciones = db.Contrataciones
                     .Include("Publicacion")
-                    .Where(c => c.Publicacion.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente"))
+                    .Where(c => c.Publicacion.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
                     .ToList();
                 return View(contataciones);
             }
         }
-
 
         public ActionResult GetConsultasDelUsuario()
         {
@@ -350,7 +348,6 @@ namespace EcommerceProject.Controllers
                     db.SaveChanges();
                     return Json("guardado", JsonRequestBehavior.AllowGet);
                 }
-
             }
         }
 
@@ -372,10 +369,8 @@ namespace EcommerceProject.Controllers
                     db.SaveChanges();
                     return Json("guardado", JsonRequestBehavior.AllowGet);
                 }
-
             }
         }
-
 
         [HttpPost]
         public ActionResult EliminarConsulta(FormCollection form)
@@ -394,12 +389,12 @@ namespace EcommerceProject.Controllers
                     db.SaveChanges();
                     return Json("eliminada", JsonRequestBehavior.AllowGet);
                 }
-
             }
         }
 
         [HttpPost]
-        public ActionResult CancelarContratacion(FormCollection form) {
+        public ActionResult CancelarContratacion(FormCollection form)
+        {
             if (Session["UserId"] == null)
             {
                 return Json("NotAllowed", JsonRequestBehavior.AllowGet);
@@ -413,9 +408,7 @@ namespace EcommerceProject.Controllers
                     db.SaveChanges();
                     return Json("cancelada", JsonRequestBehavior.AllowGet);
                 }
-
             }
         }
-
     }
 }

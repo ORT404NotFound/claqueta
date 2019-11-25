@@ -33,8 +33,18 @@
                 {
                     if (Session["isAdmin"] == null)
                     {
-                        <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("UserInfo", "Account")">Mi Cuenta</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Mi Cuenta
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="@Url.Action("UserInfo","Account")">Publicaciones</a>
+                                <a class="dropdown-item" href="@Url.Action("GetContratacionesRealizadas","Account")">Contrataciones</a>
+                                <a class="dropdown-item" href="@Url.Action("GetContratacionesDelUsuario","Account")">Servicios Contratados</a>
+                                <a class="dropdown-item" href="@Url.Action("GetConsultasDelUsuario","Account")">Consultas</a>
+                                <a class="dropdown-item" href="@Url.Action("Calificaciones","Account")">Calificaciones</a>
+                                <a class="dropdown-item" href="@Url.Action("EditUser","Account")">Detalles de Cuenta</a>
+                            </div>
                         </li>
                     }
                     else
