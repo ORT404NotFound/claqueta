@@ -1,10 +1,12 @@
-﻿namespace EcommerceProject.Models
+﻿using System;
+
+namespace EcommerceProject.Models
 {
     public static class Categorias
     {
-        public static string[] GetCategorias()
+        public static String[] GetCategorias()
         {
-            string[] categorias = new string[] {
+            String[] categorias = new String[] {
                 "Asistentes de Producción",
                 "Camarógrafos",
                 "Castineras",

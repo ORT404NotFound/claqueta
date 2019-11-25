@@ -1,15 +1,29 @@
 ﻿@model EcommerceProject.Models.Usuario
+
 @{
-    ViewBag.Title = "PagoExitosoContratacion";
+    ViewBag.Title = "Pago Exitoso";
 }
 
-<h2>Su pago fue acreditado correctamente</h2>
-<div class="col-md-12 col-xs-12">
-    <p>Datos de contacto</p>
-    <p>Nombre del prestador: @Model.Nombre @Model.Apellido </p>
-    <p>Email: @Model.Email </p>
-    <p>Teléfono: @Model.Telefono </p>
-    <p>
-        <a href="@Url.Action("Index","Home")" class="btn btn-primary">Volver al home</a>
-    </p>
+<div style="margin-top: 10px">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <h5>Su pago fue acreditado correctamente.</h5>
+</div>
+
+<div class="row well list-group" style="margin-top: 20px">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Datos del Prestador del Servicio</h5>
+                <h6 class="card-text">Nombre y Apellido: @Model.Nombre @Model.Apellido</h6>
+                <h6 class="card-text">E-Mail: @Model.Email</h6>
+                <h6 class="card-text">Teléfono: @Model.Telefono</h6>
+                <hr />
+                <div class="float-right">
+                    <a href="@Url.Action("GetContratacionesRealizadas","Account")" class="btn btn-info">Continuar</a>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
 </div>
