@@ -41,7 +41,7 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        // para guardar una publicacion, necesita auth de user
+        // PARA GUARDAR UNA PUBLICACIÓN, NECESITA ESTAR AUTENTICADO COMO USUARIO
         [HttpPost]
         public ActionResult SavePublication(Publicacion publication, FormCollection form, HttpPostedFileBase foto, HttpPostedFileBase cv)
         {
@@ -49,23 +49,17 @@ namespace EcommerceProject.Controllers
             {
                 return View("NotAuthorized");
             }
+
             if (ModelState.IsValid)
             {
-                int userId;
-                try
-                {
-                    userId = Int32.Parse(Session["UserId"].ToString());
+                int userId = Int32.Parse(Session["UserId"].ToString());
 
-                    string pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
-                    foto.SaveAs(pathFoto);
+                string pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
+                foto.SaveAs(pathFoto);
 
-                    string pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
-                    cv.SaveAs(pathCv);
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
+                string pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
+                cv.SaveAs(pathCv);
+
                 using (var db = new SQLServerContext())
                 {
                     Usuario u = db.Usuarios.Find(userId);
@@ -75,6 +69,8 @@ namespace EcommerceProject.Controllers
                     publication.FechaDePublicacion = Convert.ToDateTime(DateTime.Now);
                     var dis = form["Disponibilidad[]"];
                     publication.Disponibilidad = dis;
+                    publication.Foto = pathFoto;
+                    publication.CV = pathCv;
                     db.Publicaciones.Add(publication);
                     db.SaveChanges();
                     ModelState.Clear();
