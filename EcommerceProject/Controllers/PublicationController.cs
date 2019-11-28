@@ -1,5 +1,6 @@
 using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
@@ -123,6 +124,7 @@ namespace EcommerceProject.Controllers
         [HttpPost]
         public ActionResult CrearContratacion(String[] diasSeleccionados, int usuarioId, int publicacionId)
         {
+
             var result = string.Join(",", diasSeleccionados);
 
             using (var db = new SQLServerContext())
@@ -134,17 +136,28 @@ namespace EcommerceProject.Controllers
                 {
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
-
                 Contratacion contratacion = new Contratacion
                 {
                     Estado = "Pendiente",
-                    Fechas = result,
                     Publicacion = publicacion,
                     Usuario = userToFind
                 };
                 db.Contrataciones.Add(contratacion);
+                /// 1 contrat .--- N fechas 
+                foreach (var diasSelec in diasSeleccionados) {
+                    var settings = new JsonSerializerSettings
+                    {
+                        DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
+                        DateTimeZoneHandling = DateTimeZoneHandling.Utc
+                    };
+                    var dia = JsonConvert.DeserializeObject(diasSelec, settings);
+                    DateTime oDate = Convert.ToDateTime(dia);
+                    FechaContratacion fechaContratacion = new FechaContratacion();
+                    fechaContratacion.Contratacion = contratacion;
+                    fechaContratacion.Fecha = oDate.Date;
+                    db.FechaXContratacion.Add(fechaContratacion);
+                }
                 db.SaveChanges();
-
                 return Json(contratacion.Id, JsonRequestBehavior.AllowGet);
             }
         }

@@ -45,6 +45,7 @@ namespace EcommerceProject.Controllers
             {
                 Contratacion c = db.Contrataciones
                     .Include("Publicacion")
+                    .Include("FechaContratacion")
                     .FirstOrDefault(con => con.Id == contratacionId);
                 Usuario u = db.Usuarios.Find(userId);
                 MP mp = new MP();

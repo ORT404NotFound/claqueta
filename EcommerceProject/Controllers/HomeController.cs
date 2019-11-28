@@ -1,4 +1,5 @@
 ﻿using EcommerceProject.Models.EcommerceProject.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -99,7 +100,9 @@ namespace EcommerceProject.Controllers
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
 
-                var contrataciones = db.Contrataciones.Where(c => c.Publicacion.Usuario.Id == userToFind.Id && c.Estado != "Pendiente" && c.Pago != null).ToArray();
+                var contrataciones = db.Contrataciones
+                    .Include("FechaContratacion")
+                    .Where(c => c.Publicacion.Usuario.Id == userToFind.Id && c.Estado != "Pendiente" && c.Pago != null).ToArray();
 
                 if (contrataciones == null)
                 {
@@ -107,8 +110,20 @@ namespace EcommerceProject.Controllers
                 }
                 else
                 {
-                    var result = string.Join(",", contrataciones.Select(w => w.Fechas));
-                    return Json(result, JsonRequestBehavior.AllowGet);
+                    List<DateTime> fechas = new List<DateTime>();
+
+                    foreach (var contratacion in contrataciones) 
+                    {
+                        if (contratacion.FechaContratacion.Count > 0)
+                        {
+                            foreach (var fecha in contratacion.FechaContratacion)
+                            {
+                                fechas.Add(fecha.Fecha);
+                            }
+                        }
+                    }
+                    //var result = JsonConvert.SerializeObject();        
+                    return Json(fechas.ToArray(), JsonRequestBehavior.AllowGet);
                 }
             }
         }

@@ -32,6 +32,8 @@ namespace EcommerceProject.Models
             public DbSet<Usuario> Usuarios { get; set; }
 
             public DbSet<UsuarioCalificacion> UsuariosXCalificaciones { get; set; }
+            public DbSet<FechaContratacion> FechaXContratacion { get; set; }
+
         }
     }
 }

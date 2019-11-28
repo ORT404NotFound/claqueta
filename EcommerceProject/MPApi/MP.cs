@@ -82,9 +82,8 @@ namespace EcommerceProject.MPApi
             }
 
             double precioPubli = contratacion.Publicacion.Precio;
-            List<String> diasParseados = contratacion.Fechas.Split(',').ToList();
-            int cuenta = diasParseados.Count();
-            double PrecioTotal = precioPubli * cuenta;
+            int cantidadDeDias = contratacion.FechaContratacion.Count();
+            double PrecioTotal = precioPubli * cantidadDeDias;
 
             // Crea un objeto de preferencia
             Preference preference = new Preference();

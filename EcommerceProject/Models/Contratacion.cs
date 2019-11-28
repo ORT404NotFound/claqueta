@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,8 +13,6 @@ namespace EcommerceProject.Models
 
         public String Estado { get; set; }
 
-        public String Fechas { get; set; }
-
         public Publicacion Publicacion { get; set; }
 
         [ForeignKey("Publicacion")]
@@ -22,5 +21,7 @@ namespace EcommerceProject.Models
         public virtual Pago Pago { get; set; }
 
         public virtual Usuario Usuario { get; set; }
+        public ICollection<FechaContratacion> FechaContratacion { get; set; }
+
     }
 }

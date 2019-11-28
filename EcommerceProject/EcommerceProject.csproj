@@ -143,6 +143,7 @@
     <Compile Include="Models\Calification\PublicacionCalificacion.cs" />
     <Compile Include="Models\Calification\UsuarioCalificacion.cs" />
     <Compile Include="Models\Categorias.cs" />
+    <Compile Include="Models\FechaContratacion.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Pago.cs" />
     <Compile Include="Models\Contratacion.cs" />
@@ -205,6 +206,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
