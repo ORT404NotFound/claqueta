@@ -10,7 +10,6 @@ namespace EcommerceProject.Controllers
 {
     public class AccountController : Controller
     {
-        // GET: Account
         public ActionResult Index()
         {
             return RedirectToAction("UserInfo", "Account");
@@ -22,94 +21,98 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Login");
             }
+
             if (Session["isAdmin"] != null)
             {
-                return View("Error");
+                return View("NotAuthorized");
             }
+
             return View();
         }
 
-        /// register
         public ActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Register(Usuario user)
+        public ActionResult Register(Usuario usuario)
         {
             if (ModelState.IsValid)
             {
                 using (var db = new SQLServerContext())
                 {
-                    var userToFind = db.Usuarios.SingleOrDefault(u => u.Email == user.Email);
+                    var usuarioAEncontrar = db.Usuarios.SingleOrDefault(u => u.Email == usuario.Email);
 
-                    if (userToFind != null)
+                    // VALIDA QUE EL E-MAIL INGRESADO NO EXISTA EN LA BASE DE DATOS
+                    if (usuarioAEncontrar != null)
                     {
                         ViewBag.Message = "El E-Mail que quiere registrar ya existe.";
                         return View();
                     }
 
-                    if ((user.TipoDocumento == null && user.Documento != null) || (user.TipoDocumento != null && user.Documento == null))
+                    // VALIDA QUE SI SE COMPLETA EL TIPO O NÚMERO DE IDENTIFICACIÓN, ESTÉ EL CAMPO RESTANTE COMPLETO TAMBIÉN
+                    if ((usuario.TipoDocumento == null && usuario.Documento != null) || (usuario.TipoDocumento != null && usuario.Documento == null))
                     {
                         ViewBag.Message = "Debe completar el tipo y número de identificación.";
                         return View();
                     }
 
                     // VALIDA QUE EL USUARIO SEA MAYOR DE EDAD
-
-                    if (user.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
+                    if (usuario.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
                     {
                         ViewBag.Message = "Debe tener más de 18 años para poder registrarse en la plataforma.";
                         return View();
                     }
 
-                    user.Activo = true;
-                    db.Usuarios.Add(user);
-                    Rol r = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
-                    user.Roles.Add(r);
+                    usuario.Activo = true;
+                    db.Usuarios.Add(usuario);
+
+                    Rol rol = db.Roles.SingleOrDefault(r => r.Nombre == "USER");
+                    usuario.Roles.Add(rol);
+
                     db.SaveChanges();
+
                     ModelState.Clear();
+
                     ViewBag.Message = "Usted se ha registrado correctamente.";
+
                     return View();
                 }
             }
             return View();
         }
 
-        /// login
         public ActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult Login(Usuario user)
+        public ActionResult Login(Usuario usuario)
         {
             using (var db = new SQLServerContext())
             {
-                var rUser = db.Roles.SingleOrDefault(role => role.Nombre == "USER");
-                var rAdmin = db.Roles.SingleOrDefault(role => role.Nombre == "ADMIN");
-                var userToFind = db.Usuarios.FirstOrDefault(u => u.Email == user.Email && u.Password == user.Password);
+                var rUsuario = db.Roles.SingleOrDefault(r => r.Nombre == "USER");
+                var rAdmin = db.Roles.SingleOrDefault(r => r.Nombre == "ADMIN");
+                var usuarioAEncontrar = db.Usuarios.FirstOrDefault(u => u.Email == usuario.Email && u.Password == usuario.Password);
 
-                if (userToFind != null)
+                if (usuarioAEncontrar != null)
                 {
-                    if (userToFind.Roles.Contains(rAdmin))
+                    if (usuarioAEncontrar.Roles.Contains(rUsuario))
                     {
-                        Session["UserId"] = userToFind.Id;
-                        Session["Email"] = user.Email;
-                        Session["isAdmin"] = "true";
-                        return RedirectToAction("Index", "Admin");
-                    }
-                    else if (userToFind.Roles.Contains(rUser))
-                    {
-                        Session["UserId"] = userToFind.Id;
-                        Session["Email"] = user.Email;
+                        Session["UserId"] = usuarioAEncontrar.Id;
+                        Session["Email"] = usuario.Email;
+
                         return RedirectToAction("Index", "Home");
                     }
-                    else
+                    else if (usuarioAEncontrar.Roles.Contains(rAdmin))
                     {
-                        return View("../Shared/NotAuthorized");
+                        Session["UserId"] = usuarioAEncontrar.Id;
+                        Session["Email"] = usuario.Email;
+                        Session["isAdmin"] = "true";
+
+                        return RedirectToAction("Index", "Admin");
                     }
                 }
                 else
@@ -124,6 +127,8 @@ namespace EcommerceProject.Controllers
         {
             Session["UserId"] = null;
             Session["Email"] = null;
+            Session["isAdmin"] = null;
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -133,18 +138,21 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Login");
             }
+
             if (Session["isAdmin"] != null)
             {
                 return View("NotAuthorized");
             }
-            int userId = Int32.Parse(Session["UserId"].ToString());
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                var publications = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Usuario.Id == userId).ToList();
+                var publicaciones = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Usuario.Id == usuarioId).ToList();
 
-                if (publications != null)
+                if (publicaciones != null)
                 {
-                    return View(publications);
+                    return View(publicaciones);
                 }
                 else
                 {
@@ -152,27 +160,28 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
-        // Obtiene la publicacion a buscar usuario logueado
-        public ActionResult EditPublication(int publicationId)
+
+        public ActionResult EditPublication(int publicacionId)
         {
-            if (publicationId == 0)
+            if (publicacionId == 0)
             {
                 return RedirectToAction("UserInfo");
             }
+
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
             }
-            int userId = Int32.Parse(Session["UserId"].ToString());
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                var publi = db
-                    .Publicaciones
-                    .Where(p => p.Usuario.Id == userId && p.Id == publicationId)
-                    .FirstOrDefault();
-                if (publi != null)
+                var publicacion = db.Publicaciones.Where(p => p.Usuario.Id == usuarioId && p.Id == publicacionId).FirstOrDefault();
+
+                if (publicacion != null)
                 {
-                    return View("../Publication/EditPublication", publi);
+                    return View("../Publication/EditPublication", publicacion);
                 }
                 else
                 {
@@ -182,14 +191,14 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditPublication(Publicacion publication, FormCollection form, HttpPostedFileBase foto, HttpPostedFileBase cv)
+        public ActionResult EditPublication(Publicacion publicacion, FormCollection form, HttpPostedFileBase foto, HttpPostedFileBase cv)
         {
             using (var db = new SQLServerContext())
             {
-                var dis = form["Disponibilidad[]"];
-                var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publication.Id);
+                var disponibilidad = form["Disponibilidad[]"];
+                var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publicacion.Id);
 
-                if (dis == null)
+                if (disponibilidad == null)
                 {
                     ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día de la semana.");
                     return View("../Publication/EditPublication", publi);
@@ -197,34 +206,33 @@ namespace EcommerceProject.Controllers
 
                 if (publi != null)
                 {
-                    // publi.Promocionada = publication.Promocionada;
-                    publi.Titulo = publication.Titulo;
-                    publi.Descripcion = publication.Descripcion;
-                    publi.Categoria = publication.Categoria;
-                    publi.Ubicacion = publication.Ubicacion;
-                    publi.Precio = publication.Precio;
-                    publi.Reel = publication.Reel;
-                    publi.Referencias = publication.Referencias;
-                    publi.Estado = "Pendiente";
+                    publi.Categoria = publicacion.Categoria;
+                    publi.Disponibilidad = disponibilidad;
+                    publi.Ubicacion = publicacion.Ubicacion;
+                    publi.Titulo = publicacion.Titulo;
+                    publi.Descripcion = publicacion.Descripcion;
+                    publi.Precio = publicacion.Precio;
+                    publi.Referencias = publicacion.Referencias;
+                    publi.Reel = publicacion.Reel;
                     publi.Visible = false;
+                    publi.Estado = "Pendiente";
 
                     if (foto != null)
                     {
                         string pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
                         foto.SaveAs(pathFoto);
-                        publi.Foto = publication.Foto;
+                        publi.Foto = pathFoto;
                     }
 
                     if (cv != null)
                     {
                         string pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
                         cv.SaveAs(pathCv);
-                        publi.CV = publication.CV;
+                        publi.CV = pathCv;
                     }
 
-                    publi.Disponibilidad = dis;
-
                     db.SaveChanges();
+
                     return RedirectToAction("UserInfo");
                 }
                 else
@@ -240,15 +248,16 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Login");
             }
-            int userId = Int32.Parse(Session["UserId"].ToString());
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                var user = db
-                    .Usuarios.Where(u => u.Id == userId)
-                    .FirstOrDefault();
-                if (user != null)
+                var usuario = db.Usuarios.Where(u => u.Id == usuarioId).FirstOrDefault();
+
+                if (usuario != null)
                 {
-                    return View(user);
+                    return View(usuario);
                 }
                 else
                 {
@@ -256,17 +265,21 @@ namespace EcommerceProject.Controllers
                 }
             }
         }
+
         [HttpPost]
-        public ActionResult EditUser(Usuario user)
+        public ActionResult EditUser(Usuario usuario)
         {
             using (var db = new SQLServerContext())
             {
-                var userToUpdate = db.Usuarios.SingleOrDefault(u => u.Id == user.Id);
-                if (userToUpdate != null)
+                var usuarioActualizar = db.Usuarios.SingleOrDefault(u => u.Id == usuario.Id);
+
+                if (usuarioActualizar != null)
                 {
-                    userToUpdate.Nombre = user.Nombre;
-                    userToUpdate.Apellido = user.Apellido;
+                    usuarioActualizar.Nombre = usuario.Nombre;
+                    usuarioActualizar.Apellido = usuario.Apellido;
+
                     db.SaveChanges();
+
                     return RedirectToAction("UserInfo");
                 }
                 else
@@ -276,40 +289,45 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        //contrataciones q hizo
+        // SERVICIOS CONTRATADOS
         public ActionResult GetContratacionesRealizadas()
         {
-
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
             }
-            int userId = Int32.Parse(Session["UserId"].ToString());
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                var contataciones = db.Contrataciones
+                var contrataciones = db.Contrataciones
                     .Include("Publicacion")
-                    .Where(c => c.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
+                    .Where(c => c.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
                     .ToList();
-                return View(contataciones);
+
+                return View(contrataciones);
             }
         }
 
-        // al que lo contratan
+        // MIS CONTRATACIONES
         public ActionResult GetContratacionesDelUsuario()
         {
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
             }
-            int userId = Int32.Parse(Session["UserId"].ToString());
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                var contataciones = db.Contrataciones
+                var contrataciones = db.Contrataciones
                     .Include("Publicacion")
-                    .Where(c => c.Publicacion.Usuario.Id == userId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
+                    .Where(c => c.Publicacion.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
                     .ToList();
-                return View(contataciones);
+
+                return View(contrataciones);
             }
         }
 
@@ -319,15 +337,18 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Login");
             }
-            int userId = Int32.Parse(Session["UserId"].ToString());
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
                 var consultas = db.Consultas
                     .Include("Publicacion")
                     .Include("Usuario")
-                    .Where(c => c.Publicacion.Usuario.Id == userId && c.Respuesta == null && c.Visible == true)
+                    .Where(c => c.Publicacion.Usuario.Id == usuarioId && c.Respuesta == null && c.Visible == true)
                     .OrderBy(c => c.Id)
                     .ToList();
+
                 return View(consultas);
             }
         }
@@ -340,17 +361,21 @@ namespace EcommerceProject.Controllers
             }
             else
             {
-                int userId = Int32.Parse(Session["UserId"].ToString());
-                var publiId = Int32.Parse(form["publiId"]);
+                int usuarioId = Int32.Parse(Session["UserId"].ToString());
+                var publicacionId = Int32.Parse(form["publiId"]);
+
                 using (var db = new SQLServerContext())
                 {
-                    var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publiId);
-                    var user = db.Usuarios.SingleOrDefault(u => u.Id == userId);
-                    consulta.Usuario = user;
-                    consulta.Publicacion = publi;
+                    var publicacion = db.Publicaciones.SingleOrDefault(p => p.Id == publicacionId);
+                    var usuario = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
+
+                    consulta.Usuario = usuario;
+                    consulta.Publicacion = publicacion;
                     consulta.Visible = true;
+
                     db.Consultas.Add(consulta);
                     db.SaveChanges();
+
                     return Json("guardado", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -365,13 +390,17 @@ namespace EcommerceProject.Controllers
             }
             else
             {
-                int consId = Int32.Parse(form["id"].ToString());
+                int consultaId = Int32.Parse(form["id"].ToString());
                 var respuesta = form["texto"];
+
                 using (var db = new SQLServerContext())
                 {
-                    var consulta = db.Consultas.SingleOrDefault(c => c.Id == consId);
+                    var consulta = db.Consultas.SingleOrDefault(c => c.Id == consultaId);
+
                     consulta.Respuesta = respuesta;
+
                     db.SaveChanges();
+
                     return Json("guardado", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -386,12 +415,16 @@ namespace EcommerceProject.Controllers
             }
             else
             {
-                int consId = Int32.Parse(form["id"].ToString());
+                int consultaId = Int32.Parse(form["id"].ToString());
+
                 using (var db = new SQLServerContext())
                 {
-                    var consulta = db.Consultas.SingleOrDefault(c => c.Id == consId);
+                    var consulta = db.Consultas.SingleOrDefault(c => c.Id == consultaId);
+
                     consulta.Visible = false;
+
                     db.SaveChanges();
+
                     return Json("eliminada", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -404,13 +437,18 @@ namespace EcommerceProject.Controllers
             {
                 return Json("NotAllowed", JsonRequestBehavior.AllowGet);
             }
+            else
             {
                 int contratacionId = Int32.Parse(form["id"].ToString());
+
                 using (var db = new SQLServerContext())
                 {
                     var contratacion = db.Contrataciones.SingleOrDefault(c => c.Id == contratacionId);
+
                     contratacion.Estado = "Cancelada";
+
                     db.SaveChanges();
+
                     return Json("cancelada", JsonRequestBehavior.AllowGet);
                 }
             }
