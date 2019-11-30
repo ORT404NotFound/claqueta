@@ -9,7 +9,6 @@ using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
 {
-
     public class PublicationController : Controller
     {
         //muestra el listado de publicaciones (no requiere auth)
@@ -105,19 +104,18 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult PromocionarPublication(int idPublication)
+        public ActionResult PromocionarPublicacion(int publicacionId)
         {
             if (Session["UserId"] == null)
             {
                 return View("NotAuthorized");
             }
+
             using (var db = new SQLServerContext())
             {
-                Publicacion p = db.Publicaciones.Find(idPublication);
-                p.Promocionada = true;
-                p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
-                db.SaveChanges();
-                return RedirectToAction("Pagar", "MercadoPago", p);
+                Publicacion publicacion = db.Publicaciones.Find(publicacionId);
+
+                return RedirectToAction("Pagar", "MercadoPago", publicacion);
             }
         }
 

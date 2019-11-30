@@ -53,9 +53,9 @@
                                 <div class="float-right">
                                     @if (!publicacion.Promocionada && publicacion.Visible == true && publicacion.Estado == "Aprobada")
                                     {
-                                        <a href="@Url.Action("PromocionarPublication", "Publication", new { idPublication = publicacion.Id })" class="btn btn-outline-primary">Promocionar Publicación</a>
+                                        <a href="@Url.Action("PromocionarPublicacion", "Publication", new { publicacionId = publicacion.Id })" class="btn btn-outline-primary">Promocionar Publicación</a>
                                     }
-                                    <a href="@Url.Action("EditPublication", "Account", new { publicationId = publicacion.Id })" class="btn btn-primary">Ver Detalle</a>
+                                    <a href="@Url.Action("EditPublication", "Account", new { publicacionId = publicacion.Id })" class="btn btn-primary">Ver Detalle</a>
                                 </div>
                             </div>
                         </div>
