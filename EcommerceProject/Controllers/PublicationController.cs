@@ -144,7 +144,8 @@ namespace EcommerceProject.Controllers
                 };
                 db.Contrataciones.Add(contratacion);
                 /// 1 contrat .--- N fechas 
-                foreach (var diasSelec in diasSeleccionados) {
+                foreach (var diasSelec in diasSeleccionados)
+                {
                     var settings = new JsonSerializerSettings
                     {
                         DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
@@ -155,7 +156,7 @@ namespace EcommerceProject.Controllers
                     FechaContratacion fechaContratacion = new FechaContratacion();
                     fechaContratacion.Contratacion = contratacion;
                     fechaContratacion.Fecha = oDate.Date;
-                    db.FechaXContratacion.Add(fechaContratacion);
+                    db.FechasXContratacion.Add(fechaContratacion);
                 }
                 db.SaveChanges();
                 return Json(contratacion.Id, JsonRequestBehavior.AllowGet);

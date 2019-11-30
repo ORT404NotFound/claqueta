@@ -10,10 +10,12 @@ namespace EcommerceProject.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public int Puntaje { get; set; }
 
         public String Comentario { get; set; }
 
+        [Required]
         public virtual Usuario Usuario { get; set; }
     }
 }

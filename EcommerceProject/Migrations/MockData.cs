@@ -9,7 +9,29 @@ namespace EcommerceProject.Migrations
     {
         public static void Initialize()
         {
-            string[] roles = new string[] { "USER", "ADMIN" };
+            String[] roles = new String[] { "USER", "ADMIN" };
+
+            String[] categorias = new String[] {
+                "Asistentes de Producción",
+                "Camarógrafos",
+                "Castineras",
+                "Drones",
+                "Editores",
+                "Efectos FX",
+                "Equipos de Audio",
+                "Equipos de Video",
+                "Escenógrafos",
+                "Extras",
+                "Fotógrafos",
+                "Iluminadores",
+                "Locaciones Privadas",
+                "Maquilladores",
+                "Postproducción",
+                "Productores",
+                "Sonidistas",
+                "Utileros",
+                "Vestuaristas"
+            };
 
             using (var db = new SQLServerContext())
             {
@@ -52,6 +74,22 @@ namespace EcommerceProject.Migrations
                     db.Usuarios.Add(user);
                     db.SaveChanges();
                 }
+
+                foreach (var categoria in categorias)
+                {
+                    Categoria cat = db.Categorias.SingleOrDefault(c => c.Nombre == categoria);
+
+                    if (cat == null)
+                    {
+                        // SI LA CATEGORÍA NO EXISTE LA GUARDA EN LA BASE DE DATOS
+                        Categoria miCategoria = new Categoria()
+                        {
+                            Nombre = categoria
+                        };
+                        db.Categorias.Add(miCategoria);
+                    }
+                }
+                db.SaveChanges();
             }
         }
     }

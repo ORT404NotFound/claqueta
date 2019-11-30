@@ -10,14 +10,18 @@ namespace EcommerceProject.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public bool Visible { get; set; }
 
+        [Required]
         public String Descripcion { get; set; }
 
         public String Respuesta { get; set; }
 
+        [Required]
         public virtual Publicacion Publicacion { get; set; }
 
+        // [Required]
         public virtual Usuario Usuario { get; set; }
     }
 }

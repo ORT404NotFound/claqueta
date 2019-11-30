@@ -64,17 +64,22 @@ namespace EcommerceProject.Models
         public String Reel { get; set; }
 
         [Display(Name = "Fecha de Publicación")]
+        [Required]
         [DataType(DataType.Date)]
         public DateTime FechaDePublicacion { get; set; }
 
         [Display(Name = "Fecha de Modificación")]
+        [Required]
         [DataType(DataType.Date)]
         public DateTime FechaDeModificacion { get; set; }
 
+        [Required]
         public bool Promocionada { get; set; }
 
+        [Required]
         public bool Visible { get; set; }
 
+        [Required]
         public String Estado { get; set; }
 
         public virtual Usuario Usuario { get; set; }

@@ -62,6 +62,7 @@ namespace EcommerceProject.Models
         [NotMapped]
         public String ConfirmPassword { get; set; }
 
+        [Required]
         public bool Activo { get; set; }
 
         ///

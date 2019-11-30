@@ -11,6 +11,7 @@ namespace EcommerceProject.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public String Estado { get; set; }
 
         public Publicacion Publicacion { get; set; }
@@ -20,8 +21,9 @@ namespace EcommerceProject.Models
 
         public virtual Pago Pago { get; set; }
 
+        // [Required]
         public virtual Usuario Usuario { get; set; }
-        public ICollection<FechaContratacion> FechaContratacion { get; set; }
 
+        public ICollection<FechaContratacion> FechaContratacion { get; set; }
     }
 }

@@ -17,9 +17,13 @@ namespace EcommerceProject.Models
                 base.OnModelCreating(modelBuilder);
             }
 
+            public DbSet<Categoria> Categorias { get; set; }
+
             public DbSet<Consulta> Consultas { get; set; }
 
             public DbSet<Contratacion> Contrataciones { get; set; }
+
+            public DbSet<FechaContratacion> FechasXContratacion { get; set; }
 
             public DbSet<Pago> Pagos { get; set; }
 
@@ -32,8 +36,6 @@ namespace EcommerceProject.Models
             public DbSet<Usuario> Usuarios { get; set; }
 
             public DbSet<UsuarioCalificacion> UsuariosXCalificaciones { get; set; }
-            public DbSet<FechaContratacion> FechaXContratacion { get; set; }
-
         }
     }
 }
