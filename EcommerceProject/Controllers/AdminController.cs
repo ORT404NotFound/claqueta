@@ -7,27 +7,27 @@ namespace EcommerceProject.Controllers
 {
     public class AdminController : Controller
     {
-        // GET: Admin
         public ActionResult Index()
         {
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+
             if (Session["isAdmin"] == null)
             {
-                return View("../Shared/NotAuthorized");
+                return View("NotAuthorized");
             }
 
-            int userId = Int32.Parse(Session["UserId"].ToString());
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
             {
-                var publications = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Estado == "Pendiente").ToList();
+                var publicaciones = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Estado == "Pendiente").ToList();
 
-                if (publications != null)
+                if (publicaciones != null)
                 {
-                    return View(publications);
+                    return View(publicaciones);
                 }
                 else
                 {
@@ -42,29 +42,30 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Index");
             }
+
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+
             if (Session["isAdmin"] == null)
             {
-                return View("../Shared/NotAuthorized");
+                return View("NotAuthorized");
             }
 
-            int userId = Int32.Parse(Session["UserId"].ToString());
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
             {
-                var publi = db
-                    .Publicaciones
-                    .Where(p => p.Id == publicacionId)
-                    .FirstOrDefault();
+                var publicacion = db.Publicaciones.Where(p => p.Id == publicacionId).FirstOrDefault();
 
-                if (publi != null)
+                if (publicacion != null)
                 {
-                    publi.Estado = "Aprobada";
-                    publi.Visible = true;
+                    publicacion.Estado = "Aprobada";
+                    publicacion.Visible = true;
+
                     db.SaveChanges();
+
                     return RedirectToAction("Index");
                 }
                 else
@@ -80,29 +81,30 @@ namespace EcommerceProject.Controllers
             {
                 return RedirectToAction("Index");
             }
+
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+
             if (Session["isAdmin"] == null)
             {
-                return View("../Shared/NotAuthorized");
+                return View("NotAuthorized");
             }
 
-            int userId = Int32.Parse(Session["UserId"].ToString());
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
             {
-                var publi = db
-                    .Publicaciones
-                    .Where(p => p.Id == publicacionId)
-                    .FirstOrDefault();
+                var publicacion = db.Publicaciones.Where(p => p.Id == publicacionId).FirstOrDefault();
 
-                if (publi != null)
+                if (publicacion != null)
                 {
-                    publi.Estado = "Rechazada";
-                    publi.Visible = false;
+                    publicacion.Estado = "Rechazada";
+                    publicacion.Visible = false;
+
                     db.SaveChanges();
+
                     return RedirectToAction("Index");
                 }
                 else
