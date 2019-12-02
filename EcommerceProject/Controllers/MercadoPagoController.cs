@@ -138,6 +138,7 @@ namespace EcommerceProject.Controllers
                 };
 
                 contratacion.Pago = pago;
+
                 db.Pagos.Add(pago);
                 db.SaveChanges();
 
