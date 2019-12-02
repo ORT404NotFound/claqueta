@@ -134,7 +134,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
                 <a href="@Url.Action("UserInfo", "Account")" class="btn btn-secondary">Descartar Cambios</a>
-                <a href="@Url.Action("DisablePublication", "Publication", new { idPublication = Model.Id })" class="btn btn-danger">Eliminar Publicación</a>
+                <a href="@Url.Action("DisablePublication", "Publication", new { publicacionId = Model.Id })" class="btn btn-danger">Eliminar Publicación</a>
             </div>
         </div>
     </div>

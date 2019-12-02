@@ -219,14 +219,14 @@ namespace EcommerceProject.Controllers
 
                     if (foto != null)
                     {
-                        string pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
+                        String pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
                         foto.SaveAs(pathFoto);
                         publi.Foto = pathFoto;
                     }
 
                     if (cv != null)
                     {
-                        string pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
+                        String pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
                         cv.SaveAs(pathCv);
                         publi.CV = pathCv;
                     }
