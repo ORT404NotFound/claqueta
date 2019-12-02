@@ -9,47 +9,44 @@ namespace EcommerceProject.Controllers
 {
     public class MercadoPagoController : Controller
     {
-        public ActionResult Pagar(Publicacion p)
+        public ActionResult Pagar(Publicacion publicacion)
         {
-            int userId;
-            try
+            if (Session["UserId"] == null)
             {
-                userId = Int32.Parse(Session["UserId"].ToString());
+                return RedirectToAction("Login", "Account");
             }
-            catch (FormatException e)
-            {
-                throw e;
-            }
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                Usuario u = db.Usuarios.Find(userId);
+                Usuario usuario = db.Usuarios.Find(usuarioId);
+
                 MP mp = new MP();
-                String url = mp.Pagar(u, p);
+
+                String url = mp.Pagar(usuario, publicacion);
+
                 return Redirect(url);
             }
         }
 
         public ActionResult PagarContratacion(int contratacionId)
         {
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
-            int userId;
-            try
-            {
-                userId = Int32.Parse(Session["UserId"].ToString());
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
             using (var db = new SQLServerContext())
             {
-                Contratacion c = db.Contrataciones
+                Contratacion contratacion = db.Contrataciones
                     .Include("Publicacion")
                     .Include("FechaContratacion")
-                    .FirstOrDefault(con => con.Id == contratacionId);
-                Usuario u = db.Usuarios.Find(userId);
+                    .FirstOrDefault(c => c.Id == contratacionId);
+
+                Usuario usuario = db.Usuarios.Find(usuarioId);
+
                 MP mp = new MP();
-                String url = mp.PagarContratacion(u, c);
+
+                String url = mp.PagarContratacion(usuario, contratacion);
+
                 return Redirect(url);
             }
         }
@@ -62,7 +59,7 @@ namespace EcommerceProject.Controllers
             }
             else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Account");
             }
         }
 
@@ -74,54 +71,42 @@ namespace EcommerceProject.Controllers
             }
             else
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Account");
             }
         }
 
         public ActionResult PagoExitoso()
         {
-            String externalRef = Request.QueryString["external_reference"];
-            String prefId = Request.QueryString["preferenece_id"];
-            int userId;
-            try
+            if (Session["UserId"] == null)
             {
-                userId = Int32.Parse(Session["UserId"].ToString());
-            }
-            catch (FormatException e)
-            {
-                throw e;
+                return RedirectToAction("Login", "Account");
             }
 
-            int publicationId;
-            try
-            {
-                publicationId = Int32.Parse(externalRef);
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
+            String externalReference = Request.QueryString["external_reference"];
+            int publicacionId = Int32.Parse(externalReference);
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                Usuario u = db.Usuarios.Find(userId);
-                Publicacion p = db.Publicaciones.Find(publicationId);
-                p.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
-                p.Promocionada = true;
+                Publicacion publicacion = db.Publicaciones.Find(publicacionId);
+                publicacion.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
+                publicacion.Promocionada = true;
 
-                //creo un pago para una promocion
+                Usuario usuario = db.Usuarios.Find(usuarioId);
+
                 Pago pago = new Pago
                 {
                     Aprobado = true,
-                    Concepto = "PROMOCION",
-                    Usuario = u,
-                    Publicacion = p,
-                    FechaDePago = Convert.ToDateTime(DateTime.Now)
+                    Concepto = "Promoción",
+                    FechaDePago = Convert.ToDateTime(DateTime.Now),
+                    Publicacion = publicacion,
+                    Usuario = usuario
                 };
-                db.Pagos.Add(pago);
 
-                //guardo cambios en la db
+                db.Pagos.Add(pago);
                 db.SaveChanges();
-                return RedirectToAction("UserInfo", "Account");
+
+                return View();
             }
         }
 
@@ -129,50 +114,34 @@ namespace EcommerceProject.Controllers
         {
             if (Session["UserId"] == null)
             {
-                return RedirectToAction("Login");
+                return RedirectToAction("Login", "Account");
             }
-            String externalRef = Request.QueryString["external_reference"];
-            int userId;
-            try
-            {
-                userId = Int32.Parse(Session["UserId"].ToString());
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
-            int contratacionId;
-            try
-            {
-                contratacionId = Int32.Parse(externalRef);
-            }
-            catch (FormatException e)
-            {
-                throw e;
-            }
+
+            String externalReference = Request.QueryString["external_reference"];
+            int contratacionId = Int32.Parse(externalReference);
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
-                Usuario u = db.Usuarios.Find(userId);
-                Contratacion c = db.Contrataciones
-                    .Include("Publicacion")
-                    .FirstOrDefault(cont => cont.Id == contratacionId);
-                c.Estado = "Contratada";
+                Contratacion contratacion = db.Contrataciones.Include("Publicacion").FirstOrDefault(c => c.Id == contratacionId);
+                contratacion.Estado = "Contratada";
 
-                //creo un pago para una contratacion
+                Usuario usuario = db.Usuarios.Find(usuarioId);
+
                 Pago pago = new Pago
                 {
                     Aprobado = true,
-                    Concepto = "CONTRATACION",
-                    Usuario = u,
-                    Publicacion = c.Publicacion,
-                    FechaDePago = Convert.ToDateTime(DateTime.Now)
+                    Concepto = "Contratación",
+                    FechaDePago = Convert.ToDateTime(DateTime.Now),
+                    Publicacion = contratacion.Publicacion,
+                    Usuario = usuario
                 };
-                db.Pagos.Add(pago);
-                c.Pago = pago;
 
-                //guardo cambios en la db
+                contratacion.Pago = pago;
+                db.Pagos.Add(pago);
                 db.SaveChanges();
-                return View(c.Publicacion.Usuario);
+
+                return View(contratacion.Publicacion.Usuario);
             }
         }
     }
