@@ -24,7 +24,7 @@ namespace EcommerceProject.Controllers
 
                 MP mp = new MP();
 
-                String url = mp.Pagar(usuario, publicacion);
+                String url = mp.PagarPromocion(usuario, publicacion);
 
                 return Redirect(url);
             }

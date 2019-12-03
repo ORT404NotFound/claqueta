@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using EcommerceProject.Models;
 using MercadoPago.Common;
@@ -10,46 +9,48 @@ namespace EcommerceProject.MPApi
 {
     public class MP
     {
-        public String env = "dev";
-        public String Pagar(Usuario u, Publicacion publication)
+        // MODIFICAR ESTO DEPENDE DEL AMBIENTE A UTILIZAR
+        public String ambiente = "Desarrollo";
+
+        public String PagarPromocion(Usuario usuario, Publicacion publicacion)
         {
             Environment.SetEnvironmentVariable("MP_ACCESS_TOKEN", "TEST-7861638524601067-100603-29811dd016706b7463468ecffe4a41ac-158446926");
             MercadoPago.SDK.CleanConfiguration();
             MercadoPago.SDK.AccessToken = Environment.GetEnvironmentVariable("MP_ACCESS_TOKEN");
 
-            //cambiar este depende el ambiente
             String siteURL;
-            if (env == "dev")
+
+            if (ambiente == "Desarrollo")
             {
                 siteURL = "http://localhost:55115";
             }
             else
             {
-                siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
+                siteURL = "http://ec2-3-82-109-216.compute-1.amazonaws.com/";
             }
 
             double valorDolar = 65;
-            double valorTotal = 4 * valorDolar;
+            double precioPromocion = 4 * valorDolar;
 
-            // Crea un objeto de preferencia
+            // CREA UN OBJETO DE PREFERENCIA
             Preference preference = new Preference();
 
-            // Crea un ítem en la preferencia
-            preference.Items.Add(
-              new Item()
-              {
-                  Title = publication.Descripcion,
-                  Id = publication.Id.ToString(),
-                  Quantity = 1,
-                  CurrencyId = CurrencyId.ARS,
-                  UnitPrice = (decimal)valorTotal
-              }
-            );
+            // CREA UN ÍTEM EN LA PREFERENCIA
+            preference.Items.Add(new Item()
+            {
+                Title = publicacion.Titulo,
+                Id = publicacion.Id.ToString(),
+                Quantity = 1,
+                CurrencyId = CurrencyId.ARS,
+                UnitPrice = (decimal)precioPromocion
+            });
+
             preference.Payer = new Payer()
             {
-                Email = u.Email,
+                Email = usuario.Email,
             };
-            preference.ExternalReference = publication.Id.ToString();
+
+            preference.ExternalReference = publicacion.Id.ToString();
 
             preference.BackUrls = new BackUrls()
             {
@@ -57,63 +58,68 @@ namespace EcommerceProject.MPApi
                 Failure = siteURL + "/MercadoPago/PagoError",
                 Pending = siteURL + "/MercadoPago/PagoPendiente"
             };
+
             preference.AutoReturn = AutoReturnType.approved;
 
-            // Save and posting preference
+            // GUARDA Y PUBLICA EL OBJETO DE PREFERENCIA
             preference.Save();
+
             return preference.InitPoint;
         }
 
-        public String PagarContratacion(Usuario u, Contratacion contratacion)
+        public String PagarContratacion(Usuario usuario, Contratacion contratacion)
         {
             Environment.SetEnvironmentVariable("MP_ACCESS_TOKEN", "TEST-7861638524601067-100603-29811dd016706b7463468ecffe4a41ac-158446926");
             MercadoPago.SDK.CleanConfiguration();
             MercadoPago.SDK.AccessToken = Environment.GetEnvironmentVariable("MP_ACCESS_TOKEN");
 
-            //cambiar este depende el ambiente
             String siteURL;
-            if (env == "dev")
+
+            if (ambiente == "Desarrollo")
             {
                 siteURL = "http://localhost:55115";
             }
             else
             {
-                siteURL = "ec2-3-82-109-216.compute-1.amazonaws.com";
+                siteURL = "http://ec2-3-82-109-216.compute-1.amazonaws.com/";
             }
 
-            double precioPubli = contratacion.Publicacion.Precio;
+            double precioPublicacion = contratacion.Publicacion.Precio;
             int cantidadDeDias = contratacion.FechaContratacion.Count();
-            double PrecioTotal = precioPubli * cantidadDeDias;
+            double precioContratacion = precioPublicacion * cantidadDeDias;
 
-            // Crea un objeto de preferencia
+            // CREA UN OBJETO DE PREFERENCIA
             Preference preference = new Preference();
 
-            // Crea un ítem en la preferencia
-            preference.Items.Add(
-              new Item()
-              {
-                  Title = contratacion.Publicacion.Titulo,
-                  Id = contratacion.Id.ToString(),
-                  Quantity = 1,
-                  CurrencyId = CurrencyId.ARS,
-                  UnitPrice = (decimal)PrecioTotal
-              }
-            );
+            // CREA UN ÍTEM EN LA PREFERENCIA
+            preference.Items.Add(new Item()
+            {
+                Title = contratacion.Publicacion.Titulo,
+                Id = contratacion.Id.ToString(),
+                Quantity = 1,
+                CurrencyId = CurrencyId.ARS,
+                UnitPrice = (decimal)precioContratacion
+            });
+
             preference.Payer = new Payer()
             {
-                Email = u.Email,
+                Email = usuario.Email,
             };
+
             preference.ExternalReference = contratacion.Id.ToString();
 
             preference.BackUrls = new BackUrls()
             {
                 Success = siteURL + "/MercadoPago/PagoExitosoContratacion",
                 Failure = siteURL + "/MercadoPago/PagoError",
+                Pending = siteURL + "/MercadoPago/PagoPendiente"
             };
+
             preference.AutoReturn = AutoReturnType.approved;
 
-            // Save and posting preference
+            // GUARDA Y PUBLICA EL OBJETO DE PREFERENCIA
             preference.Save();
+
             return preference.InitPoint;
         }
     }
