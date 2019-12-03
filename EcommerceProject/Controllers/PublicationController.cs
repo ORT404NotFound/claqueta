@@ -41,7 +41,6 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        // PARA GUARDAR UNA PUBLICACIÓN, NECESITA ESTAR AUTENTICADO COMO USUARIO
         [HttpPost]
         public ActionResult SavePublication(Publicacion publicacion, FormCollection form, HttpPostedFileBase foto, HttpPostedFileBase cv)
         {
@@ -49,6 +48,8 @@ namespace EcommerceProject.Controllers
             {
                 return View("NotAuthorized");
             }
+
+            ModelState.Remove("Estado");
 
             if (ModelState.IsValid)
             {
