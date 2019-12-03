@@ -32,7 +32,14 @@ namespace EcommerceProject.Controllers
 
         public ActionResult Register()
         {
-            return View();
+            if (Session["UserId"] == null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
@@ -85,7 +92,14 @@ namespace EcommerceProject.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            if (Session["UserId"] == null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpPost]
