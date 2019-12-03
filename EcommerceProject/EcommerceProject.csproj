@@ -143,7 +143,6 @@
     <Compile Include="Models\Calification\PublicacionCalificacion.cs" />
     <Compile Include="Models\Calification\UsuarioCalificacion.cs" />
     <Compile Include="Models\Categoria.cs" />
-    <Compile Include="Models\Categorias.cs" />
     <Compile Include="Models\FechaContratacion.cs" />
     <Compile Include="Models\Rol.cs" />
     <Compile Include="Models\Pago.cs" />
