@@ -161,7 +161,7 @@
             var idPrestador = @Model.Usuario.Id;
             $.ajax({
                 data: {
-                    prestadorId: idPrestador,
+                    usuarioId: idPrestador,
                 },
                 type: "get",
                 url: "@Url.Action("DameContratacionesDeUnPrestador","Home")",
