@@ -1,5 +1,4 @@
 ﻿using EcommerceProject.Models.EcommerceProject.Models;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +22,9 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult VerDetalle(int id)
+        public ActionResult VerDetalle(int publicacionId)
         {
-            if (id == 0)
+            if (publicacionId == 0)
             {
                 return View("Index");
             }
@@ -37,7 +36,7 @@ namespace EcommerceProject.Controllers
                     .Include("Consultas")
                     .Include("Consultas.Usuario")
                     .Include("Consultas.Publicacion")
-                    .Where(p => p.Id == id).FirstOrDefault();
+                    .Where(p => p.Id == publicacionId).FirstOrDefault();
 
                 if (publicacion != null)
                 {
@@ -59,8 +58,9 @@ namespace EcommerceProject.Controllers
                 if (publicacion != null)
                 {
                     var disponibilidad = publicacion.Disponibilidad;
-                    var NoDisponibilidad = String.Join(",", DameDiasNoDisponibles(disponibilidad));
-                    return Json(NoDisponibilidad, JsonRequestBehavior.AllowGet);
+                    var noDisponibilidad = String.Join(",", DameDiasNoDisponibles(disponibilidad));
+
+                    return Json(noDisponibilidad, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -69,40 +69,36 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public String[] DameDiasNoDisponibles(String DiasDisponibles)
+        public String[] DameDiasNoDisponibles(String diasDisponibles)
         {
-            String[] semana = new String[] {
-                "0",
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6"
-            };
+            String[] semana = new String[] { "0", "1", "2", "3", "4", "5", "6" };
+
             var semanaList = new List<String>(semana);
-            List<String> diasParseados = DiasDisponibles.Split(',').ToList();
+
+            List<String> diasParseados = diasDisponibles.Split(',').ToList();
+
             foreach (var dia in diasParseados)
             {
                 semanaList.Remove(dia);
             }
+
             return semanaList.ToArray();
         }
 
-        public ActionResult DameContratacionesDeUnPrestador(int prestadorId)
+        public ActionResult DameContratacionesDeUnPrestador(int usuarioId)
         {
             using (var db = new SQLServerContext())
             {
-                var userToFind = db.Usuarios.SingleOrDefault(u => u.Id == prestadorId);
+                var usuario = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
 
-                if (userToFind == null)
+                if (usuario == null)
                 {
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
 
                 var contrataciones = db.Contrataciones
                     .Include("FechaContratacion")
-                    .Where(c => c.Publicacion.Usuario.Id == userToFind.Id && c.Estado != "Pendiente" && c.Pago != null).ToArray();
+                    .Where(c => c.Publicacion.Usuario.Id == usuario.Id && c.Estado != "Pendiente" && c.Pago != null).ToArray();
 
                 if (contrataciones == null)
                 {
@@ -112,7 +108,7 @@ namespace EcommerceProject.Controllers
                 {
                     List<DateTime> fechas = new List<DateTime>();
 
-                    foreach (var contratacion in contrataciones) 
+                    foreach (var contratacion in contrataciones)
                     {
                         if (contratacion.FechaContratacion.Count > 0)
                         {
@@ -122,7 +118,9 @@ namespace EcommerceProject.Controllers
                             }
                         }
                     }
-                    //var result = JsonConvert.SerializeObject();        
+
+                    // var result = JsonConvert.SerializeObject();
+
                     return Json(fechas.ToArray(), JsonRequestBehavior.AllowGet);
                 }
             }
@@ -137,6 +135,7 @@ namespace EcommerceProject.Controllers
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.ToLower().Contains(categoria.ToLower()))
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
                 return View("BuscadorPublicaciones", publicaciones);
             }
         }
@@ -150,6 +149,7 @@ namespace EcommerceProject.Controllers
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
                 return View("BuscadorPublicaciones", publicaciones);
             }
         }
