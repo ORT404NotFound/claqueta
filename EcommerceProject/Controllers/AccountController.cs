@@ -217,7 +217,7 @@ namespace EcommerceProject.Controllers
                 if (disponibilidad == null)
                 {
                     ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día de la semana.");
-                    return View("../Publication/EditPublication", publi);
+                    return View("EditPublication", publi);
                 }
 
                 if (publi != null)
@@ -235,28 +235,48 @@ namespace EcommerceProject.Controllers
 
                     if (foto != null)
                     {
-                        var fotoFileName = Path.GetFileName(foto.FileName);
-                        var fotoGuid = Guid.NewGuid().ToString();
-                        var fotoPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + fotoGuid + "_" + fotoFileName);
-                        foto.SaveAs(fotoPath);
-                        String fotoFl = fotoPath.Substring(fotoPath.LastIndexOf("\\"));
-                        String[] fotoSplit = fotoFl.Split('\\');
-                        String fotoNewPath = fotoSplit[1];
-                        String fotoFinalPath = "/UploadedFiles/" + fotoNewPath;
-                        publi.Foto = fotoFinalPath;
+                        String fotoExtension = foto.FileName.Substring(foto.FileName.LastIndexOf('.') + 1).ToLower();
+
+                        if (fotoExtension == "jpg" || fotoExtension == "jpeg" || fotoExtension == "png")
+                        {
+                            var fotoFileName = Path.GetFileName(foto.FileName);
+                            var fotoGuid = Guid.NewGuid().ToString();
+                            var fotoPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + fotoGuid + "_" + fotoFileName);
+                            foto.SaveAs(fotoPath);
+                            String fotoFl = fotoPath.Substring(fotoPath.LastIndexOf("\\"));
+                            String[] fotoSplit = fotoFl.Split('\\');
+                            String fotoNewPath = fotoSplit[1];
+                            String fotoFinalPath = "/UploadedFiles/" + fotoNewPath;
+                            publi.Foto = fotoFinalPath;
+                        }
+                        else
+                        {
+                            // AGREGAR MENSAJE DE ERROR
+                            // Tipo de archivo no válido. Extensiones permitidas: jpg, jpeg o png.
+                        }
                     }
 
                     if (cv != null)
                     {
-                        var cvFileName = Path.GetFileName(cv.FileName);
-                        var cvGuid = Guid.NewGuid().ToString();
-                        var cvPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + cvGuid + "_" + cvFileName);
-                        cv.SaveAs(cvPath);
-                        String cvFl = cvPath.Substring(cvPath.LastIndexOf("\\"));
-                        String[] cvSplit = cvFl.Split('\\');
-                        String cvNewPath = cvSplit[1];
-                        String cvFinalPath = "/UploadedFiles/" + cvNewPath;
-                        publi.CV = cvFinalPath;
+                        String CvExtension = cv.FileName.Substring(cv.FileName.LastIndexOf('.') + 1).ToLower();
+
+                        if (CvExtension == "pdf")
+                        {
+                            var cvFileName = Path.GetFileName(cv.FileName);
+                            var cvGuid = Guid.NewGuid().ToString();
+                            var cvPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + cvGuid + "_" + cvFileName);
+                            cv.SaveAs(cvPath);
+                            String cvFl = cvPath.Substring(cvPath.LastIndexOf("\\"));
+                            String[] cvSplit = cvFl.Split('\\');
+                            String cvNewPath = cvSplit[1];
+                            String cvFinalPath = "/UploadedFiles/" + cvNewPath;
+                            publi.CV = cvFinalPath;
+                        }
+                        else
+                        {
+                            // AGREGAR MENSAJE DE ERROR
+                            // Tipo de archivo no válido. Extensión permitida: pdf.
+                        }
                     }
 
                     db.SaveChanges();

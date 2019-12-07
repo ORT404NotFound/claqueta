@@ -93,7 +93,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control", type = "file" } })
+                @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control", type = "file", id = "foto", onchange = "fileSelectedChangedFoto(foto);" } })
                 @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -117,7 +117,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CV, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CV, new { htmlAttributes = new { @class = "form-control", type = "file" } })
+                @Html.EditorFor(model => model.CV, new { htmlAttributes = new { @class = "form-control", type = "file", id = "cv", onchange = "fileSelectedChangedCv(cv);" } })
                 @Html.ValidationMessageFor(model => model.CV, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -138,4 +138,32 @@
             </div>
         </div>
     </div>
+}
+
+@section Scripts{
+    <script>
+        function fileSelectedChangedFoto(foto) {
+            var filePath = foto.value;
+
+            var extension = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+
+            if (extension != 'jpg' && extension != 'jpeg' && extension != 'png') {
+                alert('Tipo de archivo no válido. Extensiones permitidas: jpg, jpeg o png.');
+                location.reload(true);
+            }
+        }
+    </script>
+
+    <script>
+        function fileSelectedChangedCv(cv) {
+            var filePath = cv.value;
+
+            var extension = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+
+            if (extension != 'pdf') {
+                alert('Tipo de archivo no válido. Extensión permitida: pdf.');
+                location.reload(true);
+            }
+        }
+    </script>
 }
