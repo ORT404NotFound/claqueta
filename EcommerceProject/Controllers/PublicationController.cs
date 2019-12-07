@@ -49,6 +49,7 @@ namespace EcommerceProject.Controllers
                 return View("NotAuthorized");
             }
 
+            ModelState.Remove("Categoria");
             ModelState.Remove("Estado");
 
             if (ModelState.IsValid)
@@ -63,9 +64,11 @@ namespace EcommerceProject.Controllers
 
                 using (var db = new SQLServerContext())
                 {
+                    var categoria = form["categoria"];
                     var disponibilidad = form["Disponibilidad[]"];
                     Usuario usuario = db.Usuarios.Find(usuarioId);
 
+                    publicacion.Categoria_Id = Convert.ToInt32(categoria);
                     publicacion.Disponibilidad = disponibilidad;
                     publicacion.Foto = pathFoto;
                     publicacion.CV = pathCv;

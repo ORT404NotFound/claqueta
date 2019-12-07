@@ -18,8 +18,10 @@ namespace EcommerceProject.Models
         public int Id { get; set; }
 
         [Display(Name = "Categoría")]
-        [Required(ErrorMessage = "Este campo es requerido.")]
-        public String Categoria { get; set; }
+        public virtual Categoria Categoria { get; set; }
+
+        [ForeignKey("Categoria")]
+        public int Categoria_Id { get; set; }
 
         [Display(Name = "Disponibilidad")]
         [Required(ErrorMessage = "Este campo es requerido.")]

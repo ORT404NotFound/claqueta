@@ -33,6 +33,7 @@ namespace EcommerceProject.Controllers
             {
                 var publicacion = db.Publicaciones
                     .Include("Usuario")
+                    .Include("Categoria")
                     .Include("Consultas")
                     .Include("Consultas.Usuario")
                     .Include("Consultas.Publicacion")
@@ -126,13 +127,13 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult BuscarPublicacionesPorCategoria(String categoria)
+        public ActionResult BuscarPublicacionesPorCategoria(int categoriaId)
         {
             using (var db = new SQLServerContext())
             {
-                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true && p.Categoria.ToLower().Contains(categoria.ToLower()))
+                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.ToLower().Contains(categoria.ToLower()))
+                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 

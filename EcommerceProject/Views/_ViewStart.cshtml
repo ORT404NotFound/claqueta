@@ -5,7 +5,7 @@
 
     using (var db = new SQLServerContext())
     {
-        var categorias = db.Categorias.Select(c => c.Nombre).ToList();
+        var categorias = db.Categorias.OrderBy(c => c.Nombre).ToList();
         PageData["categorias"] = categorias;
     }
 }

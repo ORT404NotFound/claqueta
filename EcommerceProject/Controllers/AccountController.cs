@@ -162,7 +162,7 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-                var publicaciones = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Usuario.Id == usuarioId).ToList();
+                var publicaciones = db.Publicaciones.Include("Categoria").Where(p => p.Estado != "Desactivada" && p.Usuario.Id == usuarioId).ToList();
 
                 if (publicaciones != null)
                 {
@@ -209,6 +209,7 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
+                var categoria = form["categoria"];
                 var disponibilidad = form["Disponibilidad[]"];
                 var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publicacion.Id);
 
@@ -220,7 +221,7 @@ namespace EcommerceProject.Controllers
 
                 if (publi != null)
                 {
-                    publi.Categoria = publicacion.Categoria;
+                    publi.Categoria_Id = Convert.ToInt32(categoria);
                     publi.Disponibilidad = disponibilidad;
                     publi.Ubicacion = publicacion.Ubicacion;
                     publi.Titulo = publicacion.Titulo;

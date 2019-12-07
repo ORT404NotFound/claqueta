@@ -30,13 +30,13 @@
                     <option value="" disabled>Seleccione una categoría...</option>
                     @foreach (var categoria in PageData["categorias"])
                     {
-                        if (categoria == Model.Categoria)
+                        if (categoria.Id == Model.Categoria_Id)
                         {
-                            <option value="@categoria" selected>@categoria</option>
+                            <option value="@categoria.Id" selected>@categoria.Nombre</option>
                         }
                         else
                         {
-                            <option value="@categoria">@categoria</option>
+                            <option value="@categoria.Id">@categoria.Nombre</option>
                         }
                     }
                 </select>

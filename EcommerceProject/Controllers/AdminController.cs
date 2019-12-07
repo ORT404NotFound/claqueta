@@ -23,7 +23,7 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-                var publicaciones = db.Publicaciones.Where(p => p.Estado != "Desactivada" && p.Estado == "Pendiente").ToList();
+                var publicaciones = db.Publicaciones.Include("Categoria").Where(p => p.Estado != "Desactivada" && p.Estado == "Pendiente").ToList();
 
                 if (publicaciones != null)
                 {

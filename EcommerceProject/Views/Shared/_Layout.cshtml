@@ -25,7 +25,7 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         @foreach (var categoria in PageData["categorias"])
                         {
-                            <a class="dropdown-item" href="@Url.Action("BuscarPublicacionesPorCategoria","Home", new { categoria = categoria })">@categoria</a>
+                            <a class="dropdown-item" href="@Url.Action("BuscarPublicacionesPorCategoria","Home", new { categoriaId = categoria.Id })">@categoria.Nombre</a>
                         }
                     </div>
                 </li>

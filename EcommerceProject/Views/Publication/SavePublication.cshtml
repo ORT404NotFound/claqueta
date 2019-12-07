@@ -36,7 +36,7 @@
                     <option value="" selected disabled>Seleccione una categoría...</option>
                     @foreach (var categoria in PageData["categorias"])
                     {
-                        <option value="@categoria">@categoria</option>
+                        <option value="@categoria.Id">@categoria.Nombre</option>
                     }
                 </select>
             </div>
