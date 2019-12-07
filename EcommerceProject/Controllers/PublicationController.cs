@@ -56,11 +56,23 @@ namespace EcommerceProject.Controllers
             {
                 int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
-                String pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
-                foto.SaveAs(pathFoto);
+                var fotoFileName = Path.GetFileName(foto.FileName);
+                var fotoGuid = Guid.NewGuid().ToString();
+                var fotoPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + fotoGuid + "_" + fotoFileName);
+                foto.SaveAs(fotoPath);
+                String fotoFl = fotoPath.Substring(fotoPath.LastIndexOf("\\"));
+                String[] fotoSplit = fotoFl.Split('\\');
+                String fotoNewPath = fotoSplit[1];
+                String fotoFinalPath = "/UploadedFiles/" + fotoNewPath;
 
-                String pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
-                cv.SaveAs(pathCv);
+                var cvFileName = Path.GetFileName(cv.FileName);
+                var cvGuid = Guid.NewGuid().ToString();
+                var cvPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + cvGuid + "_" + cvFileName);
+                cv.SaveAs(cvPath);
+                String cvFl = cvPath.Substring(cvPath.LastIndexOf("\\"));
+                String[] cvSplit = cvFl.Split('\\');
+                String cvNewPath = cvSplit[1];
+                String cvFinalPath = "/UploadedFiles/" + cvNewPath;
 
                 using (var db = new SQLServerContext())
                 {
@@ -70,8 +82,8 @@ namespace EcommerceProject.Controllers
 
                     publicacion.Categoria_Id = Convert.ToInt32(categoria);
                     publicacion.Disponibilidad = disponibilidad;
-                    publicacion.Foto = pathFoto;
-                    publicacion.CV = pathCv;
+                    publicacion.Foto = fotoFinalPath;
+                    publicacion.CV = cvFinalPath;
                     publicacion.FechaDePublicacion = Convert.ToDateTime(DateTime.Now);
                     publicacion.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
                     publicacion.Estado = "Pendiente";
