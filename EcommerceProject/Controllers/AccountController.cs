@@ -212,6 +212,7 @@ namespace EcommerceProject.Controllers
                 var categoria = form["categoria"];
                 var disponibilidad = form["Disponibilidad[]"];
                 var publi = db.Publicaciones.SingleOrDefault(p => p.Id == publicacion.Id);
+                int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
                 if (disponibilidad == null)
                 {
@@ -234,16 +235,28 @@ namespace EcommerceProject.Controllers
 
                     if (foto != null)
                     {
-                        String pathFoto = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(foto.FileName));
-                        foto.SaveAs(pathFoto);
-                        publi.Foto = pathFoto;
+                        var fotoFileName = Path.GetFileName(foto.FileName);
+                        var fotoGuid = Guid.NewGuid().ToString();
+                        var fotoPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + fotoGuid + "_" + fotoFileName);
+                        foto.SaveAs(fotoPath);
+                        String fotoFl = fotoPath.Substring(fotoPath.LastIndexOf("\\"));
+                        String[] fotoSplit = fotoFl.Split('\\');
+                        String fotoNewPath = fotoSplit[1];
+                        String fotoFinalPath = "/UploadedFiles/" + fotoNewPath;
+                        publi.Foto = fotoFinalPath;
                     }
 
                     if (cv != null)
                     {
-                        String pathCv = Path.Combine(Server.MapPath("~/UploadedFiles"), Path.GetFileName(cv.FileName));
-                        cv.SaveAs(pathCv);
-                        publi.CV = pathCv;
+                        var cvFileName = Path.GetFileName(cv.FileName);
+                        var cvGuid = Guid.NewGuid().ToString();
+                        var cvPath = Path.Combine(Server.MapPath("~/UploadedFiles"), usuarioId + "_" + cvGuid + "_" + cvFileName);
+                        cv.SaveAs(cvPath);
+                        String cvFl = cvPath.Substring(cvPath.LastIndexOf("\\"));
+                        String[] cvSplit = cvFl.Split('\\');
+                        String cvNewPath = cvSplit[1];
+                        String cvFinalPath = "/UploadedFiles/" + cvNewPath;
+                        publi.CV = cvFinalPath;
                     }
 
                     db.SaveChanges();

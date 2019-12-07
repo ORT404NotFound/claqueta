@@ -13,7 +13,7 @@
     List<String> diasParseados = Model.Disponibilidad.Split(',').ToList();
 }
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("EditPublication", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
