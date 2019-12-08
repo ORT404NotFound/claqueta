@@ -7,7 +7,6 @@
     <title>@ViewBag.Title - Claqueta</title>
     @Styles.Render("~/Content/bootstrap.css")
     @Styles.Render("~/Content/datepicker.min.css")
-
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -75,7 +74,6 @@
     </nav>
 
     <div class="container">
-
         <div class="container body-content">
             @RenderBody()
             <hr />
@@ -93,7 +91,6 @@
     @Scripts.Render("~/Content/datepicker.min.js")
     @Scripts.Render("~/Content/datepicker.es.js")
     @Scripts.Render("~/Scripts/moment.js")
-
     @RenderSection("scripts", required: false)
 </body>
 </html>
