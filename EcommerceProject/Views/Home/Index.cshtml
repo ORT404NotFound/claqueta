@@ -4,9 +4,15 @@
     ViewBag.Title = "Claqueta";
 }
 
-<div style="margin-top: 10px">
+<head>
+    <link href="~/Content/Publicidad.css" rel="stylesheet" />
+</head>
+
+<div style="margin-top: 10px ">
     <h2>@ViewBag.Title</h2>
     <h5>¡Encontra acá todo lo necesario para la realización de tu próxima producción audiovisual!</h5>
+    <hr />
+    <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
     <hr />
 
     @if (Model.Count() > 0)
