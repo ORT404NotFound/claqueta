@@ -59,9 +59,9 @@ namespace EcommerceProject.Controllers
                 if (publicacion != null)
                 {
                     var disponibilidad = publicacion.Disponibilidad;
-                    var noDisponibilidad = String.Join(",", DameDiasNoDisponibles(disponibilidad));
+                    var noDisponibilidad = DameDiasNoDisponibles(disponibilidad);
 
-                    return Json(noDisponibilidad, JsonRequestBehavior.AllowGet);
+                    return Json(noDisponibilidad.ToArray(), JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
@@ -70,17 +70,17 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public String[] DameDiasNoDisponibles(String diasDisponibles)
+        public int[] DameDiasNoDisponibles(String diasDisponibles)
         {
-            String[] semana = new String[] { "0", "1", "2", "3", "4", "5", "6" };
+            int[] semana = new int[] { 0, 1, 2, 3, 4, 5, 6 };
 
-            var semanaList = new List<String>(semana);
+            List<int> semanaList = new List<int>(semana);
 
             List<String> diasParseados = diasDisponibles.Split(',').ToList();
 
             foreach (var dia in diasParseados)
             {
-                semanaList.Remove(dia);
+                semanaList.Remove(Int32.Parse(dia));
             }
 
             return semanaList.ToArray();

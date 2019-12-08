@@ -26,7 +26,6 @@
                     <div class="contrataciones-box col-md-6 col-xs-12 col-lg-6">
                         <div class="form-group">
                             <label>Seleccione el o los días requeridos para efectuar la contratacion.</label>
-
                             <input type="text" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="100" data-multiple-dates-separator=", " data-position='top left' />
                         </div>
                         <button class="btn btn-success" onclick="contratar(@Session["UserId"],@Model.Id)">Contratar</button>
@@ -95,46 +94,69 @@
     <script>
         var diasSelec = [];
         $(document).ready(function () {
-             console.log("ejecute el ajax de dias no disp")
-
+            console.log("el documento se cargó")
+            var idPrestador = @Model.Usuario.Id;
             var idPubli = @Model.Id;
-                // otro ajax para obtener los dias no disponibles
-                $.ajax({
-                    data: {
-                        publicacionId: idPubli
+            $.ajax({
+                data: {
+                    usuarioId: idPrestador,
                 },
                 type: "get",
-                url: "@Url.Action("DameDiasNoDisponiblesPubli","Home")",
-                    success: function (arrayDeDias) {
-                        dameContratacionesDeUnPrestador(); //ejecuta ajax de contrataciones de prestador
+                url: "@Url.Action("DameContratacionesDeUnPrestador","Home")",
+                success: function (fechasContrataciones) {
+                    if (fechasContrataciones == "NOTOK") {
+                        console.log("no hay contrataciones");
+                    }
+                    else {
+                        fechasContrataciones = convertirAArray(fechasContrataciones)
+                         $.ajax({
+                                data: {
+                                    publicacionId: idPubli
+                            },
+                            type: "get",
+                            url: "@Url.Action("DameDiasNoDisponiblesPubli","Home")",
+                                success: function (noDisponibles) {
+                                        $('.picker').datepicker({
+                                            language: 'es',
+                                                onRenderCell: function (date, cellType) {
+                                                    if (cellType == "day") {
+                                                        var isDisabled;
+                                                        fechasContrataciones.forEach(function (el) {
+                                                            if (el == date.getTime()) {
+                                                                isDisabled = true
+                                                            }
+                                                        })
+                                                        noDisponibles.forEach(function (el) {
+                                                             if (el == date.getDay()) {
+                                                                isDisabled = true
+                                                            }
+                                                        });
+                                                        return {
+                                                            disabled: isDisabled
+                                                        }
+                                                    }
+                                            },
+                                            minDate: new Date(),
+                                                onSelect: function onSelect(fd, date) {
+                                                    diasSelec = [];
+                                                    date.forEach(function (value) {
+                                                        diasSelec.push(JSON.stringify(value))
+                                                })
+                                            },
+                                        }); 
+                            },
+                                error: function (result) {
+                                    alert("Hubo un error ", result);
+                            }
+                            });//fin ajax no disponibles
 
-                        var disabledDays = arrayDeDias;
-                            $('.picker').datepicker({
-                            language: 'es',
-                                onRenderCell: function (date, cellType) {
-                                    if (cellType == 'day') {
-                                        var day = date.getDay(),
-                                            isDisabled = disabledDays.indexOf(day) != -1;
-                                        return {
-                                            disabled: isDisabled
-                                        }
-                                    }
-                            },
-                            minDate: new Date(),
-                                onSelect: function onSelect(fd, date) {
-                                    diasSelec = [];
-                                    date.forEach(function (value) {
-                                        diasSelec.push(JSON.stringify(value))
-                                })
-                            },
-                    });
+                    }// fin else
                 },
-                    error: function (result) {
-                        alert("Hubo un error ", result);
+                error: function (result) {
+                    alert("Hubo un error", result);
                 }
-                });//fin ajax no disponibles
-
-        }) //fin document ready
+            })
+        });
 
         function contratar(userId, publicacionId) {
             if (diasSelec.length == 0) {
@@ -159,51 +181,10 @@
                          alert("Hubo un error ", result);
                 }
             });
-
             }
-
-        }
-        $()
-
-        function dameContratacionesDeUnPrestador() {
-            console.log("ejecute el ajax de prestador")
-            var idPrestador = @Model.Usuario.Id;
-            $.ajax({
-                data: {
-                    usuarioId: idPrestador,
-                },
-                type: "get",
-                url: "@Url.Action("DameContratacionesDeUnPrestador","Home")",
-                success: function (result) {
-                    if (result == "NOTOK") {
-                        console.log("no hay contrataciones");
-                    } else {
-                        if (result != null) {
-                           var arrayResult = convertirAArray(result)
-                            $('.picker').datepicker({
-                                language: 'es',
-                                onRenderCell: function (date, cellType) {
-                                    if (cellType == "day") {
-                                        var isDisabled;
-                                        isDisabled = arrayResult.indexOf(date.getTime()) != -1;
-                                        return {
-                                            disabled: isDisabled
-                                        }
-                                    }
-                                }
-
-                            })
-                        }// end if
-                    }// end else
-                },
-                error: function (result) {
-                    alert("Hubo un error", result);
-                }
-            })
         }
 
         function crearConsulta(texto) {
-
             $.ajax({
                 data: {
                     publiId: @Model.Id,
@@ -224,6 +205,8 @@
             })
         }
 
+        //COMENTARIOS
+
         $("#comentar_btn").on("click", function (e) {
             e.preventDefault();
             var texto = $("#texto_comentario").val();
@@ -234,6 +217,9 @@
             }
 
         })
+
+
+        //funciones auxiliares
 
         function dameParteEntera(string) {
             return string.match(/\d+/g).map(Number);
