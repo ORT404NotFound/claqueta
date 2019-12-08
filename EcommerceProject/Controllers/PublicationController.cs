@@ -2,6 +2,7 @@ using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -183,31 +184,53 @@ namespace EcommerceProject.Controllers
                 };
 
                 db.Contrataciones.Add(contratacion);
-
-                // 1 CONTRATACIÓN --> N FECHAS
+                DateTime fecha;
                 foreach (var diaSeleccionado in diasSeleccionados)
                 {
-                    var settings = new JsonSerializerSettings
-                    {
-                        DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
-                        DateTimeZoneHandling = DateTimeZoneHandling.Utc
-                    };
-
-                    var dia = JsonConvert.DeserializeObject(diaSeleccionado, settings);
-                    DateTime fecha = Convert.ToDateTime(dia).Date;
-
-                    FechaContratacion fechaContratacion = new FechaContratacion
-                    {
-                        Contratacion = contratacion,
-                        Fecha = fecha
-                    };
-
-                    db.FechasXContratacion.Add(fechaContratacion);
+                    fecha = TransformarFecha(diaSeleccionado);
+                    if (EstaDisponibleLaFecha(fecha, publicacion)) {
+                        FechaContratacion fechaContratacion = new FechaContratacion
+                        {
+                            Contratacion = contratacion,
+                            Fecha = fecha
+                        };
+                        db.FechasXContratacion.Add(fechaContratacion);
+                    }
                 }
-
                 db.SaveChanges();
 
                 return Json(contratacion.Id, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public DateTime TransformarFecha(String fecha)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc
+            };
+            var dia = JsonConvert.DeserializeObject(fecha, settings);
+            DateTime fechaDate = Convert.ToDateTime(dia).Date;
+            return fechaDate;
+        }
+
+        public bool EstaDisponibleLaFecha(DateTime fechaEnParticular, Publicacion publicacion) 
+        {
+            using (var db = new SQLServerContext()) 
+            {
+                var HayContatacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
+                if (HayContatacionesEnEsaFecha != null) {
+                    return false;
+                }
+                DayOfWeek diaDeLaSemana = fechaEnParticular.DayOfWeek;
+                int numeroDeLaSemana = (int)diaDeLaSemana;
+                var diasDisp = publicacion.Disponibilidad.Split(',').Select(Int32.Parse).ToList();
+                if(!diasDisp.Contains(numeroDeLaSemana))
+                {
+                    return false;
+                }
+                return true;
             }
         }
     }
