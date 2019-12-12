@@ -13,13 +13,22 @@
     List<String> diasParseados = Model.Disponibilidad.Split(',').ToList();
 }
 
+<head>
+    <link href="~/Content/Publicidad.css" rel="stylesheet" />
+</head>
+
+<div style="margin-top: 10px">
+    <h2>@ViewBag.Title</h2>
+    <hr />
+    <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
+    <hr />
+</div>
+
 @using (Html.BeginForm("EditPublication", "Account", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
     <div class="col-md-8 col-xs-12" style="margin-top: 10px">
-        <h4>@ViewBag.Title</h4>
-        <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.Id)
 
