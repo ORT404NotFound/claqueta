@@ -39,9 +39,9 @@
         </div>
 
         <div class="form-group">
-            <label class="control-label col-md-8">Tipo de Identificación</label>
+            @Html.LabelFor(model => model.TipoDocumento, htmlAttributes: new { @class = "control-label col-md-8" })
             <div class="col-md-8">
-                <select class="form-control" , name="TipoDocumento">
+                <select class="form-control" , name="TipoDeIdentificacion">
                     <option value="" selected disabled>Seleccione una opción...</option>
                     <option value="DNI">DNI</option>
                     <option value="CUIT">CUIT</option>

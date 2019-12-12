@@ -12,7 +12,7 @@ namespace EcommerceProject.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("UserInfo", "Account");
+            return RedirectToAction("Publicaciones", "Account");
         }
 
         public ActionResult Calificaciones()
@@ -146,7 +146,7 @@ namespace EcommerceProject.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        public ActionResult UserInfo()
+        public ActionResult Publicaciones()
         {
             if (Session["UserId"] == null)
             {
@@ -179,7 +179,7 @@ namespace EcommerceProject.Controllers
         {
             if (publicacionId == 0)
             {
-                return RedirectToAction("UserInfo");
+                return RedirectToAction("Publicaciones");
             }
 
             if (Session["UserId"] == null)
@@ -281,11 +281,35 @@ namespace EcommerceProject.Controllers
 
                     db.SaveChanges();
 
-                    return RedirectToAction("UserInfo");
+                    return RedirectToAction("Publicaciones");
                 }
                 else
                 {
                     return View();
+                }
+            }
+        }
+
+        public ActionResult UserInfo()
+        {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login");
+            }
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
+            using (var db = new SQLServerContext())
+            {
+                var usuario = db.Usuarios.Where(u => u.Id == usuarioId).FirstOrDefault();
+
+                if (usuario != null)
+                {
+                    return View(usuario);
+                }
+                else
+                {
+                    return View("Error");
                 }
             }
         }
@@ -315,26 +339,59 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult EditUser(Usuario usuario)
+        public ActionResult EditUser(Usuario usuario, FormCollection form)
         {
-            using (var db = new SQLServerContext())
-            {
-                var usuarioActualizar = db.Usuarios.SingleOrDefault(u => u.Id == usuario.Id);
+            String tipoDeIdentificacion = form["TipoDeIdentificacion"];
 
-                if (usuarioActualizar != null)
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
+
+            if (ModelState.IsValid)
+            {
+                using (var db = new SQLServerContext())
                 {
-                    usuarioActualizar.Nombre = usuario.Nombre;
-                    usuarioActualizar.Apellido = usuario.Apellido;
+                    var usuarioAEditar = db.Usuarios.SingleOrDefault(u => u.Id == usuario.Id);
+                    var usuarioEmail = db.Usuarios.SingleOrDefault(u => u.Email == usuario.Email);
+
+                    // VALIDA QUE EL E-MAIL INGRESADO NO EXISTA EN LA BASE DE DATOS
+                    if (usuarioEmail != null && usuarioEmail.Email != usuario.Email)
+                    {
+                        ViewBag.Message = "El E-Mail ingresado ya existe.";
+                        return View(usuario);
+                    }
+
+                    // VALIDA QUE SI SE COMPLETA EL TIPO O NÚMERO DE IDENTIFICACIÓN, ESTÉ EL CAMPO RESTANTE COMPLETO TAMBIÉN
+                    if ((tipoDeIdentificacion == null && usuario.Documento != null) || (tipoDeIdentificacion != null && usuario.Documento == null))
+                    {
+                        ViewBag.Message = "Debe completar el tipo y número de identificación.";
+                        return View(usuario);
+                    }
+
+                    // VALIDA QUE EL USUARIO SEA MAYOR DE EDAD
+                    if (usuario.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
+                    {
+                        ViewBag.Message = "La edad ingresada debe ser mayor o igual a 18 años.";
+                        return View(usuario);
+                    }
+
+                    usuarioAEditar.Nombre = usuario.Nombre;
+                    usuarioAEditar.Apellido = usuario.Apellido;
+                    usuarioAEditar.TipoDocumento = tipoDeIdentificacion;
+                    usuarioAEditar.Documento = usuario.Documento;
+                    usuarioAEditar.FechaDeNacimiento = usuario.FechaDeNacimiento;
+                    usuarioAEditar.Telefono = usuario.Telefono;
+                    usuarioAEditar.Email = usuario.Email;
 
                     db.SaveChanges();
 
+                    ModelState.Clear();
+
+                    ViewBag.Message = "Usted ha modificado sus datos con éxito.";
+
                     return RedirectToAction("UserInfo");
                 }
-                else
-                {
-                    return View("Error");
-                }
             }
+            return View(usuario);
         }
 
         // SERVICIOS CONTRATADOS

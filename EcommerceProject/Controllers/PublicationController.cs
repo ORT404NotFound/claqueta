@@ -2,7 +2,6 @@ using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -144,7 +143,7 @@ namespace EcommerceProject.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("UserInfo", "Account");
+                return RedirectToAction("Publicaciones", "Account");
             }
         }
 
@@ -188,7 +187,8 @@ namespace EcommerceProject.Controllers
                 foreach (var diaSeleccionado in diasSeleccionados)
                 {
                     fecha = TransformarFecha(diaSeleccionado);
-                    if (EstaDisponibleLaFecha(fecha, publicacion)) {
+                    if (EstaDisponibleLaFecha(fecha, publicacion))
+                    {
                         FechaContratacion fechaContratacion = new FechaContratacion
                         {
                             Contratacion = contratacion,
@@ -215,18 +215,19 @@ namespace EcommerceProject.Controllers
             return fechaDate;
         }
 
-        public bool EstaDisponibleLaFecha(DateTime fechaEnParticular, Publicacion publicacion) 
+        public bool EstaDisponibleLaFecha(DateTime fechaEnParticular, Publicacion publicacion)
         {
-            using (var db = new SQLServerContext()) 
+            using (var db = new SQLServerContext())
             {
                 var HayContatacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
-                if (HayContatacionesEnEsaFecha != null) {
+                if (HayContatacionesEnEsaFecha != null)
+                {
                     return false;
                 }
                 DayOfWeek diaDeLaSemana = fechaEnParticular.DayOfWeek;
                 int numeroDeLaSemana = (int)diaDeLaSemana;
                 var diasDisp = publicacion.Disponibilidad.Split(',').Select(Int32.Parse).ToList();
-                if(!diasDisp.Contains(numeroDeLaSemana))
+                if (!diasDisp.Contains(numeroDeLaSemana))
                 {
                     return false;
                 }
