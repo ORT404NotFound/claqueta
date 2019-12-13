@@ -217,7 +217,7 @@ namespace EcommerceProject.Controllers
                 if (disponibilidad == null)
                 {
                     ModelState.AddModelError("Disponibilidad", "Debe seleccionar al menos un día de la semana.");
-                    return View("EditPublication", publi);
+                    return View("../Publication/EditPublication", publi);
                 }
 
                 if (publi != null)
@@ -251,8 +251,8 @@ namespace EcommerceProject.Controllers
                         }
                         else
                         {
-                            // AGREGAR MENSAJE DE ERROR
-                            // Tipo de archivo no válido. Extensiones permitidas: jpg, jpeg o png.
+                            ModelState.AddModelError("Foto", "Tipo de archivo no válido. Extensiones permitidas: jpg, jpeg o png.");
+                            return View("../Publication/EditPublication", publi);
                         }
                     }
 
@@ -274,8 +274,8 @@ namespace EcommerceProject.Controllers
                         }
                         else
                         {
-                            // AGREGAR MENSAJE DE ERROR
-                            // Tipo de archivo no válido. Extensión permitida: pdf.
+                            ModelState.AddModelError("CV", "Tipo de archivo no válido. Extensión permitida: pdf.");
+                            return View("../Publication/EditPublication", publi);
                         }
                     }
 
