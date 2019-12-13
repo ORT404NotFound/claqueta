@@ -346,15 +346,22 @@ namespace EcommerceProject.Controllers
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
 
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
+
             if (ModelState.IsValid)
             {
                 using (var db = new SQLServerContext())
                 {
-                    var usuarioAEditar = db.Usuarios.SingleOrDefault(u => u.Id == usuario.Id);
-                    var usuarioEmail = db.Usuarios.SingleOrDefault(u => u.Email == usuario.Email);
+                    //mail de la base 
+                    var usuarioAEditar = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
+
+                    //mails a comparar
+                    var emailAbuscar = db.Usuarios.Where(u => u.Email == usuario.Email).FirstOrDefault();
 
                     // VALIDA QUE EL E-MAIL INGRESADO NO EXISTA EN LA BASE DE DATOS
-                    if (usuarioEmail != null && usuarioEmail.Email != usuario.Email)
+                
+                    if (emailAbuscar != null && usuario.Email != usuarioAEditar.Email)
                     {
                         ViewBag.Message = "El E-Mail ingresado ya existe.";
                         return View(usuario);
@@ -380,7 +387,10 @@ namespace EcommerceProject.Controllers
                     usuarioAEditar.Documento = usuario.Documento;
                     usuarioAEditar.FechaDeNacimiento = usuario.FechaDeNacimiento;
                     usuarioAEditar.Telefono = usuario.Telefono;
-                    usuarioAEditar.Email = usuario.Email;
+                    if (usuario.Email != usuarioAEditar.Email) {
+                        usuarioAEditar.Email = usuario.Email;
+                    }
+                    usuarioAEditar.ConfirmPassword = usuarioAEditar.Password;
 
                     db.SaveChanges();
 

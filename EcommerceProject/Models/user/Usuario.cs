@@ -38,6 +38,7 @@ namespace EcommerceProject.Models
         [Display(Name = "Fecha de Nacimiento")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? FechaDeNacimiento { get; set; }
 
         [Display(Name = "Teléfono")]
