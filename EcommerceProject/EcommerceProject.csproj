@@ -132,6 +132,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\CalificationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MercadoPagoController.cs" />
     <Compile Include="Controllers\PublicationController.cs" />
@@ -168,6 +169,7 @@
     <Content Include="Content\datepicker.min.js" />
     <Content Include="Content\Claqueta.png" />
     <Content Include="Content\Publicidad.css" />
+    <Content Include="Content\Site.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -262,6 +264,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Calification\" />
     <Folder Include="Views\Comment\" />
     <Folder Include="Views\User\" />
   </ItemGroup>

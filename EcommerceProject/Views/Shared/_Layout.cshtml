@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Claqueta</title>
     @Styles.Render("~/Content/bootstrap.css")
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/Site.css")
+
     @Styles.Render("~/Content/datepicker.min.css")
     @Styles.Render("~/Content/Publicidad.css")
 </head>
@@ -98,9 +101,9 @@
             };
         }
     </script>
-    @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Content/datepicker.min.js")
+    @Scripts.Render("~/Content/Site.js")
     @Scripts.Render("~/Content/datepicker.es.js")
     @Scripts.Render("~/Scripts/moment.js")
     @RenderSection("scripts", required: false)

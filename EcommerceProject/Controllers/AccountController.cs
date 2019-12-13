@@ -443,9 +443,10 @@ namespace EcommerceProject.Controllers
                 var contrataciones = db.Contrataciones
                     .Include("Publicacion")
                     .Include("Usuario")
+                    .Include("Usuario.UsuarioCalificacion")
                     .Include("FechaContratacion")
                     .Include("Pago")
-                    .Where(c => c.Publicacion.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
+                    .Where(c => c.Publicacion.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada" || c.Estado == "Finalizada"))
                     .ToList();
 
                 return View(contrataciones);

@@ -234,5 +234,27 @@ namespace EcommerceProject.Controllers
                 return true;
             }
         }
+
+        public ActionResult FinalizarContratacion(int contratacionId) 
+        {
+            if (Session["UserId"] == null)
+            {
+                return Json("NotAuthorized");
+            }
+            using (var db = new SQLServerContext())
+            {
+                var contratacionABuscar = db.Contrataciones.Find(contratacionId);
+                if (contratacionABuscar != null)
+                {
+                    contratacionABuscar.Estado = "Finalizada";
+                    db.SaveChanges();
+                    return Json("OK");
+                }
+                else {
+                    return Json("Error");
+                }
+            }
+
+        }
     }
 }
