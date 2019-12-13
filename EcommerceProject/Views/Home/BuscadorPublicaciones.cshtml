@@ -7,7 +7,7 @@
 <div style="margin-top: 10px">
     <h2>@ViewBag.Title</h2>
 
-    @if (ViewBag.CategoriaPublicacion != "")
+    @if (ViewBag.CategoriaPublicacion != "" && ViewBag.CategoriaPublicacion != null)
     {
         <h4>Estas buscando... @ViewBag.CategoriaPublicacion (@Model.Count())</h4>
     }
