@@ -108,7 +108,6 @@ namespace EcommerceProject.Controllers
                 else
                 {
                     List<DateTime> fechas = new List<DateTime>();
-
                     foreach (var contratacion in contrataciones)
                     {
                         if (contratacion.FechaContratacion.Count > 0)
@@ -119,9 +118,6 @@ namespace EcommerceProject.Controllers
                             }
                         }
                     }
-
-                    // var result = JsonConvert.SerializeObject();
-
                     return Json(fechas.ToArray(), JsonRequestBehavior.AllowGet);
                 }
             }
@@ -136,6 +132,7 @@ namespace EcommerceProject.Controllers
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
                 ViewBag.CategoriaPublicacion = publicaciones.First().Categoria.Nombre;
 
                 return View("BuscadorPublicaciones", publicaciones);
@@ -151,6 +148,7 @@ namespace EcommerceProject.Controllers
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
                 return View("BuscadorPublicaciones", publicaciones);
             }
         }
