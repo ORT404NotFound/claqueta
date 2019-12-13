@@ -6,7 +6,12 @@
 
 <div style="margin-top: 10px">
     <h2>@ViewBag.Title</h2>
-    <h4>@Request.QueryString["categoria"]</h4>
+
+    @if (ViewBag.CategoriaPublicacion != "")
+    {
+        <h4>Estas buscando... @ViewBag.CategoriaPublicacion (@Model.Count())</h4>
+    }
+
     <hr />
     <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
     <hr />
