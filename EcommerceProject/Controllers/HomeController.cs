@@ -127,13 +127,15 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
+                var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
+
                 var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
-                ViewBag.CategoriaPublicacion = publicaciones.First().Categoria.Nombre;
+                ViewBag.CategoriaPublicacion = categoria.Nombre;
 
                 return View("BuscadorPublicaciones", publicaciones);
             }
@@ -148,6 +150,8 @@ namespace EcommerceProject.Controllers
                 var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
+                ViewBag.Termino = termino;
 
                 return View("BuscadorPublicaciones", publicaciones);
             }

@@ -12,7 +12,7 @@
 </div>
 
 <div class="row" style="margin-top: 20px">
-    <div class="col-md-10">
+    <div class="col-md-12">
         @if (Model.Count() > 0)
         {
             <div class="well">
@@ -23,6 +23,8 @@
                             <div class="card-body">
                                 <h6 class="card-subtitle mb-2 text-muted"><span>@contratacion.Estado</span></h6>
                                 <p class="card-text">@contratacion.Publicacion.Titulo</p>
+                                <p class="card-text">@contratacion.Usuario.Nombre @contratacion.Usuario.Apellido </p>
+
                             </div>
                         </div>
                         <hr />

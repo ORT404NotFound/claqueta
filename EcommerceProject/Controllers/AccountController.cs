@@ -408,6 +408,9 @@ namespace EcommerceProject.Controllers
             {
                 var contrataciones = db.Contrataciones
                     .Include("Publicacion")
+                    .Include("Usuario")
+                    .Include("FechaContratacion")
+                    .Include("Pago")
                     .Where(c => c.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
                     .ToList();
 
@@ -429,6 +432,9 @@ namespace EcommerceProject.Controllers
             {
                 var contrataciones = db.Contrataciones
                     .Include("Publicacion")
+                    .Include("Usuario")
+                    .Include("FechaContratacion")
+                    .Include("Pago")
                     .Where(c => c.Publicacion.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
                     .ToList();
 

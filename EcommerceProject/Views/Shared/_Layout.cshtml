@@ -69,7 +69,8 @@
             </ul>
             <form class="form-inline my-2 my-lg-0" action="@Url.Action("BuscarPublicaciones","Home")">
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscá lo que necesitás..." aria-label="Buscar" name="termino" id="termino" />
-                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Buscar</button>
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onClick="return empty()">Buscar</button>
+
             </form>
         </div>
     </nav>
@@ -87,6 +88,16 @@
             </span>
         </div>
     </footer>
+    <script>
+        function empty() {
+            var x;
+            x = document.getElementById("termino").value;
+            if (x == "") {
+                alert("Debe ingresar algo :)");
+                return false;
+            };
+        }
+    </script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Content/datepicker.min.js")
