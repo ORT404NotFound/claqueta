@@ -29,6 +29,13 @@
                                     {
                                         <button onclick="cancelarContratacion(@contratacion.Id)" class="btn btn-danger">Cancelar</button>
                                     }
+
+                                    @if (contratacion.Estado == "Finalizada" && contratacion.Publicacion.PublicacionCalificaciones.Where(pc => pc.Publicacion.Id == contratacion.Publicacion.Id).Count() == 0)
+                                    {
+                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id,@contratacion.Id,@contratacion.Publicacion.Id)" class="btn btn-info">
+                                            Calificar al prestador y al servicio
+                                        </button>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -44,6 +51,50 @@
             </div>
         }
     </div>
+    <div class="modal fade" id="modalCalificar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Califica al prestador</label>
+                                    <input type="number" class="form-control form-control-lg" id="calificacionPrestador" name="calificacionPrestador" step="1" min="1" max="5" placeholder="Calificar...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Califica a la publicación</label>
+                                    <input type="number" class="form-control form-control-lg" id="calificacionPublicacion" name="calificacionPublicacion" step="1" min="1" max="5" placeholder="Calificar...">
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Comentario</label>
+                                    <textarea class="form-control form-control-lg" id="comentario" rows="3" name="comentario" maxlength="1000" placeholder="Comenta...">
+    
+                                    </textarea>
+                                </div>
+                                <input type="hidden" name="usuarioACalificar" id="usuarioACalificar" value="" />
+                                <input type="hidden" name="contratacionId" id="contratacionId" value="" />
+                                <input type="hidden" name="publicacionId" id="publicacionId" value="" />
+
+                                <div class="float-right">
+                                    <button type="button" onclick="enviarCalificacion()" class="btn btn-primary">Enviar calificación</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @section Scripts{
@@ -66,6 +117,51 @@
                     alert("Se presentó un error.", result);
                 }
             })
+        }
+
+          function mostrarModalCalificacion(idUsuarioACalificar,contratacionId, publicacionId) {
+            $("#calificacionPrestador").val("");
+            $("#calificacionPublicacion").val("");
+            $("#comentario").val("");
+            $("#usuarioACalificar").val(idUsuarioACalificar);
+            $("#contratacionId").val(contratacionId);
+            $("#publicacionId").val(publicacionId);
+            $('#modalCalificar').modal("show");
+        }
+          function enviarCalificacion() {
+            var calificacionPrestador = $("#calificacionPrestador").val();
+            var calificacionPublicacion = $("#calificacionPublicacion").val();
+            var comentario = $("#comentario").val();
+            var usuarioACalificar = $("#usuarioACalificar").val();
+            var contratacionId = $("#contratacionId").val();
+            var publicacionId = $("#publicacionId").val();
+
+            if ((calificacionPrestador > 5 || calificacionPrestador < 1) && (calificacionPublicacion > 5 || calificacionPublicacion < 1 )) {
+                alert("Las calificaciones deben estar entre 1 y 5")
+            } else {
+                $.ajax({
+                    data: {
+                        calificacionPublicacion: calificacionPublicacion,
+                        calificacionPrestador: calificacionPrestador,
+                        comentario: comentario,
+                        usuarioACalificar: usuarioACalificar,
+                        contratacionId: contratacionId,
+                        publicacionId: publicacionId
+                    },
+                    type: "post",
+                    url: "@Url.Action("CalificarPrestatarioAPrestadorYAPublicacion","Calification")",
+                    success: function (result) {
+                        if (result == "NotAuthorized") {
+                            alert("Debe estar logueado")
+                        } else if (result == "OK") {
+                            location.reload(true);
+                        }
+                    },
+                    error: function (result) {
+                        alert("Hubo un error", result);
+                    }
+                });
+            }
         }
     </script>
 }

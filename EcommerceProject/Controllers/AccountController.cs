@@ -421,7 +421,7 @@ namespace EcommerceProject.Controllers
                     .Include("Usuario")
                     .Include("FechaContratacion")
                     .Include("Pago")
-                    .Where(c => c.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada"))
+                    .Where(c => c.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada" || c.Estado == "Finalizada"))
                     .ToList();
 
                 return View(contrataciones);

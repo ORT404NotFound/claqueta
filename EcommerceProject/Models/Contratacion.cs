@@ -14,8 +14,6 @@ namespace EcommerceProject.Models
         [Required]
         public String Estado { get; set; }
 
-        public bool Calificada { get; set; }
-
         public Publicacion Publicacion { get; set; }
 
         [ForeignKey("Publicacion")]

@@ -39,7 +39,7 @@ namespace EcommerceProject.Controllers
                 usuarioCalificacion.Puntaje = calificacion;
                 usuarioCalificacion.Comentario = comentario;
                 usuarioCalificacion.Usuario = usuarioACalificar;
-                contratatacion.Calificada = true;
+
                 db.UsuariosXCalificaciones.Add(usuarioCalificacion);
                 db.SaveChanges();
                 return Json("OK");
@@ -47,28 +47,54 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult CalificarPrestatarioAPrestador(FormCollection formulario)
+        public ActionResult CalificarPrestatarioAPrestadorYAPublicacion(FormCollection formulario)
         {
             if (Session["UserId"] == null)
             {
                 return Json("NotAuthorized");
             }
-            using (var db = new SQLServerContext())
-            {
-                return null;
-            }
-        }
 
-        [HttpPost]
-        public ActionResult CalificarPrestatarioAPublicacion(FormCollection formulario)
-        {
-            if (Session["UserId"] == null)
+            int calificacionPrestador = Int32.Parse(formulario["calificacionPrestador"]);
+            int calificacionPublicacion = Int32.Parse(formulario["calificacionPublicacion"]);
+            int usuarioIdACalificar = Int32.Parse(formulario["usuarioACalificar"]);
+            int contratacionId = Int32.Parse(formulario["contratacionId"]);
+            int publicacionId = Int32.Parse(formulario["publicacionId"]);
+
+            String comentario = formulario["comentario"];
+
+
+            if (calificacionPublicacion > 5 || calificacionPublicacion < 1)
             {
-                return Json("NotAuthorized");
+                return Json("Error");
             }
+
+            if (calificacionPrestador > 5 || calificacionPrestador < 1)
+            {
+                return Json("Error");
+            }
+
             using (var db = new SQLServerContext())
             {
-                return null;
+                var usuarioACalificar = db.Usuarios.Find(usuarioIdACalificar);
+                var contratatacion = db.Contrataciones.Find(contratacionId);
+                var publicacion = db.Publicaciones.Find(publicacionId);
+
+                var usuarioCalificacion = new UsuarioCalificacion();
+                usuarioCalificacion.Puntaje = calificacionPrestador;
+                usuarioCalificacion.Comentario = comentario;
+                usuarioCalificacion.Usuario = usuarioACalificar;
+
+                var publicacionCalificacion = new PublicacionCalificacion();
+                publicacionCalificacion.Puntaje = calificacionPublicacion;
+                publicacionCalificacion.Comentario = comentario;
+                publicacionCalificacion.Publicacion = publicacion;
+
+
+                db.UsuariosXCalificaciones.Add(usuarioCalificacion);
+                db.PublicacionesXCalificaciones.Add(publicacionCalificacion);
+
+                db.SaveChanges();
+                return Json("OK");
             }
         }
     }

@@ -29,7 +29,9 @@
                                     {
                                         <button onclick="finalizarContratacion(@contratacion.Id)" class="btn btn-info">Finalizar</button>
                                     }
-                                    @if (contratacion.Estado == "Finalizada" && contratacion.Calificada == false)
+                                    @if (contratacion.Estado == "Finalizada" && contratacion.Usuario.UsuarioCalificacion.Where(uc => 
+                                                                                                                                    uc.Usuario.Id == contratacion.Usuario.Id
+                                                                                                                              ).Count() == 0)
                                     {
                                         <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id,@contratacion.Id)" class="btn btn-info">
                                             Calificar
