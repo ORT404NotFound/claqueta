@@ -1,9 +1,8 @@
-﻿
-/* Set padding to keep content from hitting the edges */
+﻿/* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 20px;
 }
 
@@ -33,4 +32,3 @@ a.list-group-item {
 .stars {
     margin: 20px auto 1px;
 }
-
