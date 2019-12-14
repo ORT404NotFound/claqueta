@@ -108,6 +108,7 @@ namespace EcommerceProject.Controllers
                 else
                 {
                     List<DateTime> fechas = new List<DateTime>();
+
                     foreach (var contratacion in contrataciones)
                     {
                         if (contratacion.FechaContratacion.Count > 0)
@@ -118,6 +119,7 @@ namespace EcommerceProject.Controllers
                             }
                         }
                     }
+
                     return Json(fechas.ToArray(), JsonRequestBehavior.AllowGet);
                 }
             }
