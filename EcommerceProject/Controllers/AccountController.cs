@@ -341,26 +341,23 @@ namespace EcommerceProject.Controllers
         [HttpPost]
         public ActionResult EditUser(Usuario usuario, FormCollection form)
         {
-            String tipoDeIdentificacion = form["TipoDeIdentificacion"];
-
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
 
-            int usuarioId = Int32.Parse(Session["UserId"].ToString());
-
-
             if (ModelState.IsValid)
             {
+                String tipoDeIdentificacion = form["TipoDeIdentificacion"];
+                int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
                 using (var db = new SQLServerContext())
                 {
-                    //mail de la base 
+                    // E-MAIL DE LA BASE 
                     var usuarioAEditar = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
 
-                    //mails a comparar
+                    // E-MAILS A COMPARAR
                     var emailAbuscar = db.Usuarios.Where(u => u.Email == usuario.Email).FirstOrDefault();
 
                     // VALIDA QUE EL E-MAIL INGRESADO NO EXISTA EN LA BASE DE DATOS
-                
                     if (emailAbuscar != null && usuario.Email != usuarioAEditar.Email)
                     {
                         ViewBag.Message = "El E-Mail ingresado ya existe.";
@@ -387,7 +384,8 @@ namespace EcommerceProject.Controllers
                     usuarioAEditar.Documento = usuario.Documento;
                     usuarioAEditar.FechaDeNacimiento = usuario.FechaDeNacimiento;
                     usuarioAEditar.Telefono = usuario.Telefono;
-                    if (usuario.Email != usuarioAEditar.Email) {
+                    if (usuario.Email != usuarioAEditar.Email)
+                    {
                         usuarioAEditar.Email = usuario.Email;
                     }
                     usuarioAEditar.ConfirmPassword = usuarioAEditar.Password;
