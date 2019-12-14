@@ -43,13 +43,14 @@ namespace EcommerceProject.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(Usuario usuario)
+        public ActionResult Register(Usuario usuario, FormCollection form)
         {
             if (ModelState.IsValid)
             {
                 using (var db = new SQLServerContext())
                 {
                     var usuarioAEncontrar = db.Usuarios.SingleOrDefault(u => u.Email == usuario.Email);
+                    String tipoDeIdentificacion = form["TipoDeIdentificacion"];
 
                     // VALIDA QUE EL E-MAIL INGRESADO NO EXISTA EN LA BASE DE DATOS
                     if (usuarioAEncontrar != null)
@@ -59,7 +60,7 @@ namespace EcommerceProject.Controllers
                     }
 
                     // VALIDA QUE SI SE COMPLETA EL TIPO O NÚMERO DE IDENTIFICACIÓN, ESTÉ EL CAMPO RESTANTE COMPLETO TAMBIÉN
-                    if ((usuario.TipoDocumento == null && usuario.Documento != null) || (usuario.TipoDocumento != null && usuario.Documento == null))
+                    if ((tipoDeIdentificacion == null && usuario.Documento != null) || (tipoDeIdentificacion != null && usuario.Documento == null))
                     {
                         ViewBag.Message = "Debe completar el tipo y número de identificación.";
                         return View();
