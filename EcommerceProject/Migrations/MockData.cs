@@ -59,8 +59,8 @@ namespace EcommerceProject.Migrations
                     {
                         Nombre = "Administrador",
                         Apellido = "Claqueta",
-                        Password = "123123",
-                        ConfirmPassword = "123123",
+                        Password = "contrA123",
+                        ConfirmPassword = "contrA123",
                         Activo = true
                     };
 
@@ -69,7 +69,7 @@ namespace EcommerceProject.Migrations
                     user.Roles.Add(rol);
                     user.Email = "admin@claqueta.com.ar";
                     user.FechaDeNacimiento = Convert.ToDateTime("01/01/2000");
-                    user.Telefono = "-";
+                    user.Telefono = "12345678";
 
                     db.Usuarios.Add(user);
                     db.SaveChanges();
