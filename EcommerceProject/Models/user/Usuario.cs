@@ -18,7 +18,7 @@ namespace EcommerceProject.Models
 
         [Key]
         public int Id { get; set; }
-      
+
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Text)]
@@ -53,14 +53,13 @@ namespace EcommerceProject.Models
         [Display(Name = "E-Mail")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.EmailAddress)]
-        [EmailAddress(ErrorMessage = "E-mail no válido")]
-        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", ErrorMessage = "Ingrese un email válido.")]
+        [RegularExpression(@"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$", ErrorMessage = "Ingrese un E-Mail válido.")]
         public String Email { get; set; }
 
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage = "Debe contener un número, una minúscula y una mayúscula. Longitud: 8 a 15 caracteres.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage = "Debe contener un número, una letra minúscula y una mayúscula. Longitud: 8 a 15 caracteres.")]
         public String Password { get; set; }
 
         [Display(Name = "Confirmar Contraseña")]
