@@ -72,8 +72,8 @@ namespace EcommerceProject.Controllers
                 }
                 else
                 {
-                    // AGREGAR MENSAJE DE ERROR
-                    // Tipo de archivo no válido. Extensiones permitidas: jpg, jpeg o png.
+                    ModelState.AddModelError("Foto", "Tipo de archivo no válido. Extensiones permitidas: jpg, jpeg o png.");
+                    return View("../Publication/EditPublication", publicacion);
                 }
 
                 if (CvExtension == "pdf")
@@ -90,8 +90,8 @@ namespace EcommerceProject.Controllers
                 }
                 else
                 {
-                    // AGREGAR MENSAJE DE ERROR
-                    // Tipo de archivo no válido. Extensión permitida: pdf.
+                    ModelState.AddModelError("CV", "Tipo de archivo no válido. Extensión permitida: pdf.");
+                    return View("../Publication/EditPublication", publicacion);
                 }
 
                 using (var db = new SQLServerContext())
