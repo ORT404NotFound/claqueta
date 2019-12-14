@@ -136,7 +136,7 @@
             var contratacionId = $("#contratacionId").val();
             var publicacionId = $("#publicacionId").val();
 
-            if ((calificacionPrestador > 5 || calificacionPrestador < 1) && (calificacionPublicacion > 5 || calificacionPublicacion < 1 )) {
+            if (calificacionPrestador > 5 || calificacionPrestador < 1 && calificacionPublicacion > 5 || calificacionPublicacion < 1) {
                 alert("Las calificaciones deben estar entre 1 y 5")
             } else {
                 $.ajax({
@@ -155,6 +155,8 @@
                             alert("Debe estar logueado")
                         } else if (result == "OK") {
                             location.reload(true);
+                        } else if (result == "Error") {
+                            alert("Hubo un error");
                         }
                     },
                     error: function (result) {

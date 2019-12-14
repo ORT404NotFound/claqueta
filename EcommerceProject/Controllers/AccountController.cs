@@ -420,6 +420,7 @@ namespace EcommerceProject.Controllers
                     .Include("Publicacion")
                     .Include("Usuario")
                     .Include("FechaContratacion")
+                    .Include("Publicacion.PublicacionCalificaciones")
                     .Include("Pago")
                     .Where(c => c.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada" || c.Estado == "Finalizada"))
                     .ToList();
