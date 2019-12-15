@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EcommerceProject.Models.Contratacion>
+﻿@using EcommerceProject.Models
+@model IEnumerable<EcommerceProject.Models.Contratacion>
 
 @{
     ViewBag.Title = "Mis Contrataciones";
@@ -21,21 +22,39 @@
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted"><span>@contratacion.Estado</span></h6>
-                                <p class="card-text">@contratacion.Publicacion.Titulo</p>
-                                <p class="card-text">@contratacion.Usuario.Nombre @contratacion.Usuario.Apellido </p>
+                                <div class="float-right"><img src="@contratacion.Publicacion.Foto" style="width: 180px; height: 180px" /></div>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Estado: @contratacion.Estado
+                                    @if (contratacion.Pago != null)
+                                    {
+                                        <span>- Fecha de Pago:</span> @contratacion.Pago.FechaDePago.ToString("dd/MM/yyyy")
+                                    }
+                                </h6>
+                                <h5>@contratacion.Publicacion.Titulo</h5>
+                                <h6>Nombre y Apellido: @contratacion.Usuario.Nombre @contratacion.Usuario.Apellido</h6>
+                                <h6>Teléfono: @contratacion.Usuario.Telefono</h6>
+                                <h6>E-Mail: @contratacion.Usuario.Email</h6>
+
+                                @{
+                                    String fechas = "";
+
+                                    foreach (FechaContratacion fechaContratacion in contratacion.FechaContratacion)
+                                    {
+                                        fechas = fechas + fechaContratacion.Fecha.ToString("dd/MM/yy") + "; ";
+                                    }
+                                }
+
+                                <h6>Fechas Contratadas: @fechas</h6>
+                                <br />
+                                <br />
                                 <div class="float-right">
                                     @if (contratacion.Estado == "Contratada")
                                     {
                                         <button onclick="finalizarContratacion(@contratacion.Id)" class="btn btn-info">Finalizar</button>
                                     }
-                                    @if (contratacion.Estado == "Finalizada" && contratacion.Usuario.UsuarioCalificacion.Where(uc => 
-                                                                                                                                    uc.Usuario.Id == contratacion.Usuario.Id
-                                                                                                                              ).Count() == 0)
+                                    @if (contratacion.Estado == "Finalizada" && contratacion.Usuario.UsuarioCalificacion.Where(uc => uc.Usuario.Id == contratacion.Usuario.Id).Count() == 0)
                                     {
-                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id,@contratacion.Id)" class="btn btn-info">
-                                            Calificar
-                                        </button>
+                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id,@contratacion.Id)" class="btn btn-info">Calificar</button>
                                     }
                                 </div>
                             </div>
