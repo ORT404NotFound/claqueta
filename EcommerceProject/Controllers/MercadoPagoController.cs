@@ -103,36 +103,38 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            if (Session["isAdmin"] != null)
+            String externalReference = Request.QueryString["external_reference"];
+
+            if (String.IsNullOrEmpty(externalReference) == false && Session["UserId"] != null && Session["isAdmin"] == null)
+            {
+                int publicacionId = Int32.Parse(externalReference);
+                int usuarioId = Int32.Parse(Session["UserId"].ToString());
+                using (var db = new SQLServerContext())
+                {
+                    Publicacion publicacion = db.Publicaciones.Find(publicacionId);
+                    publicacion.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
+                    publicacion.Promocionada = true;
+
+                    Usuario usuario = db.Usuarios.Find(usuarioId);
+
+                    Pago pago = new Pago
+                    {
+                        Aprobado = true,
+                        Concepto = "Promoción",
+                        FechaDePago = Convert.ToDateTime(DateTime.Now),
+                        Publicacion = publicacion,
+                        Usuario = usuario
+                    };
+
+                    db.Pagos.Add(pago);
+                    db.SaveChanges();
+
+                    return View();
+                }
+            }
+            else
             {
                 return View("NotAuthorized");
-            }
-
-            String externalReference = Request.QueryString["external_reference"];
-            int publicacionId = Int32.Parse(externalReference);
-            int usuarioId = Int32.Parse(Session["UserId"].ToString());
-
-            using (var db = new SQLServerContext())
-            {
-                Publicacion publicacion = db.Publicaciones.Find(publicacionId);
-                publicacion.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
-                publicacion.Promocionada = true;
-
-                Usuario usuario = db.Usuarios.Find(usuarioId);
-
-                Pago pago = new Pago
-                {
-                    Aprobado = true,
-                    Concepto = "Promoción",
-                    FechaDePago = Convert.ToDateTime(DateTime.Now),
-                    Publicacion = publicacion,
-                    Usuario = usuario
-                };
-
-                db.Pagos.Add(pago);
-                db.SaveChanges();
-
-                return View();
             }
         }
 
@@ -149,31 +151,39 @@ namespace EcommerceProject.Controllers
             }
 
             String externalReference = Request.QueryString["external_reference"];
-            int contratacionId = Int32.Parse(externalReference);
-            int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
-            using (var db = new SQLServerContext())
+
+            if (String.IsNullOrEmpty(externalReference) == false && Session["UserId"] != null && Session["isAdmin"] == null)
             {
-                Contratacion contratacion = db.Contrataciones.Include("Publicacion").FirstOrDefault(c => c.Id == contratacionId);
-                contratacion.Estado = "Contratada";
-
-                Usuario usuario = db.Usuarios.Find(usuarioId);
-
-                Pago pago = new Pago
+                int contratacionId = Int32.Parse(externalReference);
+                int usuarioId = Int32.Parse(Session["UserId"].ToString());
+                using (var db = new SQLServerContext())
                 {
-                    Aprobado = true,
-                    Concepto = "Contratación",
-                    FechaDePago = Convert.ToDateTime(DateTime.Now),
-                    Publicacion = contratacion.Publicacion,
-                    Usuario = usuario
-                };
+                    Contratacion contratacion = db.Contrataciones.Include("Publicacion").FirstOrDefault(c => c.Id == contratacionId);
+                    contratacion.Estado = "Contratada";
 
-                contratacion.Pago = pago;
+                    Usuario usuario = db.Usuarios.Find(usuarioId);
 
-                db.Pagos.Add(pago);
-                db.SaveChanges();
+                    Pago pago = new Pago
+                    {
+                        Aprobado = true,
+                        Concepto = "Contratación",
+                        FechaDePago = Convert.ToDateTime(DateTime.Now),
+                        Publicacion = contratacion.Publicacion,
+                        Usuario = usuario
+                    };
 
-                return View(contratacion.Publicacion.Usuario);
+                    contratacion.Pago = pago;
+
+                    db.Pagos.Add(pago);
+                    db.SaveChanges();
+
+                    return View(contratacion.Publicacion.Usuario);
+                }
+            }
+            else
+            {
+                return View("NotAuthorized");
             }
         }
     }
