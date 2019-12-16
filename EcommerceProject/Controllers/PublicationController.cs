@@ -138,10 +138,19 @@ namespace EcommerceProject.Controllers
                 return View("NotAuthorized");
             }
 
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
                 Publicacion publicacion = db.Publicaciones.Find(publicacionId);
+
+                if (publicacion.Usuario.Id != usuarioId || publicacion.Estado == "Desactivada")
+                {
+                    return View("Error");
+                }
+
                 publicacion.Estado = "Desactivada";
+                publicacion.Visible = false;
                 publicacion.FechaDeModificacion = Convert.ToDateTime(DateTime.Now);
 
                 db.SaveChanges();
@@ -172,7 +181,8 @@ namespace EcommerceProject.Controllers
                 {
                     return View("Error");
                 }
-                else {
+                else
+                {
                     return RedirectToAction("Pagar", "MercadoPago", publicacion);
                 }
             }
