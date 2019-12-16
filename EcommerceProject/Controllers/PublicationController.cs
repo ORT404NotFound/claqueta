@@ -252,9 +252,9 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var hayContatacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
+                var hayContratacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
 
-                if (hayContatacionesEnEsaFecha != null)
+                if (hayContratacionesEnEsaFecha != null)
                 {
                     return false;
                 }
