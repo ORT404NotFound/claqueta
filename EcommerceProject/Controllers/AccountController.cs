@@ -15,21 +15,6 @@ namespace EcommerceProject.Controllers
             return RedirectToAction("Publicaciones", "Account");
         }
 
-        public ActionResult Calificaciones()
-        {
-            if (Session["UserId"] == null)
-            {
-                return RedirectToAction("Login");
-            }
-
-            if (Session["isAdmin"] != null)
-            {
-                return View("NotAuthorized");
-            }
-
-            return View();
-        }
-
         public ActionResult Register()
         {
             if (Session["UserId"] == null)
@@ -188,6 +173,11 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login");
             }
 
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
@@ -298,6 +288,11 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login");
             }
 
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
@@ -320,6 +315,11 @@ namespace EcommerceProject.Controllers
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
             }
 
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
@@ -411,6 +411,11 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login");
             }
 
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
@@ -436,6 +441,11 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login");
             }
 
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
@@ -458,6 +468,11 @@ namespace EcommerceProject.Controllers
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
             }
 
             int usuarioId = Int32.Parse(Session["UserId"].ToString());

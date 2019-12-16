@@ -16,6 +16,11 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
@@ -32,6 +37,16 @@ namespace EcommerceProject.Controllers
 
         public ActionResult PagarContratacion(int contratacionId)
         {
+            if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             int usuarioId = Int32.Parse(Session["UserId"].ToString());
 
             using (var db = new SQLServerContext())
@@ -53,26 +68,32 @@ namespace EcommerceProject.Controllers
 
         public ActionResult PagoError()
         {
-            if (Session["UserId"] != null)
-            {
-                return View();
-            }
-            else
+            if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
+            return View();
         }
 
         public ActionResult PagoPendiente()
         {
-            if (Session["UserId"] != null)
-            {
-                return View();
-            }
-            else
+            if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
             }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
+            return View();
         }
 
         public ActionResult PagoExitoso()
@@ -80,6 +101,11 @@ namespace EcommerceProject.Controllers
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
             }
 
             String externalReference = Request.QueryString["external_reference"];
@@ -115,6 +141,11 @@ namespace EcommerceProject.Controllers
             if (Session["UserId"] == null)
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
             }
 
             String externalReference = Request.QueryString["external_reference"];

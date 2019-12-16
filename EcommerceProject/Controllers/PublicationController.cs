@@ -31,24 +31,22 @@ namespace EcommerceProject.Controllers
 
         public ActionResult SavePublication()
         {
-            if (Session["UserId"] != null)
+            if (Session["UserId"] == null)
             {
-                return View();
+                return RedirectToAction("Login", "Account");
             }
-            else
+
+            if (Session["isAdmin"] != null)
             {
                 return View("NotAuthorized");
             }
+
+            return View();
         }
 
         [HttpPost]
         public ActionResult SavePublication(Publicacion publicacion, FormCollection form, HttpPostedFileBase foto, HttpPostedFileBase cv)
         {
-            if (Session["UserId"] == null)
-            {
-                return View("NotAuthorized");
-            }
-
             ModelState.Remove("Categoria");
             ModelState.Remove("Estado");
 
@@ -132,6 +130,11 @@ namespace EcommerceProject.Controllers
         {
             if (Session["UserId"] == null)
             {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
                 return View("NotAuthorized");
             }
 
@@ -150,6 +153,11 @@ namespace EcommerceProject.Controllers
         public ActionResult PromocionarPublicacion(int publicacionId)
         {
             if (Session["UserId"] == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (Session["isAdmin"] != null)
             {
                 return View("NotAuthorized");
             }
@@ -235,26 +243,33 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult FinalizarContratacion(int contratacionId) 
+        public ActionResult FinalizarContratacion(int contratacionId)
         {
             if (Session["UserId"] == null)
             {
                 return Json("NotAuthorized");
             }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
             using (var db = new SQLServerContext())
             {
                 var contratacionABuscar = db.Contrataciones.Find(contratacionId);
+
                 if (contratacionABuscar != null)
                 {
                     contratacionABuscar.Estado = "Finalizada";
                     db.SaveChanges();
                     return Json("OK");
                 }
-                else {
+                else
+                {
                     return Json("Error");
                 }
             }
-
         }
     }
 }

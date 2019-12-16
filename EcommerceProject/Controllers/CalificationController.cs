@@ -1,9 +1,6 @@
 ﻿using EcommerceProject.Models;
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
@@ -13,7 +10,6 @@ namespace EcommerceProject.Controllers
         [HttpPost]
         public ActionResult CalificarPrestadorAPrestatario(FormCollection formulario)
         {
-            
             if (Session["UserId"] == null)
             {
                 return Json("NotAuthorized");
@@ -24,7 +20,6 @@ namespace EcommerceProject.Controllers
             int contratacionId = Int32.Parse(formulario["contratacionId"]);
 
             String comentario = formulario["comentario"];
-
 
             if (calificacion > 5 || calificacion < 1)
             {
@@ -62,7 +57,6 @@ namespace EcommerceProject.Controllers
 
             String comentario = formulario["comentario"];
 
-
             if (calificacionPublicacion > 5 || calificacionPublicacion < 1)
             {
                 return Json("Error");
@@ -88,7 +82,6 @@ namespace EcommerceProject.Controllers
                 publicacionCalificacion.Puntaje = calificacionPublicacion;
                 publicacionCalificacion.Comentario = comentario;
                 publicacionCalificacion.Publicacion = publicacion;
-
 
                 db.UsuariosXCalificaciones.Add(usuarioCalificacion);
                 db.PublicacionesXCalificaciones.Add(publicacionCalificacion);
