@@ -588,7 +588,18 @@ namespace EcommerceProject.Controllers
 
                 using (var db = new SQLServerContext())
                 {
-                    var contratacion = db.Contrataciones.SingleOrDefault(c => c.Id == contratacionId);
+
+
+                    var contratacion = db.Contrataciones
+                        .Include("FechaContratacion")
+                        .SingleOrDefault(c => c.Id == contratacionId);
+                    foreach (FechaContratacion fecha in contratacion.FechaContratacion)
+                    {
+                        if (!FechaMayorA96Horas(fecha))
+                        {
+                            return Json("Error");
+                        }
+                    }
 
                     contratacion.Estado = "Cancelada";
 
@@ -596,6 +607,21 @@ namespace EcommerceProject.Controllers
 
                     return Json("cancelada", JsonRequestBehavior.AllowGet);
                 }
+            }
+        }
+
+
+        public bool FechaMayorA96Horas(FechaContratacion fecha) {
+            DateTime diaDeHoy = DateTime.Today;
+            DateTime fechaContratacion = fecha.Fecha.Date;
+            TimeSpan diferencia = fechaContratacion - diaDeHoy;
+            int diasDeDiferencia = diferencia.Days;
+            if (diasDeDiferencia > 4)
+            {
+                return true;
+            }
+            else {
+                return false;
             }
         }
     }

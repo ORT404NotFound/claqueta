@@ -137,6 +137,8 @@
                         alert("La sesión ha expirado.")
                     } else if (result == "cancelada") {
                         location.reload(true);
+                    } else if (result == "Error") {
+                        alert("Las contrataciones pueden ser canceladas hasta 96Hs. antes al inicio del servicio.");
                     }
                 },
                 error: function (result) {
