@@ -39,6 +39,10 @@ namespace EcommerceProject.Controllers
                     .Include("Consultas.Publicacion")
                     .Where(p => p.Id == publicacionId).FirstOrDefault();
 
+                if (publicacion.Estado == "Pendiente" || publicacion.Estado == "Desactivada") {
+                    return RedirectToAction("Index");
+                }
+
                 if (publicacion != null)
                 {
                     return View(publicacion);
