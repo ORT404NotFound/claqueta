@@ -109,6 +109,7 @@ namespace EcommerceProject.Controllers
             {
                 int publicacionId = Int32.Parse(externalReference);
                 int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
                 using (var db = new SQLServerContext())
                 {
                     Publicacion publicacion = db.Publicaciones.Find(publicacionId);
@@ -151,6 +152,7 @@ namespace EcommerceProject.Controllers
             {
                 int contratacionId = Int32.Parse(externalReference);
                 int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
                 using (var db = new SQLServerContext())
                 {
                     Contratacion contratacion = db.Contrataciones.Include("Publicacion").FirstOrDefault(c => c.Id == contratacionId);
@@ -180,8 +182,6 @@ namespace EcommerceProject.Controllers
                 return View("NotAuthorized");
             }
         }
-
-
 
         public ActionResult RetomarPago(int contratacionId)
         {

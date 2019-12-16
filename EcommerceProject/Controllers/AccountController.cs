@@ -184,9 +184,11 @@ namespace EcommerceProject.Controllers
             {
                 var publicacion = db.Publicaciones.Where(p => p.Usuario.Id == usuarioId && p.Id == publicacionId).FirstOrDefault();
 
-                if (publicacion == null || publicacion.Estado == "Desactivada") {
+                if (publicacion == null || publicacion.Estado == "Desactivada")
+                {
                     return View("Error");
                 }
+
                 if (publicacion != null)
                 {
                     return View("../Publication/EditPublication", publicacion);
@@ -426,10 +428,12 @@ namespace EcommerceProject.Controllers
                 var contrataciones = db.Contrataciones
                     .Include("Publicacion")
                     .Include("Usuario")
+                    .Include("Publicacion.Usuario")
                     .Include("FechaContratacion")
                     .Include("Publicacion.PublicacionCalificaciones")
                     .Include("Pago")
                     .Where(c => c.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada" || c.Estado == "Finalizada"))
+                    .OrderByDescending(c => c.Id)
                     .ToList();
 
                 return View(contrataciones);
@@ -460,6 +464,7 @@ namespace EcommerceProject.Controllers
                     .Include("FechaContratacion")
                     .Include("Pago")
                     .Where(c => c.Publicacion.Usuario.Id == usuarioId && (c.Estado == "Contratada" || c.Estado == "Pendiente" || c.Estado == "Cancelada" || c.Estado == "Finalizada"))
+                    .OrderByDescending(c => c.Id)
                     .ToList();
 
                 return View(contrataciones);

@@ -39,7 +39,8 @@ namespace EcommerceProject.Controllers
                     .Include("Consultas.Publicacion")
                     .Where(p => p.Id == publicacionId).FirstOrDefault();
 
-                if (publicacion.Estado == "Pendiente" || publicacion.Estado == "Desactivada") {
+                if (publicacion.Estado == "Pendiente" || publicacion.Estado == "Desactivada")
+                {
                     return RedirectToAction("Index");
                 }
 
@@ -101,9 +102,7 @@ namespace EcommerceProject.Controllers
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
 
-                var contrataciones = db.Contrataciones
-                    .Include("FechaContratacion")
-                    .Where(c => c.Publicacion.Usuario.Id == usuario.Id).ToArray();
+                var contrataciones = db.Contrataciones.Include("FechaContratacion").Where(c => c.Publicacion.Usuario.Id == usuario.Id).ToArray();
 
                 if (contrataciones == null)
                 {

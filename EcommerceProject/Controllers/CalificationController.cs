@@ -16,10 +16,9 @@ namespace EcommerceProject.Controllers
             }
 
             int calificacion = Int32.Parse(formulario["calificacion"]);
+            String comentario = formulario["comentario"];
             int usuarioIdACalificar = Int32.Parse(formulario["usuarioACalificar"]);
             int contratacionId = Int32.Parse(formulario["contratacionId"]);
-
-            String comentario = formulario["comentario"];
 
             if (calificacion > 5 || calificacion < 1)
             {
@@ -28,15 +27,20 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-                var usuarioACalificar = db.Usuarios.Find(usuarioIdACalificar);
+                var usuario = db.Usuarios.Find(usuarioIdACalificar);
                 var contratatacion = db.Contrataciones.Find(contratacionId);
-                var usuarioCalificacion = new UsuarioCalificacion();
-                usuarioCalificacion.Puntaje = calificacion;
-                usuarioCalificacion.Comentario = comentario;
-                usuarioCalificacion.Usuario = usuarioACalificar;
+
+                var usuarioCalificacion = new UsuarioCalificacion
+                {
+                    Puntaje = calificacion,
+                    Comentario = comentario,
+                    Usuario = usuario
+                };
 
                 db.UsuariosXCalificaciones.Add(usuarioCalificacion);
+
                 db.SaveChanges();
+
                 return Json("OK");
             }
         }
@@ -50,12 +54,12 @@ namespace EcommerceProject.Controllers
             }
 
             int calificacionPrestador = Int32.Parse(formulario["calificacionPrestador"]);
+            String comentarioPrestador = formulario["comentarioPrestador"];
             int calificacionPublicacion = Int32.Parse(formulario["calificacionPublicacion"]);
+            String comentarioPublicacion = formulario["comentarioPublicacion"];
             int usuarioIdACalificar = Int32.Parse(formulario["usuarioACalificar"]);
-            int contratacionId = Int32.Parse(formulario["contratacionId"]);
             int publicacionId = Int32.Parse(formulario["publicacionId"]);
-
-            String comentario = formulario["comentario"];
+            int contratacionId = Int32.Parse(formulario["contratacionId"]);
 
             if (calificacionPublicacion > 5 || calificacionPublicacion < 1)
             {
@@ -69,24 +73,29 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-                var usuarioACalificar = db.Usuarios.Find(usuarioIdACalificar);
-                var contratatacion = db.Contrataciones.Find(contratacionId);
+                var usuario = db.Usuarios.Find(usuarioIdACalificar);
                 var publicacion = db.Publicaciones.Find(publicacionId);
+                var contratatacion = db.Contrataciones.Find(contratacionId);
 
-                var usuarioCalificacion = new UsuarioCalificacion();
-                usuarioCalificacion.Puntaje = calificacionPrestador;
-                usuarioCalificacion.Comentario = comentario;
-                usuarioCalificacion.Usuario = usuarioACalificar;
+                var usuarioCalificacion = new UsuarioCalificacion
+                {
+                    Puntaje = calificacionPrestador,
+                    Comentario = comentarioPrestador,
+                    Usuario = usuario
+                };
 
-                var publicacionCalificacion = new PublicacionCalificacion();
-                publicacionCalificacion.Puntaje = calificacionPublicacion;
-                publicacionCalificacion.Comentario = comentario;
-                publicacionCalificacion.Publicacion = publicacion;
+                var publicacionCalificacion = new PublicacionCalificacion
+                {
+                    Puntaje = calificacionPublicacion,
+                    Comentario = comentarioPublicacion,
+                    Publicacion = publicacion
+                };
 
                 db.UsuariosXCalificaciones.Add(usuarioCalificacion);
                 db.PublicacionesXCalificaciones.Add(publicacionCalificacion);
 
                 db.SaveChanges();
+
                 return Json("OK");
             }
         }

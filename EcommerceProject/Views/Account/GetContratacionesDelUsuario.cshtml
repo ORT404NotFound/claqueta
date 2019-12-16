@@ -25,7 +25,7 @@
                                 <div class="float-right"><img src="@contratacion.Publicacion.Foto" style="width: 180px; height: 180px" /></div>
                                 <h6 class="card-subtitle mb-2 text-muted">
                                     Estado: @contratacion.Estado
-                                    @if (contratacion.Pago != null)
+                                    @if (contratacion.Pago != null && contratacion.Estado == "Contratada")
                                     {
                                         <span>- Fecha de Pago:</span> @contratacion.Pago.FechaDePago.ToString("dd/MM/yyyy")
                                     }
@@ -50,11 +50,12 @@
                                 <div class="float-right">
                                     @if (contratacion.Estado == "Contratada")
                                     {
-                                        <button onclick="finalizarContratacion(@contratacion.Id)" class="btn btn-info">Finalizar</button>
+                                        <button onclick="finalizarContratacion(@contratacion.Id)" class="btn btn-primary">Finalizar Contratación</button>
                                     }
+
                                     @if (contratacion.Estado == "Finalizada" && contratacion.Usuario.UsuarioCalificacion.Where(uc => uc.Usuario.Id == contratacion.Usuario.Id).Count() == 0)
                                     {
-                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id,@contratacion.Id)" class="btn btn-info">Calificar</button>
+                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id, @contratacion.Id)" class="btn btn-info">Calificar Prestatario</button>
                                     }
                                 </div>
                             </div>
@@ -76,73 +77,65 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Califica al prestatario</label>
-                                    <input type="number" class="form-control form-control-lg" id="calificacion" name="calificacion" step="1" min="1" max="5" placeholder="Calificar...">
+                                    <h6>Califique al Prestatario</h6>
+                                    <input type="number" class="form-control form-control-lg" id="calificacion" name="calificacion" step="1" min="1" max="5" placeholder="Ingrese un número del 1 al 5...">
                                 </div>
+
                                 <div class="form-group">
-                                    <label for="">Comentario</label>
-                                    <textarea class="form-control form-control-lg" id="comentario" rows="3" name="comentario" maxlength="1000" placeholder="Comenta...">
-    
-                                    </textarea>
+                                    <h6>Opinión sobre el Prestatario</h6>
+                                    <textarea class="form-control form-control-lg" id="comentario" rows="2" name="comentario" maxlength="1000" placeholder="Deje un comentario (opcional)..."></textarea>
                                 </div>
+
                                 <input type="hidden" name="usuarioACalificar" id="usuarioACalificar" value="" />
                                 <input type="hidden" name="contratacionId" id="contratacionId" value="" />
-
-                                <div class="float-right">
-                                    <button type="button" onclick="enviarCalificacion()" class="btn btn-primary">Enviar calificación</button>
-                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="enviarCalificacion()" class="btn btn-primary">Enviar</button>
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </div>
+
 @section Scripts{
     <script>
-        function mostrarModalCalificacion(idUsuarioACalificar,contratacionId) {
-            $("#calificacion").val("");
-            $("#comentario").val("");
-            $("#usuarioACalificar").val(idUsuarioACalificar);
-            $("#contratacionId").val(contratacionId);
-            $('#modalCalificar').modal("show");
-        }
         function finalizarContratacion(idContratacion) {
               $.ajax({
                   data: {
                       contratacionId: idContratacion
                 },
                 type: "post",
-                url: "@Url.Action("FinalizarContratacion","Publication")",
+                url: "@Url.Action("FinalizarContratacion", "Publication")",
                 success: function (result) {
                     if (result == "NotAuthorized") {
-                        alert("Debe estar logueado")
+                        alert("Debe estar logueado.")
                     } else if (result == "OK") {
                         location.reload(true);
                     }
                 },
                 error: function (result) {
-                    alert("Hubo un error", result);
+                    alert("Se presentó un error.", result);
                 }
             })
         }
 
+        function mostrarModalCalificacion(idUsuarioACalificar, contratacionId) {
+            $("#calificacion").val("");
+            $("#comentario").val("");
+            $("#usuarioACalificar").val(idUsuarioACalificar);
+            $("#contratacionId").val(contratacionId);
+            $('#modalCalificar').modal("show");
+        }
 
         function enviarCalificacion() {
             var calificacion = $("#calificacion").val();
@@ -151,7 +144,7 @@
             var contratacionId = $("#contratacionId").val();
 
             if (calificacion > 5 || calificacion < 1) {
-                alert("La calificación debe estar entre 1 y 5")
+                alert("La calificación debe ser entre 1 y 5.")
             } else {
                 $.ajax({
                     data: {
@@ -161,20 +154,19 @@
                         contratacionId: contratacionId
                     },
                     type: "post",
-                    url: "@Url.Action("CalificarPrestadorAPrestatario","Calification")",
+                    url: "@Url.Action("CalificarPrestadorAPrestatario", "Calification")",
                     success: function (result) {
                         if (result == "NotAuthorized") {
-                            alert("Debe estar logueado")
+                            alert("Debe estar logueado.")
                         } else if (result == "OK") {
                             location.reload(true);
                         }
                     },
                     error: function (result) {
-                        alert("Hubo un error", result);
+                        alert("Se presentó un error.", result);
                     }
                 });
             }
         }
     </script>
-
 }

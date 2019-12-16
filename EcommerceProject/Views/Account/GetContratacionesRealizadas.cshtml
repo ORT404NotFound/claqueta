@@ -1,4 +1,5 @@
-﻿@model IEnumerable<EcommerceProject.Models.Contratacion>
+﻿@using EcommerceProject.Models
+@model IEnumerable<EcommerceProject.Models.Contratacion>
 
 @{
     ViewBag.Title = "Servicios Contratados";
@@ -21,25 +22,45 @@
                     {
                         <div class="card" style="width: 100%">
                             <div class="card-body">
-                                <h6 class="card-subtitle mb-2 text-muted"><span>@contratacion.Estado</span></h6>
-                                <p class="card-text">@contratacion.Publicacion.Titulo</p>
-                                <hr />
+                                <div class="float-right"><img src="@contratacion.Publicacion.Foto" style="width: 180px; height: 180px" /></div>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    Estado: @contratacion.Estado
+                                    @if (contratacion.Pago != null && contratacion.Estado == "Contratada")
+                                    {
+                                        <span>- Fecha de Pago:</span> @contratacion.Pago.FechaDePago.ToString("dd/MM/yyyy")
+                                    }
+                                </h6>
+                                <h5>@contratacion.Publicacion.Titulo</h5>
+                                <h6>Nombre y Apellido: @contratacion.Publicacion.Usuario.Nombre @contratacion.Publicacion.Usuario.Apellido</h6>
+                                <h6>Teléfono: @contratacion.Publicacion.Usuario.Telefono</h6>
+                                <h6>E-Mail: @contratacion.Publicacion.Usuario.Email</h6>
+
+                                @{
+                                    String fechas = "";
+
+                                    foreach (FechaContratacion fechaContratacion in contratacion.FechaContratacion)
+                                    {
+                                        fechas = fechas + fechaContratacion.Fecha.ToString("dd/MM/yy") + "; ";
+                                    }
+                                }
+
+                                <h6>Fechas Contratadas: @fechas</h6>
+                                <br />
+                                <br />
                                 <div class="float-right">
                                     @if (contratacion.Estado == "Pendiente")
                                     {
-                                        <a href="@Url.Action("RetomarPago","MercadoPago", new {  contratacionId = contratacion.Id })" class="btn btn-info">Pagar</a>
+                                        <a href="@Url.Action("RetomarPago", "MercadoPago", new { contratacionId = contratacion.Id })" class="btn btn-primary">Retomar Pago</a>
                                     }
 
-                                    @if (contratacion.Estado != "Cancelada")
+                                    @if (contratacion.Estado != "Cancelada" && contratacion.Estado != "Finalizada")
                                     {
                                         <button onclick="cancelarContratacion(@contratacion.Id)" class="btn btn-danger">Cancelar</button>
                                     }
 
                                     @if (contratacion.Estado == "Finalizada" && contratacion.Publicacion.PublicacionCalificaciones.Where(pc => pc.Publicacion.Id == contratacion.Publicacion.Id).Count() == 0)
                                     {
-                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id,@contratacion.Id,@contratacion.Publicacion.Id)" class="btn btn-info">
-                                            Calificar al prestador y al servicio
-                                        </button>
+                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id, @contratacion.Id, @contratacion.Publicacion.Id)" class="btn btn-info">Calificar Prestador y Servicio</button>
                                     }
                                 </div>
                             </div>
@@ -56,64 +77,64 @@
             </div>
         }
     </div>
+
     <div class="modal fade" id="modalCalificar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <form>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Califica al prestador</label>
-                                    <input type="number" class="form-control form-control-lg" id="calificacionPrestador" name="calificacionPrestador" step="1" min="1" max="5" placeholder="Calificar...">
+                                    <h6>Califique al Prestador</h6>
+                                    <input type="number" class="form-control form-control-lg" id="calificacionPrestador" name="calificacionPrestador" step="1" min="1" max="5" placeholder="Ingrese un número del 1 al 5...">
                                 </div>
+
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Califica a la publicación</label>
-                                    <input type="number" class="form-control form-control-lg" id="calificacionPublicacion" name="calificacionPublicacion" step="1" min="1" max="5" placeholder="Calificar...">
+                                    <h6>Opinión sobre el Prestador</h6>
+                                    <textarea class="form-control form-control-lg" id="comentarioPrestador" rows="2" name="comentarioPrestador" maxlength="1000" placeholder="Deje un comentario (opcional)..."></textarea>
                                 </div>
+
                                 <div class="form-group">
-                                    <label for="">Comentario</label>
-                                    <textarea class="form-control form-control-lg" id="comentario" rows="3" name="comentario" maxlength="1000" placeholder="Comenta...">
-    
-                                    </textarea>
+                                    <h6>Califique al Servicio</h6>
+                                    <input type="number" class="form-control form-control-lg" id="calificacionPublicacion" name="calificacionPublicacion" step="1" min="1" max="5" placeholder="Ingrese un número del 1 al 5...">
                                 </div>
+
+                                <div class="form-group">
+                                    <h6>Opinión sobre el Servicio</h6>
+                                    <textarea class="form-control form-control-lg" id="comentarioPublicacion" rows="2" name="comentarioPublicacion" maxlength="1000" placeholder="Deje un comentario (opcional)..."></textarea>
+                                </div>
+
                                 <input type="hidden" name="usuarioACalificar" id="usuarioACalificar" value="" />
                                 <input type="hidden" name="contratacionId" id="contratacionId" value="" />
                                 <input type="hidden" name="publicacionId" id="publicacionId" value="" />
-
-                                <div class="float-right">
-                                    <button type="button" onclick="enviarCalificacion()" class="btn btn-primary">Enviar calificación</button>
-                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="enviarCalificacion()" class="btn btn-primary">Enviar</button>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
 @section Scripts{
     <script>
-           function cancelarContratacion(id) {
+       function cancelarContratacion(id) {
             $.ajax({
                 data: {
                     id: id,
                 },
                 type: "post",
-                url: "@Url.Action("CancelarContratacion","Account")",
+                url: "@Url.Action("CancelarContratacion", "Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("sesion expirada")
+                        alert("La sesión ha expirado.")
                     } else if (result == "cancelada") {
                         location.reload(true);
                     }
@@ -122,53 +143,57 @@
                     alert("Se presentó un error.", result);
                 }
             })
-        }
+       }
 
-          function mostrarModalCalificacion(idUsuarioACalificar,contratacionId, publicacionId) {
+       function mostrarModalCalificacion(idUsuarioACalificar, contratacionId, publicacionId) {
             $("#calificacionPrestador").val("");
+            $("#comentarioPrestador").val("");
             $("#calificacionPublicacion").val("");
-            $("#comentario").val("");
+            $("#comentarioPublicacion").val("");
             $("#usuarioACalificar").val(idUsuarioACalificar);
             $("#contratacionId").val(contratacionId);
             $("#publicacionId").val(publicacionId);
             $('#modalCalificar').modal("show");
-        }
-          function enviarCalificacion() {
+       }
+
+       function enviarCalificacion() {
             var calificacionPrestador = $("#calificacionPrestador").val();
+            var comentarioPrestador = $("#comentarioPrestador").val();
             var calificacionPublicacion = $("#calificacionPublicacion").val();
-            var comentario = $("#comentario").val();
+            var comentarioPublicacion = $("#comentarioPublicacion").val();
             var usuarioACalificar = $("#usuarioACalificar").val();
             var contratacionId = $("#contratacionId").val();
             var publicacionId = $("#publicacionId").val();
 
             if (calificacionPrestador > 5 || calificacionPrestador < 1 && calificacionPublicacion > 5 || calificacionPublicacion < 1) {
-                alert("Las calificaciones deben estar entre 1 y 5")
+                alert("Las calificaciones deben ser entre 1 y 5.")
             } else {
                 $.ajax({
                     data: {
-                        calificacionPublicacion: calificacionPublicacion,
                         calificacionPrestador: calificacionPrestador,
-                        comentario: comentario,
+                        comentarioPrestador: comentarioPrestador,
+                        calificacionPublicacion: calificacionPublicacion,
+                        comentarioPublicacion: comentarioPublicacion,
                         usuarioACalificar: usuarioACalificar,
                         contratacionId: contratacionId,
                         publicacionId: publicacionId
                     },
                     type: "post",
-                    url: "@Url.Action("CalificarPrestatarioAPrestadorYAPublicacion","Calification")",
+                    url: "@Url.Action("CalificarPrestatarioAPrestadorYAPublicacion", "Calification")",
                     success: function (result) {
                         if (result == "NotAuthorized") {
-                            alert("Debe estar logueado")
+                            alert("Debe estar logueado.")
                         } else if (result == "OK") {
                             location.reload(true);
                         } else if (result == "Error") {
-                            alert("Hubo un error");
+                            alert("Se presentó un error.");
                         }
                     },
                     error: function (result) {
-                        alert("Hubo un error", result);
+                        alert("Se presentó un error.", result);
                     }
                 });
             }
-        }
+       }
     </script>
 }

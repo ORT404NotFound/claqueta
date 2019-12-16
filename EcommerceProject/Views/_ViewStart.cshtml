@@ -7,5 +7,13 @@
     {
         var categorias = db.Categorias.OrderBy(c => c.Nombre).ToList();
         PageData["categorias"] = categorias;
+
+        if (Session["UserId"] != null)
+        {
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+            var usuario = db.Usuarios.Find(usuarioId);
+
+            Session["nombreCompleto"] = usuario.Nombre + " " + usuario.Apellido;
+        }
     }
 }

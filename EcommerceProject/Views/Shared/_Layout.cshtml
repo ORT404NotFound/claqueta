@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
@@ -8,71 +9,68 @@
     @Styles.Render("~/Content/bootstrap.css")
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/Site.css")
-
     @Styles.Render("~/Content/datepicker.min.css")
     @Styles.Render("~/Content/Publicidad.css")
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="@Url.Action("Index", "Home")">Claqueta</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Categorías
-                    </a>
+                    <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Categorías</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         @foreach (var categoria in PageData["categorias"])
                         {
-                            <a class="dropdown-item" href="@Url.Action("BuscarPublicacionesPorCategoria","Home", new { categoriaId = categoria.Id })">@categoria.Nombre</a>
+                            <a class="dropdown-item" href="@Url.Action("BuscarPublicacionesPorCategoria", "Home", new { categoriaId = categoria.Id })">@categoria.Nombre</a>
                         }
                     </div>
                 </li>
+
                 @if (Session["UserId"] != null)
                 {
                     if (Session["isAdmin"] == null)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Mi Cuenta
-                            </a>
+                            <a class="nav-link dropdown-toggle" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Mi Cuenta</a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="@Url.Action("Publicaciones","Account")">Publicaciones</a>
-                                <a class="dropdown-item" href="@Url.Action("GetContratacionesDelUsuario","Account")">Contrataciones</a>
-                                <a class="dropdown-item" href="@Url.Action("GetContratacionesRealizadas","Account")">Servicios Contratados</a>
-                                <a class="dropdown-item" href="@Url.Action("GetConsultasDelUsuario","Account")">Consultas a Responder</a>
-                                <a class="dropdown-item" href="@Url.Action("UserInfo","Account")">Detalle de Cuenta</a>
+                                <a class="dropdown-item" href="@Url.Action("Publicaciones", "Account")">Publicaciones</a>
+                                <a class="dropdown-item" href="@Url.Action("GetContratacionesDelUsuario", "Account")">Contrataciones</a>
+                                <a class="dropdown-item" href="@Url.Action("GetContratacionesRealizadas", "Account")">Servicios Contratados</a>
+                                <a class="dropdown-item" href="@Url.Action("GetConsultasDelUsuario", "Account")">Consultas a Responder</a>
+                                <a class="dropdown-item" href="@Url.Action("UserInfo", "Account")">Detalle de Cuenta</a>
                             </div>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link" href="@Url.Action("Index","Admin")">Panel de Administración</a>
+                            <a class="nav-link" href="@Url.Action("Index", "Admin")">Panel de Administración</a>
                         </li>
                     }
                     <li>
-                        <a class="nav-link" href="@Url.Action("LogOut","Account")">Cerrar Sesión</a>
+                        <a class="nav-link" href="@Url.Action("LogOut", "Account")">Cerrar Sesión</a>
+                    </li>
+                    <li>
+                        <a class="nav-link">¡Bienvenido @Session["nombreCompleto"]!</a>
                     </li>
                 }
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Register","Account")">Crear Cuenta</a>
+                        <a class="nav-link" href="@Url.Action("Register", "Account")">Crear Cuenta</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Login","Account")">Ingresar</a>
+                        <a class="nav-link" href="@Url.Action("Login", "Account")">Ingresar</a>
                     </li>
                 }
             </ul>
+
             <form class="form-inline my-2 my-lg-0" action="@Url.Action("BuscarPublicaciones","Home")">
                 <input class="form-control mr-sm-2" type="search" placeholder="Buscá lo que necesitás..." aria-label="Buscar" name="termino" id="termino" />
                 <button class="btn btn-outline-primary my-2 my-sm-0" type="submit" onClick="return empty()">Buscar</button>
-
             </form>
         </div>
     </nav>
@@ -83,6 +81,7 @@
             <hr />
         </div>
     </div>
+
     <footer>
         <div class="container">
             <span class="text-muted">
@@ -90,15 +89,17 @@
             </span>
         </div>
     </footer>
+
     <script>
         function empty() {
-            var x;
-            x = document.getElementById("termino").value;
+            var x = document.getElementById("termino").value;
+
             if (x == "") {
                 return false;
             };
         }
     </script>
+
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/Content/datepicker.min.js")
     @Scripts.Render("~/Content/Site.js")

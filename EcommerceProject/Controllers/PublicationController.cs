@@ -209,10 +209,13 @@ namespace EcommerceProject.Controllers
                 };
 
                 db.Contrataciones.Add(contratacion);
+
                 DateTime fecha;
+
                 foreach (var diaSeleccionado in diasSeleccionados)
                 {
                     fecha = TransformarFecha(diaSeleccionado);
+
                     if (EstaDisponibleLaFecha(fecha, publicacion))
                     {
                         FechaContratacion fechaContratacion = new FechaContratacion
@@ -220,9 +223,11 @@ namespace EcommerceProject.Controllers
                             Contratacion = contratacion,
                             Fecha = fecha
                         };
+
                         db.FechasXContratacion.Add(fechaContratacion);
                     }
                 }
+
                 db.SaveChanges();
 
                 return Json(contratacion.Id, JsonRequestBehavior.AllowGet);
@@ -236,8 +241,10 @@ namespace EcommerceProject.Controllers
                 DateFormatString = "yyyy-MM-ddTH:mm:ss.fffK",
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc
             };
+
             var dia = JsonConvert.DeserializeObject(fecha, settings);
             DateTime fechaDate = Convert.ToDateTime(dia).Date;
+
             return fechaDate;
         }
 
@@ -245,18 +252,22 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var HayContatacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
-                if (HayContatacionesEnEsaFecha != null)
+                var hayContatacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
+
+                if (hayContatacionesEnEsaFecha != null)
                 {
                     return false;
                 }
+
                 DayOfWeek diaDeLaSemana = fechaEnParticular.DayOfWeek;
                 int numeroDeLaSemana = (int)diaDeLaSemana;
                 var diasDisp = publicacion.Disponibilidad.Split(',').Select(Int32.Parse).ToList();
+
                 if (!diasDisp.Contains(numeroDeLaSemana))
                 {
                     return false;
                 }
+
                 return true;
             }
         }
@@ -280,7 +291,9 @@ namespace EcommerceProject.Controllers
                 if (contratacionABuscar != null)
                 {
                     contratacionABuscar.Estado = "Finalizada";
+
                     db.SaveChanges();
+
                     return Json("OK");
                 }
                 else
