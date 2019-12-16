@@ -162,11 +162,19 @@ namespace EcommerceProject.Controllers
                 return View("NotAuthorized");
             }
 
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
             using (var db = new SQLServerContext())
             {
                 Publicacion publicacion = db.Publicaciones.Find(publicacionId);
 
-                return RedirectToAction("Pagar", "MercadoPago", publicacion);
+                if (publicacion == null || publicacion.Usuario.Id != usuarioId || publicacion.Estado == "Desactivada" || publicacion.Promocionada == true)
+                {
+                    return View("Error");
+                }
+                else {
+                    return RedirectToAction("Pagar", "MercadoPago", publicacion);
+                }
             }
         }
 
