@@ -145,13 +145,7 @@ namespace EcommerceProject.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            if (Session["isAdmin"] != null)
-            {
-                return View("NotAuthorized");
-            }
-
             String externalReference = Request.QueryString["external_reference"];
-
 
             if (String.IsNullOrEmpty(externalReference) == false && Session["UserId"] != null && Session["isAdmin"] == null)
             {

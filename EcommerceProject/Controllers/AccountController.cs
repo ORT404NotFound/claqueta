@@ -184,6 +184,9 @@ namespace EcommerceProject.Controllers
             {
                 var publicacion = db.Publicaciones.Where(p => p.Usuario.Id == usuarioId && p.Id == publicacionId).FirstOrDefault();
 
+                if (publicacion == null || publicacion.Estado == "Desactivada") {
+                    return View("Error");
+                }
                 if (publicacion != null)
                 {
                     return View("../Publication/EditPublication", publicacion);
