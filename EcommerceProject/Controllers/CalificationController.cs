@@ -34,7 +34,8 @@ namespace EcommerceProject.Controllers
                 {
                     Puntaje = calificacion,
                     Comentario = comentario,
-                    Usuario = usuario
+                    Usuario = usuario,
+                    Contratacion = contratatacion
                 };
 
                 db.UsuariosXCalificaciones.Add(usuarioCalificacion);
@@ -81,14 +82,16 @@ namespace EcommerceProject.Controllers
                 {
                     Puntaje = calificacionPrestador,
                     Comentario = comentarioPrestador,
-                    Usuario = usuario
+                    Usuario = usuario,
+                    Contratacion = contratatacion
                 };
 
                 var publicacionCalificacion = new PublicacionCalificacion
                 {
                     Puntaje = calificacionPublicacion,
                     Comentario = comentarioPublicacion,
-                    Publicacion = publicacion
+                    Publicacion = publicacion,
+                    Contratacion = contratatacion
                 };
 
                 db.UsuariosXCalificaciones.Add(usuarioCalificacion);

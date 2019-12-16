@@ -58,9 +58,9 @@
                                         <button onclick="cancelarContratacion(@contratacion.Id)" class="btn btn-danger">Cancelar</button>
                                     }
 
-                                    @if (contratacion.Estado == "Finalizada" && contratacion.Publicacion.PublicacionCalificaciones.Where(pc => pc.Publicacion.Id == contratacion.Publicacion.Id).Count() == 0)
+                                    @if (contratacion.Estado == "Finalizada" && contratacion.Publicacion.PublicacionCalificaciones.Where(pc => pc.Publicacion.Id == contratacion.Publicacion.Id && contratacion.Id == pc.Contratacion.Id).Count() == 0)
                                     {
-                                        <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id, @contratacion.Id, @contratacion.Publicacion.Id)" class="btn btn-info">Calificar Prestador y Servicio</button>
+                                        <button onclick="mostrarModalCalificacion(@contratacion.Publicacion.Usuario.Id, @contratacion.Id, @contratacion.Publicacion.Id)" class="btn btn-info">Calificar Prestador y Servicio</button>
                                     }
                                 </div>
                             </div>

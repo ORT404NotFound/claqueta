@@ -17,5 +17,7 @@ namespace EcommerceProject.Models
 
         [Required]
         public virtual Publicacion Publicacion { get; set; }
+
+        public virtual Contratacion Contratacion { get; set; }
     }
 }

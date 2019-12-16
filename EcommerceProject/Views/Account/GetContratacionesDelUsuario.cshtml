@@ -48,12 +48,17 @@
                                 <br />
                                 <br />
                                 <div class="float-right">
+                                    @if (contratacion.Estado != "Cancelada" && contratacion.Estado != "Finalizada")
+                                    {
+                                        <button onclick="cancelarContratacion(@contratacion.Id)" class="btn btn-danger">Cancelar</button>
+                                    }
+
                                     @if (contratacion.Estado == "Contratada")
                                     {
                                         <button onclick="finalizarContratacion(@contratacion.Id)" class="btn btn-primary">Finalizar Contratación</button>
                                     }
 
-                                    @if (contratacion.Estado == "Finalizada" && contratacion.Usuario.UsuarioCalificacion.Where(uc => uc.Usuario.Id == contratacion.Usuario.Id).Count() == 0)
+                                    @if (contratacion.Estado == "Finalizada" && contratacion.Usuario.UsuarioCalificacion.Where(uc => uc.Usuario.Id == contratacion.Usuario.Id && contratacion.Id == uc.Contratacion.Id).Count() == 0)
                                     {
                                         <button onclick="mostrarModalCalificacion(@contratacion.Usuario.Id, @contratacion.Id)" class="btn btn-info">Calificar Prestatario</button>
                                     }
@@ -109,6 +114,26 @@
 
 @section Scripts{
     <script>
+        function cancelarContratacion(id) {
+            $.ajax({
+                data: {
+                    id: id,
+                },
+                type: "post",
+                url: "@Url.Action("CancelarContratacion", "Account")",
+                success: function (result) {
+                    if (result == "NotAllowed") {
+                        alert("La sesión ha expirado.")
+                    } else if (result == "cancelada") {
+                        location.reload(true);
+                    }
+                },
+                error: function (result) {
+                    alert("Se presentó un error.", result);
+                }
+            })
+        }
+
         function finalizarContratacion(idContratacion) {
               $.ajax({
                   data: {
@@ -121,6 +146,8 @@
                         alert("Debe estar logueado.")
                     } else if (result == "OK") {
                         location.reload(true);
+                    } else if (result == "Error") {
+                        alert("No puede finalizar la contratación debido a que las fechas que le contrataron no han finalizado.");
                     }
                 },
                 error: function (result) {

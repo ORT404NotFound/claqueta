@@ -286,14 +286,23 @@ namespace EcommerceProject.Controllers
 
             using (var db = new SQLServerContext())
             {
-                var contratacionABuscar = db.Contrataciones.Find(contratacionId);
+                var contratacionABuscar = db.Contrataciones
+                    .Include("FechaContratacion")
+                    .FirstOrDefault(c => c.Id == contratacionId);
+
 
                 if (contratacionABuscar != null)
                 {
+                    DateTime diaDeHoy = DateTime.Today;
+                    foreach (FechaContratacion fecha in contratacionABuscar.FechaContratacion)
+                    {
+                        if (!FechaEsValidaDeFinalizar(fecha)) {
+                            return Json("Error");
+                        }
+                    }
                     contratacionABuscar.Estado = "Finalizada";
 
                     db.SaveChanges();
-
                     return Json("OK");
                 }
                 else
@@ -301,6 +310,25 @@ namespace EcommerceProject.Controllers
                     return Json("Error");
                 }
             }
+        }
+
+        private bool FechaEsValidaDeFinalizar(FechaContratacion fecha)
+        {
+            
+            DateTime diaDeHoy = DateTime.Today.Date;
+
+            if (diaDeHoy > fecha.Fecha)
+            {
+                return true;
+            }
+            else if (diaDeHoy == fecha.Fecha)
+            {
+                return false;
+            }
+            else {
+                return false;
+            }
+                
         }
     }
 }

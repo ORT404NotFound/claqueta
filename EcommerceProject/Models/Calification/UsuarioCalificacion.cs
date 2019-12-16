@@ -17,5 +17,7 @@ namespace EcommerceProject.Models
 
         [Required]
         public virtual Usuario Usuario { get; set; }
+
+        public virtual Contratacion Contratacion { get; set; }
     }
 }
