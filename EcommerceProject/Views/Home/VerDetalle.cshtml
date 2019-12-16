@@ -24,7 +24,11 @@
                             <label>Seleccione el o los días requeridos para efectuar la contratacion.</label>
                             <input type="button" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="100" data-multiple-dates-separator=", " data-position='top left' />
                         </div>
-                        <button class="btn btn-success" onclick="contratar(@Session["UserId"],@Model.Id)">Contratar</button>
+
+                        @if (Session["isAdmin"] == null) {
+                            <button class="btn btn-success" onclick="contratar(@Session["UserId"],@Model.Id)">Contratar</button>
+                        }
+
                     </div>
                 }
                 else
@@ -36,7 +40,7 @@
                 <div id="bloque_comentarios">
                     <h4>Consultas</h4>
                     <hr />
-                    @if (Session["UserId"] != null && Int32.Parse(Session["UserId"].ToString()) != Model.Usuario.Id)
+                    @if (Session["UserId"] != null && Int32.Parse(Session["UserId"].ToString()) != Model.Usuario.Id && Session["isAdmin"] == null)
                     {
                         <!-- Formulario de comentario -->
                         <div class="card my-4">
