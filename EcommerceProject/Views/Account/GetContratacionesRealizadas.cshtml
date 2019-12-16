@@ -25,6 +25,11 @@
                                 <p class="card-text">@contratacion.Publicacion.Titulo</p>
                                 <hr />
                                 <div class="float-right">
+                                    @if (contratacion.Estado == "Pendiente")
+                                    {
+                                        <a href="@Url.Action("RetomarPago","MercadoPago", new {  contratacionId = contratacion.Id })" class="btn btn-info">Pagar</a>
+                                    }
+
                                     @if (contratacion.Estado != "Cancelada")
                                     {
                                         <button onclick="cancelarContratacion(@contratacion.Id)" class="btn btn-danger">Cancelar</button>

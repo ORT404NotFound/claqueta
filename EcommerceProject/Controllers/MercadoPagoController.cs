@@ -180,5 +180,38 @@ namespace EcommerceProject.Controllers
                 return View("NotAuthorized");
             }
         }
+
+
+
+        public ActionResult RetomarPago(int contratacionId)
+        {
+            if (Session["UserId"] == null)
+            {
+                return Json("NotAuthorized");
+            }
+
+            if (Session["isAdmin"] != null)
+            {
+                return View("NotAuthorized");
+            }
+
+            int usuarioId = Int32.Parse(Session["UserId"].ToString());
+
+            using (var db = new SQLServerContext())
+            {
+                Contratacion contratacion = db.Contrataciones
+                    .Include("Publicacion")
+                    .Include("FechaContratacion")
+                    .FirstOrDefault(c => c.Id == contratacionId);
+
+                Usuario usuario = db.Usuarios.Find(usuarioId);
+
+                MP mp = new MP();
+
+                String url = mp.PagarContratacion(usuario, contratacion);
+
+                return Redirect(url);
+            }
+        }
     }
 }

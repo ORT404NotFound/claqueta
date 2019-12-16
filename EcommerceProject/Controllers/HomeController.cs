@@ -103,7 +103,7 @@ namespace EcommerceProject.Controllers
 
                 var contrataciones = db.Contrataciones
                     .Include("FechaContratacion")
-                    .Where(c => c.Publicacion.Usuario.Id == usuario.Id && c.Estado != "Pendiente" && c.Pago != null).ToArray();
+                    .Where(c => c.Publicacion.Usuario.Id == usuario.Id).ToArray();
 
                 if (contrataciones == null)
                 {
