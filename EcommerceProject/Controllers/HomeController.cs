@@ -34,6 +34,7 @@ namespace EcommerceProject.Controllers
             {
                 var publicacion = db.Publicaciones
                     .Include("Usuario")
+                    .Include("PublicacionCalificaciones")
                     .Include("Categoria")
                     .Include("Consultas")
                     .Include("Consultas.Usuario")
@@ -145,9 +146,9 @@ namespace EcommerceProject.Controllers
             {
                 var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
 
-                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Activada" && p.Promocionada == true && p.Categoria.Id == categoriaId)
+                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Activada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
+                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
                     .OrderByDescending(p => p.FechaDeModificacion).ToList();
                 var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
