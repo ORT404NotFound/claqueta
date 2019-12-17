@@ -3,14 +3,14 @@
 <hr />
 <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
 <hr />
-
 <div>
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h1 class="mt-2">@Model.Titulo</h1>
                 <p class="lead">Por @Model.Usuario.Nombre @Model.Usuario.Apellido</p>
-                @if (ViewBag.calificacionPromedio > 0) {
+                @if (ViewBag.calificacionPromedio > 0)
+                {
                     <p class="lead">
                         Calificacion @ViewBag.calificacionPromedio
                     </p>
@@ -42,7 +42,9 @@
                     <div class="col-md-6 col-xs-12"><label>Debe loguarse para contratar y/o efectuar consultas. Puede hacerlo <a href="@Url.Action("Login", "Account")">aquí</a>.</label></div>
                 }
                 <hr />
-
+                <button type="button" class="btn btn-default" onclick="mostrarComentarios()">
+                    Ver Comentarios
+                </button>
                 <div id="bloque_comentarios">
                     <h4>Consultas</h4>
                     <hr />
@@ -93,6 +95,38 @@
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal calificaciones-->
+        <div id="modalCalif" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Calificaciones</h4>
+                    </div>
+                    <div class="modal-body">
+                        @if (Model.PublicacionCalificaciones.Count() > 0)
+                        {
+                            <ul>
+                                @foreach (var calificacion in Model.PublicacionCalificaciones)
+                                {
+                                    <li>@calificacion.Comentario, @calificacion.Puntaje</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
     </div>
 </div>
 
@@ -163,6 +197,10 @@
                 }
             })
         });
+        
+        function mostrarComentarios() {
+            $("#modalCalif").modal("show");
+        }
 
         function contratar(userId, publicacionId) {
             if (diasSelec.length == 0) {
