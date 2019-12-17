@@ -103,7 +103,7 @@ namespace EcommerceProject.Controllers
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
 
-                var contrataciones = db.Contrataciones.Include("FechaContratacion").Where(c => c.FechaContratacion.Any(fc => fc.Reservada == true && fc.Contratacion.Publicacion.Id == publicacion.Id )).ToArray();
+                var contrataciones = db.Contrataciones.Include("FechaContratacion").Where(c => c.FechaContratacion.Any(fc => fc.Reservada == true && fc.Contratacion.Publicacion.Id == publicacion.Id)).ToArray();
 
                 if (contrataciones == null)
                 {
@@ -147,19 +147,32 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult BuscarPublicaciones(String termino)
+        public ActionResult BuscarPublicaciones(String termino, Double precioMinimo = 0, Double precioMaximo = 0)
         {
             using (var db = new SQLServerContext())
             {
-                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()))
-                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado != "Desactivada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
-                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
-
-                ViewBag.Termino = termino;
-
-                return View("BuscadorPublicaciones", publicaciones);
+                if (precioMaximo == 0 && precioMinimo == 0)
+                {
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()))
+                 .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+                    
+                    ViewBag.Termino = termino;
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
+                else
+                {
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo )
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+                    
+                    ViewBag.Termino = termino;
+                    return View("BuscadorPublicaciones", publicaciones);
+                }               
             }
         }
 
@@ -176,7 +189,7 @@ namespace EcommerceProject.Controllers
                 if (calificaciones.Count() > 0)
                 {
                     calificacionPromedio = calificaciones.Average();
-                }  
+                }
                 ViewBag.calificacionPromedio = calificacionPromedio;
                 if (usuario == null)
                 {

@@ -24,6 +24,24 @@
     @if (Model.Count() > 0)
     {
         <div class="row">
+            <div class="col-md-12">
+                <form action="@Url.Action("BuscarPublicaciones","Home")">
+                    <div class="form-row align-items-center">
+                        <div class="col-sm-6 col-md-2 my-1">
+                            <input type="number" class="form-control" id="precioMinimo" name="precioMinimo" placeholder="Precio mínimo" value="@Request.QueryString["precioMinimo"]" required>
+                        </div>
+                        <div class="col-sm-6 col-md-2 my-1">
+                            <input type="number" class="form-control" id="precioMaximo" name="precioMaximo" placeholder="Precio máximo" value="@Request.QueryString["precioMaximo"]" required>
+                        </div>
+                        <div class="col-sm-12 col-md-2 my-1">
+                            <input type="hidden" name="termino" value="@ViewBag.Termino" />
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
             @foreach (var publicacion in Model)
             {
                 <div class="col-md-4">
