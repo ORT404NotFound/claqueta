@@ -1,4 +1,5 @@
-﻿using EcommerceProject.Models.EcommerceProject.Models;
+﻿using EcommerceProject.Models;
+using EcommerceProject.Models.EcommerceProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -159,6 +160,30 @@ namespace EcommerceProject.Controllers
                 ViewBag.Termino = termino;
 
                 return View("BuscadorPublicaciones", publicaciones);
+            }
+        }
+
+        public ActionResult PerfilUsuario(int usuarioId)
+        {
+            using (var db = new SQLServerContext())
+            {
+                var usuario = db.Usuarios
+                    .Include("UsuarioCalificacion")
+                    .SingleOrDefault(u => u.Id == usuarioId);
+
+                var calificaciones = db.UsuariosXCalificaciones.Where(uc => uc.Usuario.Id == usuario.Id).Select(x => x.Puntaje);
+                Double calificacionPromedio = 0;
+                if (calificaciones.Count() > 0)
+                {
+                    calificacionPromedio = calificaciones.Average();
+                }  
+                ViewBag.calificacionPromedio = calificacionPromedio;
+                if (usuario == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                return View(usuario);
+
             }
         }
     }
