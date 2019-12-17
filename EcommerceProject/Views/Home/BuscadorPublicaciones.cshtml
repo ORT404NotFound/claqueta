@@ -25,16 +25,33 @@
     {
         <div class="row">
             <div class="col-md-12">
-                <form action="@Url.Action("BuscarPublicaciones","Home")">
+                @{
+                    String inputValue;
+                    String inputName;
+                    String url;
+                }
+                @if (ViewBag.Termino != null)
+                {
+                    inputValue = ViewBag.Termino;
+                    inputName = "termino";
+                    url = "/Home/BuscarPublicaciones";
+                }
+                else
+                {
+                    inputValue = @Request.QueryString["categoriaId"];
+                    inputName = "categoriaId";
+                    url = "/Home/BuscarPublicacionesPorCategoria";
+                }
+                <form action="@url">
                     <div class="form-row align-items-center">
                         <div class="col-sm-6 col-md-2 my-1">
-                            <input type="number" class="form-control" id="precioMinimo" name="precioMinimo" placeholder="Precio mínimo" value="@Request.QueryString["precioMinimo"]" required>
+                            <input type="number" class="form-control" id="precioMinimo" name="precioMinimo" placeholder="Precio mínimo" value="@Request.QueryString["precioMinimo"]">
                         </div>
                         <div class="col-sm-6 col-md-2 my-1">
-                            <input type="number" class="form-control" id="precioMaximo" name="precioMaximo" placeholder="Precio máximo" value="@Request.QueryString["precioMaximo"]" required>
+                            <input type="number" class="form-control" id="precioMaximo" name="precioMaximo" placeholder="Precio máximo" value="@Request.QueryString["precioMaximo"]">
                         </div>
                         <div class="col-sm-12 col-md-2 my-1">
-                            <input type="hidden" name="termino" value="@ViewBag.Termino" />
+                            <input type="hidden" name="@inputName" value="@inputValue" />
                             <button type="submit" class="btn btn-primary">Filtrar</button>
                         </div>
                     </div>

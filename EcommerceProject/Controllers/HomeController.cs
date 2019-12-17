@@ -46,7 +46,7 @@ namespace EcommerceProject.Controllers
                     return RedirectToAction("Index");
                 }
 
-                
+
 
                 if (publicacion != null)
                 {
@@ -140,21 +140,70 @@ namespace EcommerceProject.Controllers
             }
         }
 
-        public ActionResult BuscarPublicacionesPorCategoria(int categoriaId)
+        public ActionResult BuscarPublicacionesPorCategoria(int categoriaId, Double precioMinimo = 0, Double precioMaximo = 0)
         {
             using (var db = new SQLServerContext())
             {
-                var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
+                if (precioMinimo > 0 && precioMaximo == 0)
+                {
+                    // caso solo precio minimo
+                    var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
 
-                var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId)
-                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
-                    .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
-                ViewBag.CategoriaPublicacion = categoria.Nombre;
+                    ViewBag.CategoriaPublicacion = categoria.Nombre;
 
-                return View("BuscadorPublicaciones", publicaciones);
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
+                else if (precioMaximo > 0 && precioMinimo == 0)
+                {
+                    // caso solo precio maximo
+                    var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
+
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
+                    ViewBag.CategoriaPublicacion = categoria.Nombre;
+
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
+                else if (precioMaximo > 0 && precioMinimo > 0)
+                {
+                    // caso los 2 diferentes de 0
+                    var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
+
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
+                    ViewBag.CategoriaPublicacion = categoria.Nombre;
+
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
+                else
+                {
+                    // caso base 
+                    var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
+
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
+                    ViewBag.CategoriaPublicacion = categoria.Nombre;
+
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
             }
         }
 
@@ -162,28 +211,54 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                if (precioMaximo == 0 && precioMinimo == 0)
+                if (precioMinimo > 0 && precioMaximo == 0)
                 {
-                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()))
-                 .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
+                    // caso solo precio minimo
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
                     var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
-                    
+
+                    ViewBag.Termino = termino;
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
+                else if (precioMaximo > 0 && precioMinimo == 0)
+                {
+                    // caso solo precio maximo
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
+                    ViewBag.Termino = termino;
+                    return View("BuscadorPublicaciones", publicaciones);
+                }
+                else if (precioMaximo > 0 && precioMinimo > 0)
+                {
+                    // caso los 2 diferentes de 0
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
+
                     ViewBag.Termino = termino;
                     return View("BuscadorPublicaciones", publicaciones);
                 }
                 else
                 {
-                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo )
-                        .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                    // caso base 
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()))
+                 .OrderByDescending(p => p.FechaDeModificacion).ToList();
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()))
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
                     var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
-                    
+
                     ViewBag.Termino = termino;
                     return View("BuscadorPublicaciones", publicaciones);
-                }               
+                }
             }
         }
 
