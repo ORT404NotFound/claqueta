@@ -15,5 +15,7 @@ namespace EcommerceProject.Models
 
         [Key, Column(Order = 1)]
         public DateTime Fecha { get; set; }
+
+        public bool Reservada { get; set; }
     }
 }

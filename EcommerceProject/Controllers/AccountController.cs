@@ -588,11 +588,10 @@ namespace EcommerceProject.Controllers
 
                 using (var db = new SQLServerContext())
                 {
-
-
                     var contratacion = db.Contrataciones
                         .Include("FechaContratacion")
                         .SingleOrDefault(c => c.Id == contratacionId);
+
                     foreach (FechaContratacion fecha in contratacion.FechaContratacion)
                     {
                         if (!FechaMayorA96Horas(fecha))
@@ -601,10 +600,11 @@ namespace EcommerceProject.Controllers
                         }
                     }
 
+                    LiberarDisponibilidad(contratacion);
+
                     contratacion.Estado = "Cancelada";
 
                     db.SaveChanges();
-
                     return Json("cancelada", JsonRequestBehavior.AllowGet);
                 }
             }
@@ -624,5 +624,13 @@ namespace EcommerceProject.Controllers
                 return false;
             }
         }
+
+        public void LiberarDisponibilidad(Contratacion contratacion)
+        {
+            foreach (FechaContratacion fecha in contratacion.FechaContratacion)
+            {
+                fecha.Reservada = false;
+            }
+        } 
     }
 }

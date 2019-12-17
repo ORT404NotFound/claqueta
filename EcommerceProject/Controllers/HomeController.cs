@@ -91,18 +91,18 @@ namespace EcommerceProject.Controllers
             return semanaList.ToArray();
         }
 
-        public ActionResult DameContratacionesDeUnPrestador(int usuarioId)
+        public ActionResult DameContratacionesDeUnaPublicacion(int publicacionId)
         {
             using (var db = new SQLServerContext())
             {
-                var usuario = db.Usuarios.SingleOrDefault(u => u.Id == usuarioId);
+                var publicacion = db.Publicaciones.SingleOrDefault(p => p.Id == publicacionId);
 
-                if (usuario == null)
+                if (publicacion == null)
                 {
                     return Json("NOTOK", JsonRequestBehavior.AllowGet);
                 }
 
-                var contrataciones = db.Contrataciones.Include("FechaContratacion").Where(c => c.Publicacion.Usuario.Id == usuario.Id).ToArray();
+                var contrataciones = db.Contrataciones.Include("FechaContratacion").Where(c => c.FechaContratacion.Any(fc => fc.Reservada == true && fc.Contratacion.Publicacion.Id == publicacion.Id )).ToArray();
 
                 if (contrataciones == null)
                 {

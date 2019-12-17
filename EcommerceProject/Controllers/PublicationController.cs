@@ -221,7 +221,8 @@ namespace EcommerceProject.Controllers
                         FechaContratacion fechaContratacion = new FechaContratacion
                         {
                             Contratacion = contratacion,
-                            Fecha = fecha
+                            Fecha = fecha,
+                            Reservada = true
                         };
 
                         db.FechasXContratacion.Add(fechaContratacion);
@@ -252,7 +253,7 @@ namespace EcommerceProject.Controllers
         {
             using (var db = new SQLServerContext())
             {
-                var hayContratacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id);
+                var hayContratacionesEnEsaFecha = db.FechasXContratacion.SingleOrDefault(f => f.Fecha == fechaEnParticular && f.Contratacion.Publicacion_Id == publicacion.Id && f.Reservada == true);
 
                 if (hayContratacionesEnEsaFecha != null)
                 {

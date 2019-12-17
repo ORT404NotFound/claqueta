@@ -99,10 +99,10 @@
             var idPubli = @Model.Id;
             $.ajax({
                 data: {
-                    usuarioId: idPrestador,
+                    publicacionId: idPubli,
                 },
                 type: "get",
-                url: "@Url.Action("DameContratacionesDeUnPrestador","Home")",
+                url: "@Url.Action("DameContratacionesDeUnaPublicacion","Home")",
                 success: function (fechasContrataciones) {
                     if (fechasContrataciones == "NOTOK") {
                         console.log("no hay contrataciones");
