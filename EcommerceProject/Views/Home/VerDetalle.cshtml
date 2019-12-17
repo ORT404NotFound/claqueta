@@ -10,6 +10,11 @@
             <div class="col-lg-12 col-md-12 col-xs-12">
                 <h1 class="mt-2">@Model.Titulo</h1>
                 <p class="lead">Por @Model.Usuario.Nombre @Model.Usuario.Apellido</p>
+                @if (ViewBag.calificacionPromedio > 0) {
+                    <p class="lead">
+                        Calificacion @ViewBag.calificacionPromedio
+                    </p>
+                }
                 <p class="lead">@Model.Categoria.Nombre</p>
                 <p class="lead">@Model.Ubicacion</p>
                 <p>Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
@@ -25,7 +30,8 @@
                             <input type="button" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="100" data-multiple-dates-separator=", " data-position='top left' />
                         </div>
 
-                        @if (Session["isAdmin"] == null) {
+                        @if (Session["isAdmin"] == null)
+                        {
                             <button class="btn btn-success" onclick="contratar(@Session["UserId"],@Model.Id)">Contratar</button>
                         }
 
@@ -143,7 +149,7 @@
                                                         diasSelec.push(JSON.stringify(value))
                                                 })
                                             },
-                                        }); 
+                                        });
                             },
                                 error: function (result) {
                                     alert("Hubo un error ", result);

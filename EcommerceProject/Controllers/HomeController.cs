@@ -45,8 +45,18 @@ namespace EcommerceProject.Controllers
                     return RedirectToAction("Index");
                 }
 
+                
+
                 if (publicacion != null)
                 {
+                    var calificaciones = db.UsuariosXCalificaciones.Where(uc => uc.Usuario.Id == publicacion.Usuario.Id).Select(x => x.Puntaje);
+                    Double calificacionPromedio = 0;
+                    if (calificaciones.Count() > 0)
+                    {
+                        calificacionPromedio = calificaciones.Average();
+                    }
+                    ViewBag.calificacionPromedio = calificacionPromedio;
+
                     return View(publicacion);
                 }
                 else
