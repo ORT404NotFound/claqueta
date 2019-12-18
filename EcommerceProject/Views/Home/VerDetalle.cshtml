@@ -185,26 +185,26 @@
                                             },
                                         });
                             },
-                                error: function (result) {
-                                    alert("Hubo un error ", result);
+                                error: function () {
+                                    alert("Se presentó un error.");
                             }
                             });//fin ajax no disponibles
 
                     }// fin else
                 },
-                error: function (result) {
-                    alert("Hubo un error", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
         });
-        
+
         function mostrarComentarios() {
             $("#modalCalif").modal("show");
         }
 
         function contratar(userId, publicacionId) {
             if (diasSelec.length == 0) {
-                alert("Debe seleccionar un rango de fechas para contratar este servicio");
+                alert("Debe seleccionar al menos un día para realizar la contratación.");
             } else {
                  $.ajax({
                     data: {
@@ -216,13 +216,13 @@
                 url: "/Publication/CrearContratacion",
                     success: function (result) {
                         if (result == "NOTOK") {
-                            alert("No se puede contratar a uno mismo");
+                            alert("Usted no puede autocontratarse.");
                         } else {
                             window.location = "/MercadoPago/PagarContratacion?contratacionId="+result;
                         }
                 },
-                     error: function (result) {
-                         alert("Hubo un error ", result);
+                     error: function () {
+                         alert("Se presentó un error.");
                 }
             });
             }
@@ -238,13 +238,13 @@
                 url: "@Url.Action("CrearConsulta","Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("Debe estar logueado para comentar")
+                        alert("Debe estar logueado para comentar.")
                     } else if (result == "guardado") {
                         location.reload(true);
                     }
                 },
-                error: function (result) {
-                    alert("Hubo un error", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
         }
@@ -255,7 +255,7 @@
             e.preventDefault();
             var texto = $("#texto_comentario").val();
             if (!texto) {
-                alert("Debe comentar algo");
+                return false;
             } else {
                 crearConsulta(texto);
             }

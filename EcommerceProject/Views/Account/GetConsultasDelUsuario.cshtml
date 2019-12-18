@@ -58,7 +58,7 @@
             var id = $(this).parent().find('.idABuscar').val();
             var texto = $(this).parent().parent().find('.textoAResponder').val();
             if (!texto) {
-                alert("La respuesta no puede estar vacía.");
+                return false;
             } else {
                 var data = {
                 id: id,
@@ -71,13 +71,13 @@
                 url: "@Url.Action("ResponderConsulta","Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("Debe estar logueado para responder una consulta.")
+                        alert("La sesión ha expirado.")
                     } else if (result == "guardado") {
                         location.reload(true);
                     }
                 },
-                error: function (result) {
-                    alert("Se presentó un error.", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
             }
@@ -92,13 +92,13 @@
                 url: "@Url.Action("EliminarConsulta","Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("Debe estar logueado para eliminar una consulta.")
+                        alert("La sesión ha expirado.")
                     } else if (result == "eliminada") {
                         location.reload(true);
                     }
                 },
-                error: function (result) {
-                    alert("Se presentó un error.", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
         }

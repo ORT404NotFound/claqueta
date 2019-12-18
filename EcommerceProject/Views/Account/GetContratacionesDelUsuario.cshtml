@@ -130,8 +130,8 @@
                         alert("Las contrataciones pueden ser canceladas hasta 96Hs. antes al inicio del servicio.");
                     }
                 },
-                error: function (result) {
-                    alert("Se presentó un error.", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
         }
@@ -145,15 +145,15 @@
                 url: "@Url.Action("FinalizarContratacion", "Publication")",
                 success: function (result) {
                     if (result == "NotAuthorized") {
-                        alert("Debe estar logueado.")
+                        alert("Debe estar logueado para finalizar la contratación.")
                     } else if (result == "OK") {
                         location.reload(true);
                     } else if (result == "Error") {
                         alert("No puede finalizar la contratación debido a que las fechas que le contrataron no han finalizado.");
                     }
                 },
-                error: function (result) {
-                    alert("Se presentó un error.", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
         }
@@ -186,13 +186,13 @@
                     url: "@Url.Action("CalificarPrestadorAPrestatario", "Calification")",
                     success: function (result) {
                         if (result == "NotAuthorized") {
-                            alert("Debe estar logueado.")
+                            alert("Debe estar logueado para calificar.")
                         } else if (result == "OK") {
                             location.reload(true);
                         }
                     },
-                    error: function (result) {
-                        alert("Se presentó un error.", result);
+                    error: function () {
+                        alert("Se presentó un error.");
                     }
                 });
             }

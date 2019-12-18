@@ -141,8 +141,8 @@
                         alert("Las contrataciones pueden ser canceladas hasta 96Hs. antes al inicio del servicio.");
                     }
                 },
-                error: function (result) {
-                    alert("Se presentó un error.", result);
+                error: function () {
+                    alert("Se presentó un error.");
                 }
             })
        }
@@ -184,15 +184,15 @@
                     url: "@Url.Action("CalificarPrestatarioAPrestadorYAPublicacion", "Calification")",
                     success: function (result) {
                         if (result == "NotAuthorized") {
-                            alert("Debe estar logueado.")
+                            alert("Debe estar logueado para calificar.")
                         } else if (result == "OK") {
                             location.reload(true);
                         } else if (result == "Error") {
                             alert("Se presentó un error.");
                         }
                     },
-                    error: function (result) {
-                        alert("Se presentó un error.", result);
+                    error: function () {
+                        alert("Se presentó un error.");
                     }
                 });
             }
