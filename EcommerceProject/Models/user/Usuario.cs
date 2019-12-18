@@ -59,7 +59,7 @@ namespace EcommerceProject.Models
         [Display(Name = "Contraseña")]
         [Required(ErrorMessage = "Este campo es requerido.")]
         [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage = "Debe contener un número, una letra minúscula y una mayúscula. Longitud: 8 a 15 caracteres.")]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,15}$", ErrorMessage = "Debe contener un número, una letra y un caracter especial. Longitud: 8 a 15 caracteres.")]
         public String Password { get; set; }
 
         [Display(Name = "Confirmar Contraseña")]

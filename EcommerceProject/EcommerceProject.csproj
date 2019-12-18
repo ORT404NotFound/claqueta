@@ -169,6 +169,7 @@
     <Content Include="Content\datepicker.min.js" />
     <Content Include="Content\Claqueta.png" />
     <Content Include="Content\Publicidad.css" />
+    <Content Include="Content\SCRIPT SQL CLAQUETA.sql" />
     <Content Include="Content\Site.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />

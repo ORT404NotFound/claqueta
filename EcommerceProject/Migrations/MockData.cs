@@ -59,8 +59,8 @@ namespace EcommerceProject.Migrations
                     {
                         Nombre = "Administrador",
                         Apellido = "Claqueta",
-                        Password = "contrA123",
-                        ConfirmPassword = "contrA123",
+                        Password = "contra#123",
+                        ConfirmPassword = "contra#123",
                         Activo = true
                     };
 
