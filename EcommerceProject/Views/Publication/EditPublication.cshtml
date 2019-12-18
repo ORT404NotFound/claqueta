@@ -100,7 +100,6 @@
             @Html.LabelFor(model => model.Foto, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.Foto, new { htmlAttributes = new { @class = "form-control", type = "file", id = "foto", onchange = "fileSelectedChangedFoto(foto);" } })
-                @Html.ValidationMessageFor(model => model.Foto, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -124,7 +123,6 @@
             @Html.LabelFor(model => model.CV, htmlAttributes: new { @class = "control-label col-md-10" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CV, new { htmlAttributes = new { @class = "form-control", type = "file", id = "cv", onchange = "fileSelectedChangedCv(cv);" } })
-                @Html.ValidationMessageFor(model => model.CV, "", new { @class = "text-danger" })
             </div>
         </div>
 
