@@ -273,6 +273,11 @@ namespace EcommerceProject.Controllers
                 var usuario = db.Usuarios.Include("UsuarioCalificacion").SingleOrDefault(u => u.Id == usuarioId);
                 var calificaciones = db.UsuariosXCalificaciones.Where(uc => uc.Usuario.Id == usuario.Id).Select(x => x.Puntaje);
 
+                if (usuario == null)
+                {
+                    return RedirectToAction("Index");
+                }
+
                 Double calificacionPromedio = 0;
 
                 if (calificaciones.Count() > 0)
@@ -281,11 +286,6 @@ namespace EcommerceProject.Controllers
                 }
 
                 ViewBag.CalificacionPromedio = calificacionPromedio;
-
-                if (usuario == null)
-                {
-                    return RedirectToAction("Index");
-                }
 
                 return View(usuario);
             }
