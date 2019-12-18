@@ -588,9 +588,7 @@ namespace EcommerceProject.Controllers
 
                 using (var db = new SQLServerContext())
                 {
-                    var contratacion = db.Contrataciones
-                        .Include("FechaContratacion")
-                        .SingleOrDefault(c => c.Id == contratacionId);
+                    var contratacion = db.Contrataciones.Include("FechaContratacion").SingleOrDefault(c => c.Id == contratacionId);
 
                     foreach (FechaContratacion fecha in contratacion.FechaContratacion)
                     {
@@ -605,22 +603,25 @@ namespace EcommerceProject.Controllers
                     contratacion.Estado = "Cancelada";
 
                     db.SaveChanges();
+
                     return Json("cancelada", JsonRequestBehavior.AllowGet);
                 }
             }
         }
 
-
-        public bool FechaMayorA96Horas(FechaContratacion fecha) {
+        public bool FechaMayorA96Horas(FechaContratacion fecha)
+        {
             DateTime diaDeHoy = DateTime.Today;
             DateTime fechaContratacion = fecha.Fecha.Date;
             TimeSpan diferencia = fechaContratacion - diaDeHoy;
             int diasDeDiferencia = diferencia.Days;
+
             if (diasDeDiferencia > 4)
             {
                 return true;
             }
-            else {
+            else
+            {
                 return false;
             }
         }
@@ -631,6 +632,6 @@ namespace EcommerceProject.Controllers
             {
                 fecha.Reservada = false;
             }
-        } 
+        }
     }
 }
