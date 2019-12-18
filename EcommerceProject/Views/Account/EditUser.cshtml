@@ -51,7 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.TipoDocumento, htmlAttributes: new { @class = "control-label col-md-8" })
             <div class="col-md-8">
-                <select class="form-control" , name="TipoDeIdentificacion">
+                <select class="form-control" name="TipoDeIdentificacion" required="required">
                     @if (Model.TipoDocumento != null)
                     {
                         <option value="" disabled>Seleccione una opción...</option>
@@ -79,7 +79,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Documento, htmlAttributes: new { @class = "control-label col-md-8" })
             <div class="col-md-8">
-                @Html.EditorFor(model => model.Documento, new { htmlAttributes = new { @class = "form-control", pattern = @"^[0-9]{7,11}$", title = "Ingrese un número de 7 a 11 caracteres." } })
+                @Html.EditorFor(model => model.Documento, new { htmlAttributes = new { @class = "form-control", required = "required", pattern = @"^[0-9]{7,11}$", title = "Ingrese un número de 7 a 11 caracteres." } })
                 @Html.ValidationMessageFor(model => model.Documento, "", new { @class = "text-danger" })
             </div>
         </div>

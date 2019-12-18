@@ -70,6 +70,8 @@ namespace EcommerceProject.Migrations
                     user.Email = "admin@claqueta.com.ar";
                     user.FechaDeNacimiento = Convert.ToDateTime("01/01/2000");
                     user.Telefono = "12345678";
+                    user.TipoDocumento = "DNI";
+                    user.Documento = "12345678";
 
                     db.Usuarios.Add(user);
                     db.SaveChanges();

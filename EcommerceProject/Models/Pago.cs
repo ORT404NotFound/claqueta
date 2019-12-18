@@ -22,7 +22,6 @@ namespace EcommerceProject.Models
         [Required]
         public virtual Publicacion Publicacion { get; set; }
 
-        // [Required]
         public virtual Usuario Usuario { get; set; }
     }
 }

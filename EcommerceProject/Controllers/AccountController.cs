@@ -30,6 +30,8 @@ namespace EcommerceProject.Controllers
         [HttpPost]
         public ActionResult Register(Usuario usuario, FormCollection form)
         {
+            ModelState.Remove("TipoDocumento");
+
             if (ModelState.IsValid)
             {
                 using (var db = new SQLServerContext())
@@ -44,13 +46,6 @@ namespace EcommerceProject.Controllers
                         return View();
                     }
 
-                    // VALIDA QUE SI SE COMPLETA EL TIPO O NÚMERO DE IDENTIFICACIÓN, ESTÉ EL CAMPO RESTANTE COMPLETO TAMBIÉN
-                    if ((tipoDeIdentificacion == null && usuario.Documento != null) || (tipoDeIdentificacion != null && usuario.Documento == null))
-                    {
-                        ViewBag.Message = "Debe completar el tipo y número de identificación.";
-                        return View();
-                    }
-
                     // VALIDA QUE EL USUARIO SEA MAYOR DE EDAD
                     if (usuario.FechaDeNacimiento.Value.AddYears(18) > DateTime.Today)
                     {
@@ -58,6 +53,7 @@ namespace EcommerceProject.Controllers
                         return View();
                     }
 
+                    usuario.TipoDocumento = tipoDeIdentificacion;
                     usuario.Activo = true;
                     db.Usuarios.Add(usuario);
 
@@ -347,6 +343,7 @@ namespace EcommerceProject.Controllers
         [HttpPost]
         public ActionResult EditUser(Usuario usuario, FormCollection form)
         {
+            ModelState.Remove("TipoDocumento");
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
 
@@ -367,13 +364,6 @@ namespace EcommerceProject.Controllers
                     if (emailAbuscar != null && usuario.Email != usuarioAEditar.Email)
                     {
                         ViewBag.Message = "El E-Mail ingresado ya existe.";
-                        return View(usuario);
-                    }
-
-                    // VALIDA QUE SI SE COMPLETA EL TIPO O NÚMERO DE IDENTIFICACIÓN, ESTÉ EL CAMPO RESTANTE COMPLETO TAMBIÉN
-                    if ((tipoDeIdentificacion == null && usuario.Documento != null) || (tipoDeIdentificacion != null && usuario.Documento == null))
-                    {
-                        ViewBag.Message = "Debe completar el tipo y número de identificación.";
                         return View(usuario);
                     }
 

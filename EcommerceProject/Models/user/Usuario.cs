@@ -32,9 +32,11 @@ namespace EcommerceProject.Models
         public String Apellido { get; set; }
 
         [Display(Name = "Tipo de Identificación")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
         public String TipoDocumento { get; set; }
 
         [Display(Name = "Número de Identificación")]
+        [Required(ErrorMessage = "Este campo es requerido.")]
         [RegularExpression(@"^[0-9]{7,11}$", ErrorMessage = "Ingrese un número de 7 a 11 caracteres.")]
         public String Documento { get; set; }
 

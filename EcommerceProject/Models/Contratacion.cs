@@ -21,7 +21,6 @@ namespace EcommerceProject.Models
 
         public virtual Pago Pago { get; set; }
 
-        // [Required]
         public virtual Usuario Usuario { get; set; }
 
         public ICollection<FechaContratacion> FechaContratacion { get; set; }
