@@ -54,7 +54,7 @@
                         </div>
                         <div class="col-sm-6 col-md-2 my-1">
                             <input type="hidden" name="@inputName" value="@inputValue" />
-                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                            <button type="submit" onClick="return empty()" class="btn btn-primary">Filtrar</button>
                         </div>
                     </div>
                 </form>
@@ -85,3 +85,16 @@
         <h5>No hay publicaciones que coincidan con tu búsqueda. Hace clic <a href="@Url.Action("Index","Home")">acá</a> para volver a la página principal.</h5>
     }
 </div>
+
+@section Scripts{
+    <script>
+        function empty() {
+            var x = document.getElementById("precioMinimo").value;
+            var y = document.getElementById("precioMaximo").value;
+
+            if (x == "" && y == "") {
+                return false;
+            };
+        }
+    </script>
+}

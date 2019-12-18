@@ -164,9 +164,9 @@ namespace EcommerceProject.Controllers
                 {
                     var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
 
-                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && p.Precio <= precioMaximo)
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && p.Precio <= precioMaximo)
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
                     var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
@@ -179,9 +179,9 @@ namespace EcommerceProject.Controllers
                 {
                     var categoria = db.Categorias.Where(c => c.Id == categoriaId).FirstOrDefault();
 
-                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Categoria.Id == categoriaId && p.Precio >= precioMinimo && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
                     var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
@@ -227,9 +227,9 @@ namespace EcommerceProject.Controllers
                 // ÚNICAMENTE FILTRA POR PRECIO MÁXIMO
                 else if (precioMaximo > 0 && precioMinimo == 0)
                 {
-                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio <= precioMaximo)
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio <= precioMaximo)
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
                     var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
@@ -240,9 +240,9 @@ namespace EcommerceProject.Controllers
                 // FILTRA POR PRECIO MÍNIMO Y PRECIO MÁXIMO
                 else if (precioMaximo > 0 && precioMinimo > 0)
                 {
-                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                    var publicacionesPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == true && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
-                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && p.Precio <= precioMaximo)
+                    var publicacionesNoPromocionadas = db.Publicaciones.Where(p => p.Visible == true && p.Estado == "Aprobada" && p.Promocionada == false && p.Titulo.ToLower().Contains(termino.ToLower()) && p.Precio >= precioMinimo && precioMaximo <= p.Precio)
                         .OrderByDescending(p => p.FechaDeModificacion).ToList();
                     var publicaciones = publicacionesPromocionadas.Concat(publicacionesNoPromocionadas).ToList();
 
