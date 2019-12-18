@@ -56,7 +56,7 @@ namespace EcommerceProject.Controllers
                         calificacionPromedio = calificaciones.Average();
                     }
 
-                    ViewBag.CalificacionPromedio = calificacionPromedio;
+                    ViewBag.CalificacionPromedio = Math.Round(calificacionPromedio, 2);
 
                     return View(publicacion);
                 }
@@ -268,6 +268,11 @@ namespace EcommerceProject.Controllers
 
         public ActionResult PerfilUsuario(int usuarioId)
         {
+            if (usuarioId == 1)
+            {
+                return RedirectToAction("Index");
+            }
+
             using (var db = new SQLServerContext())
             {
                 var usuario = db.Usuarios.Include("UsuarioCalificacion").SingleOrDefault(u => u.Id == usuarioId);
@@ -285,7 +290,7 @@ namespace EcommerceProject.Controllers
                     calificacionPromedio = calificaciones.Average();
                 }
 
-                ViewBag.CalificacionPromedio = calificacionPromedio;
+                ViewBag.CalificacionPromedio = Math.Round(calificacionPromedio, 2);
 
                 return View(usuario);
             }

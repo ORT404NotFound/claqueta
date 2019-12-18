@@ -1,17 +1,54 @@
 ﻿@model EcommerceProject.Models.Usuario
 
 @{
-    ViewBag.Title = "PerfilUsuario";
+    ViewBag.Title = "Perfil de " + @Model.Nombre + " " + @Model.Apellido;
 }
+
 <div style="margin-top: 10px">
     <h2>@ViewBag.Title</h2>
+    <h4>
+        @if (@ViewBag.CalificacionPromedio > 0)
+        {
+            <span>Promedio de Calificaciones:</span> @ViewBag.CalificacionPromedio
+        }
+    </h4>
     <hr />
     <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
     <hr />
 </div>
 
 <div class="row" style="margin-top: 20px">
-    <div class="col-md-12">
-     
+    <div class="col-md-6">
+        @if (Model.UsuarioCalificacion.Count() > 0)
+        {
+            <div class="well">
+                <div class="list-group">
+                    @foreach (var calificacion in Model.UsuarioCalificacion)
+                    {
+                        <div class="card" style="margin-bottom:20px">
+                            <div class="card-body">
+                                <h5 class="card-title">Puntaje: @calificacion.Puntaje/5</h5>
+                                <h6 class="card-subtitle">
+                                    @if (!calificacion.Comentario.IsEmpty())
+                                    {
+                                        @calificacion.Comentario
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">No se han dejado comentarios.</span>
+                                    }
+                                </h6>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="well">
+                <h4>Este usuario no cuenta con calificaciones.</h4>
+            </div>
+        }
     </div>
 </div>
