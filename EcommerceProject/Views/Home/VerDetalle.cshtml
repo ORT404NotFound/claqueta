@@ -204,7 +204,7 @@
 
         function contratar(userId, publicacionId) {
             if (diasSelec.length == 0) {
-                alert("Debe seleccionar al menos un día para realizar la contratación.");
+                alert("Debe seleccionar al menos una fecha para realizar la contratación.");
             } else {
                  $.ajax({
                     data: {
@@ -238,7 +238,7 @@
                 url: "@Url.Action("CrearConsulta","Account")",
                 success: function (result) {
                     if (result == "NotAllowed") {
-                        alert("Debe estar logueado para comentar.")
+                        alert("La sesión ha expirado.")
                     } else if (result == "guardado") {
                         location.reload(true);
                     }

@@ -145,7 +145,7 @@
                 url: "@Url.Action("FinalizarContratacion", "Publication")",
                 success: function (result) {
                     if (result == "NotAuthorized") {
-                        alert("Debe estar logueado para finalizar la contratación.")
+                        alert("La sesión ha expirado.")
                     } else if (result == "OK") {
                         location.reload(true);
                     } else if (result == "Error") {
@@ -186,7 +186,7 @@
                     url: "@Url.Action("CalificarPrestadorAPrestatario", "Calification")",
                     success: function (result) {
                         if (result == "NotAuthorized") {
-                            alert("Debe estar logueado para calificar.")
+                            alert("La sesión ha expirado.")
                         } else if (result == "OK") {
                             location.reload(true);
                         }

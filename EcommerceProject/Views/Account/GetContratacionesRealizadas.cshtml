@@ -184,7 +184,7 @@
                     url: "@Url.Action("CalificarPrestatarioAPrestadorYAPublicacion", "Calification")",
                     success: function (result) {
                         if (result == "NotAuthorized") {
-                            alert("Debe estar logueado para calificar.")
+                            alert("La sesión ha expirado.")
                         } else if (result == "OK") {
                             location.reload(true);
                         } else if (result == "Error") {
