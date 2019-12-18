@@ -57,6 +57,7 @@
                         <label class="form-check-label" for="@semanaValores[dia]">@dia</label>
                     </div>
                 }
+                @Html.ValidationMessageFor(model => model.Disponibilidad, "", new { @class = "text-danger" })
             </div>
         </div>
 
