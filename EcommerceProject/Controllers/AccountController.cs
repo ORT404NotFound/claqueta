@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace EcommerceProject.Controllers
@@ -55,6 +56,14 @@ namespace EcommerceProject.Controllers
 
                     usuario.TipoDocumento = tipoDeIdentificacion;
                     usuario.Activo = true;
+
+                    usuario.Password = Crypto.HashPassword(usuario.Password);
+
+                    if (Crypto.VerifyHashedPassword(usuario.Password, usuario.ConfirmPassword))
+                    {
+                        usuario.ConfirmPassword = usuario.Password;
+                    }
+
                     db.Usuarios.Add(usuario);
 
                     Rol rol = db.Roles.SingleOrDefault(r => r.Nombre == "USER");
@@ -91,9 +100,10 @@ namespace EcommerceProject.Controllers
             {
                 var rUsuario = db.Roles.SingleOrDefault(r => r.Nombre == "USER");
                 var rAdmin = db.Roles.SingleOrDefault(r => r.Nombre == "ADMIN");
-                var usuarioAEncontrar = db.Usuarios.FirstOrDefault(u => u.Email == usuario.Email && u.Password == usuario.Password);
 
-                if (usuarioAEncontrar != null)
+                var usuarioAEncontrar = db.Usuarios.FirstOrDefault(u => u.Email == usuario.Email);
+
+                if (usuarioAEncontrar != null && Crypto.VerifyHashedPassword(usuarioAEncontrar.Password, usuario.Password))
                 {
                     if (usuarioAEncontrar.Roles.Contains(rUsuario))
                     {

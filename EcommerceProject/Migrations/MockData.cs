@@ -2,6 +2,7 @@
 using EcommerceProject.Models.EcommerceProject.Models;
 using System;
 using System.Linq;
+using System.Web.Helpers;
 
 namespace EcommerceProject.Migrations
 {
@@ -53,14 +54,16 @@ namespace EcommerceProject.Migrations
 
                 Usuario usuario = db.Usuarios.Where(u => u.Email == "admin@claqueta.com.ar").FirstOrDefault();
 
+                String passwordAdmin = Crypto.HashPassword("contra#123");
+
                 if (usuario == null)
                 {
                     Usuario user = new Usuario
                     {
                         Nombre = "Administrador",
                         Apellido = "Claqueta",
-                        Password = "contra#123",
-                        ConfirmPassword = "contra#123",
+                        Password = passwordAdmin,
+                        ConfirmPassword = passwordAdmin,
                         Activo = true
                     };
 
