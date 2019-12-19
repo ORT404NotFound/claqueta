@@ -171,6 +171,7 @@
     <Content Include="Content\Publicidad.css" />
     <Content Include="Content\SCRIPT SQL CLAQUETA.sql" />
     <Content Include="Content\Site.js" />
+    <Content Include="Content\user_logo.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />

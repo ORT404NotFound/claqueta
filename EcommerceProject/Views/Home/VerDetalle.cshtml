@@ -49,15 +49,16 @@
                     <div class="column">
                         <h1 class="mt-2">@Model.Titulo</h1>
                         <h2>$ @Model.Precio</h2>
-                        <span class="lead">Por @Model.Usuario.Nombre @Model.Usuario.Apellido</span>
+
+                        <a href="@Url.Action("PerfilUsuario", "Home", new { usuarioId = Model.Usuario.Id })" class="lead">@Model.Usuario.Nombre @Model.Usuario.Apellido</a>
 
                         @if (ViewBag.calificacionPromedio > 0)
                         {<span class="lead"> (@ViewBag.CalificacionPromedio) </span>}
                         <p>
-                        <p class="lead">@Model.Ubicacion</p>
-                        <p class="lead">Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
-                        <button class="boton" onclick="mostrarComentarios()"><p class="lead">Ver Opiniones</p></button>
+                        <p class="lead">Ubicación: @Model.Ubicacion</p>
+                        <p class="lead">Fecha publicación: @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
 
+                        <button class="boton" onclick="mostrarComentarios()"><p class="lead">Ver Opiniones</p></button>
                     </div>
                     <div class="column">
                         <div class="float-right">
@@ -67,12 +68,26 @@
                 </div>
 
                 <hr />
+                <h3>Información Usuario</h3>
+
+                <p class="lead">Curriculum Vitae: <a href="@Model.CV">Link</a></p>
+                @if (@Model.Reel != null)
+                {
+                    <p class="lead">Reel: <a href="@Model.Reel">Link</a></p>
+                }
+
+                @if (@Model.Referencias != null)
+                {
+                    <p class="lead"> Referencias: @Model.Referencias </p>
+                }
+
+                <hr />
                 <h3>Descripción</h3>
                 <p class="lead">@Model.Descripcion</p>
 
                 @if (Session["UserId"] != null)
                 {
-                    <div class="contrataciones-box col-md-6 col-xs-12 col-lg-6">
+                    <div class="contrataciones-box">
                         <div class="form-group">
                             <label>Seleccione el o los días requeridos para efectuar la contratación.</label>
                             <input type="button" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="100" data-multiple-dates-separator=", " data-position='top left' />
@@ -117,25 +132,25 @@
                         foreach (var consulta in Model.Consultas.Where(c => c.Visible == true))
                         {
                             <!-- Comment with nested comments -->
-                            <div class="media mb-4">
-                                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media mb-4">
+                    <img class="d-flex mr-3 rounded-circle" src="~/Content/user_logo.jpg" alt="" style="width: 50px; height: 50px">
+                    <div class="media-body">
+                        <h5 class="mt-0">@consulta.Usuario.Nombre @consulta.Usuario.Apellido</h5>
+                        @consulta.Descripcion
+                        @if (consulta.Respuesta != null)
+                        {
+                            <!--replica -->
+                            <div class="media mt-4">
+                                <img class="d-flex mr-3 rounded-circle" src="~/Content/user_logo.jpg" alt="" style="width: 50px; height: 50px">
                                 <div class="media-body">
-                                    <h5 class="mt-0">@consulta.Usuario.Nombre @consulta.Usuario.Apellido</h5>
-                                    @consulta.Descripcion
-                                    @if (consulta.Respuesta != null)
-                                    {
-                                        <!--replica -->
-                                        <div class="media mt-4">
-                                            <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
-                                            <div class="media-body">
-                                                <h5 class="mt-0">@consulta.Publicacion.Usuario.Nombre @consulta.Publicacion.Usuario.Apellido</h5>
-                                                @consulta.Respuesta
-                                            </div>
-                                        </div>
-                                        <!--replica -->
-                                    }
+                                    <h5 class="mt-0">@consulta.Publicacion.Usuario.Nombre @consulta.Publicacion.Usuario.Apellido</h5>
+                                    @consulta.Respuesta
                                 </div>
                             </div>
+                            <!--replica -->
+                        }
+                    </div>
+                </div>
                         }
                     }
                 </div>
@@ -149,7 +164,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Calificaciones</h4>
+                        <h4 class="modal-title">Opiniones</h4>
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -166,7 +181,16 @@
                                 {
                                     <span class="fa fa-star"></span>
                                 }
-                                <p>@calificacion.Comentario</p>
+
+                                if (!calificacion.Comentario.IsEmpty())
+                                {
+                                    <p>@calificacion.Comentario</p>
+                                }
+                                else
+                                {
+                                    <p class="text-muted">No se han dejado comentarios.</p>
+                                }
+
                             }
                         }
                     </div>
