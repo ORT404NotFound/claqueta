@@ -1,42 +1,42 @@
-@model EcommerceProject.Models.Publicacion
+﻿@model EcommerceProject.Models.Publicacion
 
-    <head>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <style>
-            .checked {
-                color: orange;
-            }
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .checked {
+            color: orange;
+        }
 
-            * {
-              box-sizing: border-box;
-            }
+        * {
+            box-sizing: border-box;
+        }
 
-            /* Create two equal columns that floats next to each other */
-            .column {
-              float: left;
-              width: 50%;
-              padding: 10px;
-              height: 300px; /* Should be removed. Only for demonstration */
-            }
+        /* Create two equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 50%;
+            padding: 10px;
+            height: 300px; /* Should be removed. Only for demonstration */
+        }
 
-            /* Clear floats after the columns */
-            .row:after {
-              content: "";
-              display: table;
-              clear: both;
-            }
-            
-            .boton {
-                background: none;
-	            color: inherit;
-	            border: none;
-	            padding: 0;
-	            font: inherit;
-	            cursor: pointer;
-	            outline: inherit;
-            }
-        </style>
-    </head>
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .boton {
+            background: none;
+            color: inherit;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+        }
+    </style>
+</head>
 <hr />
 <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
 <hr />
@@ -61,7 +61,7 @@
                     </div>
                     <div class="column">
                         <div class="float-right">
-                           <img src="@Model.Foto" style="width: 280px; height: 280px" />
+                            <img src="@Model.Foto" style="width: 280px; height: 280px" />
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                 {
                     <div class="contrataciones-box col-md-6 col-xs-12 col-lg-6">
                         <div class="form-group">
-                            <label>Seleccione el o los días requeridos para efectuar la contratacion.</label>
+                            <label>Seleccione el o los días requeridos para efectuar la contratación.</label>
                             <input type="button" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="100" data-multiple-dates-separator=", " data-position='top left' />
                         </div>
 

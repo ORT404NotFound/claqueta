@@ -240,7 +240,6 @@
     <Content Include="Views\MercadoPago\PagoError.cshtml" />
     <Content Include="Views\MercadoPago\PagoPendiente.cshtml" />
     <Content Include="Views\MercadoPago\PagoExitoso.cshtml" />
-    <Content Include="Views\Home\VerDetalle.cshtml" />
     <Content Include="Views\Account\EditUser.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\MercadoPago\PagoExitosoContratacion.cshtml" />
@@ -261,6 +260,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Account\UserInfo.cshtml" />
     <Content Include="Views\Home\PerfilUsuario.cshtml" />
+    <Content Include="Views\Home\VerDetalle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
