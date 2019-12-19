@@ -1,5 +1,42 @@
 @model EcommerceProject.Models.Publicacion
 
+    <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .checked {
+                color: orange;
+            }
+
+            * {
+              box-sizing: border-box;
+            }
+
+            /* Create two equal columns that floats next to each other */
+            .column {
+              float: left;
+              width: 50%;
+              padding: 10px;
+              height: 300px; /* Should be removed. Only for demonstration */
+            }
+
+            /* Clear floats after the columns */
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+            
+            .boton {
+                background: none;
+	            color: inherit;
+	            border: none;
+	            padding: 0;
+	            font: inherit;
+	            cursor: pointer;
+	            outline: inherit;
+            }
+        </style>
+    </head>
 <hr />
 <div class="flex-rectangle center color"><h4>PUBLICIDAD</h4></div>
 <hr />
@@ -7,19 +44,30 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 col-md-12 col-xs-12">
-                <h1 class="mt-2">@Model.Titulo</h1>
-                <p class="lead">Por @Model.Usuario.Nombre @Model.Usuario.Apellido</p>
-                @if (ViewBag.calificacionPromedio > 0)
-                {
-                    <p class="lead">
-                        Calificacion @ViewBag.calificacionPromedio
-                    </p>
-                }
-                <p class="lead">@Model.Categoria.Nombre</p>
-                <p class="lead">@Model.Ubicacion</p>
-                <p>Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
+
+                <div class="row">
+                    <div class="column">
+                        <h1 class="mt-2">@Model.Titulo</h1>
+                        <h2>$ @Model.Precio</h2>
+                        <span class="lead">Por @Model.Usuario.Nombre @Model.Usuario.Apellido</span>
+
+                        @if (ViewBag.calificacionPromedio > 0)
+                        {<span class="lead"> (@ViewBag.CalificacionPromedio) </span>}
+                        <p>
+                        <p class="lead">@Model.Ubicacion</p>
+                        <p class="lead">Publicado el @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
+                        <button class="boton" onclick="mostrarComentarios()"><p class="lead">Ver Opiniones</p></button>
+
+                    </div>
+                    <div class="column">
+                        <div class="float-right">
+                           <img src="@Model.Foto" style="width: 280px; height: 280px" />
+                        </div>
+                    </div>
+                </div>
+
                 <hr />
-                <p class="lead"><b>$@Model.Precio</b></p>
+                <h3>Descripción</h3>
                 <p class="lead">@Model.Descripcion</p>
 
                 @if (Session["UserId"] != null)
@@ -42,9 +90,7 @@
                     <div class="col-md-6 col-xs-12"><label>Debe loguarse para contratar y/o efectuar consultas. Puede hacerlo <a href="@Url.Action("Login", "Account")">aquí</a>.</label></div>
                 }
                 <hr />
-                <button type="button" class="btn btn-default" onclick="mostrarComentarios()">
-                    Ver Comentarios
-                </button>
+
                 <div id="bloque_comentarios">
                     <h4>Consultas</h4>
                     <hr />
@@ -103,22 +149,26 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Calificaciones</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
                         @if (Model.PublicacionCalificaciones.Count() > 0)
                         {
-                            <ul>
-                                @foreach (var calificacion in Model.PublicacionCalificaciones)
+                            foreach (var calificacion in Model.PublicacionCalificaciones)
+                            {
+
+                                for (int i = 0; i < @calificacion.Puntaje; i++)
                                 {
-                                    <li>@calificacion.Comentario, @calificacion.Puntaje</li>
+                                    <span class="fa fa-star checked"></span>
                                 }
-                            </ul>
+                                for (int i = @calificacion.Puntaje; i < 5; i++)
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+                                <p>@calificacion.Comentario</p>
+                            }
                         }
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
 

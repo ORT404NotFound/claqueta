@@ -4,6 +4,15 @@
     ViewBag.Title = "Perfil de " + @Model.Nombre + " " + @Model.Apellido;
 }
 
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .checked {
+            color: orange;
+        }
+    </style>
+</head>
+
 <div style="margin-top: 10px">
     <h2>@ViewBag.Title</h2>
     <h4>
@@ -27,7 +36,16 @@
                     {
                         <div class="card" style="margin-bottom:20px">
                             <div class="card-body">
-                                <h5 class="card-title">Puntaje: @calificacion.Puntaje/5</h5>
+
+                                @for (int i = 0; i < @calificacion.Puntaje; i++)
+                                {
+                                    <span class="fa fa-star checked"></span>
+                                }
+                                @for (int i = @calificacion.Puntaje; i < 5; i++)
+                                {
+                                    <span class="fa fa-star"></span>
+                                }
+
                                 <h6 class="card-subtitle">
                                     @if (!calificacion.Comentario.IsEmpty())
                                     {
