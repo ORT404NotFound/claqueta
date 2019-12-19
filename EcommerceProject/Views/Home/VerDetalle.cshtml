@@ -1,5 +1,9 @@
 ﻿@model EcommerceProject.Models.Publicacion
 
+@{
+    ViewBag.Title = @Model.Titulo;
+}
+
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
@@ -48,15 +52,15 @@
                 <div class="row">
                     <div class="column">
                         <h1 class="mt-2">@Model.Titulo</h1>
-                        <h2>$ @Model.Precio</h2>
+                        <h2>$@Model.Precio</h2>
 
-                        <a href="@Url.Action("PerfilUsuario", "Home", new { usuarioId = Model.Usuario.Id })" class="lead">@Model.Usuario.Nombre @Model.Usuario.Apellido</a>
+                        <a href="@Url.Action("PerfilUsuario", "Home", new { usuarioId = Model.Usuario.Id })" target="_blank" class="lead">@Model.Usuario.Nombre @Model.Usuario.Apellido</a>
 
                         @if (ViewBag.calificacionPromedio > 0)
                         {<span class="lead"> (@ViewBag.CalificacionPromedio) </span>}
                         <p>
                         <p class="lead">Ubicación: @Model.Ubicacion</p>
-                        <p class="lead">Fecha publicación: @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
+                        <p class="lead">Fecha Publicación: @Model.FechaDePublicacion.Date.ToString("dd/MM/yyyy")</p>
 
                         <button class="boton" onclick="mostrarComentarios()"><p class="lead">Ver Opiniones</p></button>
                     </div>
@@ -70,10 +74,10 @@
                 <hr />
                 <h3>Información Usuario</h3>
 
-                <p class="lead">Curriculum Vitae: <a href="@Model.CV">Link</a></p>
+                <p class="lead">Curriculum Vitae: <a href="@Model.CV" target="_blank">Link</a></p>
                 @if (@Model.Reel != null)
                 {
-                    <p class="lead">Reel: <a href="@Model.Reel">Link</a></p>
+                    <p class="lead">Reel: <a href="@Model.Reel target="_blank"">Link</a></p>
                 }
 
                 @if (@Model.Referencias != null)
@@ -90,7 +94,7 @@
                     <div class="contrataciones-box">
                         <div class="form-group">
                             <label>Seleccione el o los días requeridos para efectuar la contratación.</label>
-                            <input type="button" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="100" data-multiple-dates-separator=", " data-position='top left' />
+                            <input type="button" class="picker datepicker-here form-control" data-language='es' data-multiple-dates="30" data-multiple-dates-separator=" - " data-position='top left' />
                         </div>
 
                         @if (Session["isAdmin"] == null)
@@ -113,11 +117,10 @@
                     {
                         <!-- Formulario de comentario -->
                         <div class="card my-4">
-                            <h5 class="card-header">Deja tu comentario:</h5>
                             <div class="card-body">
                                 <form>
                                     <div class="form-group">
-                                        <textarea class="form-control" rows="3" id="texto_comentario"></textarea>
+                                        <textarea class="form-control col-md-12" rows="3" id="texto_comentario"></textarea>
                                     </div>
                                     <button class="btn btn-primary" id="comentar_btn">Comentar</button>
                                 </form>
@@ -132,25 +135,25 @@
                         foreach (var consulta in Model.Consultas.Where(c => c.Visible == true))
                         {
                             <!-- Comment with nested comments -->
-                <div class="media mb-4">
-                    <img class="d-flex mr-3 rounded-circle" src="~/Content/user_logo.jpg" alt="" style="width: 50px; height: 50px">
-                    <div class="media-body">
-                        <h5 class="mt-0">@consulta.Usuario.Nombre @consulta.Usuario.Apellido</h5>
-                        @consulta.Descripcion
-                        @if (consulta.Respuesta != null)
-                        {
-                            <!--replica -->
-                            <div class="media mt-4">
+                            <div class="media mb-4">
                                 <img class="d-flex mr-3 rounded-circle" src="~/Content/user_logo.jpg" alt="" style="width: 50px; height: 50px">
                                 <div class="media-body">
-                                    <h5 class="mt-0">@consulta.Publicacion.Usuario.Nombre @consulta.Publicacion.Usuario.Apellido</h5>
-                                    @consulta.Respuesta
+                                    <h5 class="mt-0">@consulta.Usuario.Nombre @consulta.Usuario.Apellido</h5>
+                                    @consulta.Descripcion
+                                    @if (consulta.Respuesta != null)
+                                    {
+                                        <!--replica -->
+                                        <div class="media mt-4">
+                                            <img class="d-flex mr-3 rounded-circle" src="~/Content/user_logo.jpg" alt="" style="width: 50px; height: 50px">
+                                            <div class="media-body">
+                                                <h5 class="mt-0">@consulta.Publicacion.Usuario.Nombre @consulta.Publicacion.Usuario.Apellido</h5>
+                                                @consulta.Respuesta
+                                            </div>
+                                        </div>
+                                        <!--replica -->
+                                    }
                                 </div>
                             </div>
-                            <!--replica -->
-                        }
-                    </div>
-                </div>
                         }
                     }
                 </div>
@@ -192,6 +195,10 @@
                                 }
 
                             }
+                        }
+                        else
+                        {
+                            <p class="text-muted">No se han dejado comentarios.</p>
                         }
                     </div>
                 </div>
