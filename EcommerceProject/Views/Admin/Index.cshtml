@@ -42,7 +42,7 @@
                                         <span>No Promocionada</span>
                                     }
                                 </h6>
-
+                                <div class="float-right"><img src="@publicacion.Foto" style="width: 270px; height: 270px" /></div>
                                 <h6>ID de Publicación: @publicacion.Id</h6>
                                 <h6>ID de Usuario: @publicacion.Usuario_Id</h6>
                                 <h6>Categoría: @publicacion.Categoria.Nombre</h6>
@@ -52,6 +52,25 @@
                                 <h6>Descripción: @publicacion.Descripcion</h6>
                                 <h6>Fecha de Publicación: @publicacion.FechaDePublicacion.ToString("dd/MM/yyyy")</h6>
                                 <h6>Fecha de Modificación: @publicacion.FechaDeModificacion.ToString("dd/MM/yyyy")</h6>
+
+                                @if (publicacion.Referencias != null)
+                                {
+                                    <h6>Referencias: @publicacion.Referencias</h6>
+                                }
+
+                                <h6>Curriculum Vitae: <a href="@publicacion.CV">Link</a></h6>
+
+                                @if (publicacion.Reel != null)
+                                {
+                                    <h6>Reel: <a href="@publicacion.Reel">Link</a></h6>
+                                }
+                                else
+                                {
+                                    <br />
+                                }
+
+
+
                                 <hr />
 
                                 <div class="float-right">
